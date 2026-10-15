@@ -77,3 +77,10 @@ theorem p31_markov_weather_four_steps : (weather ^ 4) 0 2 = 2137 / 10000 := by
   simp only [pow_succ, pow_zero, one_mul]
   simp [weather, Matrix.mul_apply, Fin.sum_univ_three]
   norm_num
+
+/-- p07, for every host the bank allows (CHIEF's audit, 2026-10-15): the first pick is door 0, the car is equally likely behind any
+of the 3 doors, and the host may follow any rule at all that never opens the car's door or the picked one. Switching then finds
+the car behind 2 of the 3 doors, whichever rule the host follows. -/
+theorem p07_any_host : ∀ h : Fin 3 → Fin 3, (∀ c, h c ≠ c ∧ h c ≠ 0) →
+    ((Finset.univ : Finset (Fin 3)).filter (fun c => mhSwitch 0 (h c) = c)).card = 2 := by
+  decide
