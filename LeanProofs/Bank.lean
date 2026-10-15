@@ -46,3 +46,34 @@ theorem p41_shuffle_derangement_ten :
     (Fintype.card (derangements (Fin 10)) : ℚ) / (Fintype.card (Equiv.Perm (Fin 10)) : ℚ) = 16481 / 44800 := by
   rw [p41_count, Fintype.card_perm, Fintype.card_fin]
   norm_num [Nat.factorial]
+
+/-- p07: the host opens a door that hides no car and is not the first pick (the lowest such door; which one does not change the count). -/
+def mhHost (c p : Fin 3) : Fin 3 :=
+  if (0 : Fin 3) ≠ c ∧ (0 : Fin 3) ≠ p then 0 else if (1 : Fin 3) ≠ c ∧ (1 : Fin 3) ≠ p then 1 else 2
+
+/-- p07: switching goes to the one door that is neither the first pick nor the opened one. -/
+def mhSwitch (p h : Fin 3) : Fin 3 :=
+  if (0 : Fin 3) ≠ p ∧ (0 : Fin 3) ≠ h then 0 else if (1 : Fin 3) ≠ p ∧ (1 : Fin 3) ≠ h then 1 else 2
+
+theorem p07_host_follows_the_rules : ∀ c p : Fin 3, mhHost c p ≠ c ∧ mhHost c p ≠ p := by decide
+
+theorem p07_switch_is_the_other_closed_door : ∀ c p : Fin 3, mhSwitch p (mhHost c p) ≠ p ∧ mhSwitch p (mhHost c p) ≠ mhHost c p := by decide
+
+/-- p07: over the 9 equally likely (car, first pick) pairs, switching finds the car in 6. -/
+theorem p07_count : ((Finset.univ : Finset (Fin 3 × Fin 3)).filter (fun r => mhSwitch r.2 (mhHost r.1 r.2) = r.1)).card = 6 := by decide
+
+theorem p07_monty_hall :
+    (((Finset.univ : Finset (Fin 3 × Fin 3)).filter (fun r => mhSwitch r.2 (mhHost r.1 r.2) = r.1)).card : ℚ)
+      / (Fintype.card (Fin 3 × Fin 3) : ℚ) = 2 / 3 := by
+  rw [p07_count]
+  simp [Fintype.card_prod, Fintype.card_fin]
+  norm_num
+
+/-- p31: the weather table; row is today (Sun, Cloud, Rain), column is tomorrow. -/
+def weather : Matrix (Fin 3) (Fin 3) ℚ := !![3/5, 3/10, 1/10; 2/5, 2/5, 1/5; 1/5, 3/10, 1/2]
+
+/-- p31: starting at Sun, the chance of Rain four days later is exactly 2137/10000. -/
+theorem p31_markov_weather_four_steps : (weather ^ 4) 0 2 = 2137 / 10000 := by
+  simp only [pow_succ, pow_zero, one_mul]
+  simp [weather, Matrix.mul_apply, Fin.sum_univ_three]
+  norm_num
