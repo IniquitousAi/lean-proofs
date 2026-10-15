@@ -19,7 +19,8 @@ theorem p01_dice_sum_seven :
   simp [Fintype.card_prod, Fintype.card_fin]
   norm_num
 
-/-- p06: a 20-step walk returns to its start with chance C(20,10)/2^20 = 46189/262144. -/
+/-- p06, the arithmetic only: C(20,10)/2^20 = 46189/262144. That a 20-step walk returns to its start with chance
+C(20,10)/2^20 is taken from the bank's assumptions here, not proven (CHIEF's note, 2026-10-14). -/
 theorem p06_walk_return : ((Nat.choose 20 10 : ℚ) / 2 ^ 20) = 46189 / 262144 := by
   rw [show Nat.choose 20 10 = 184756 by decide]
   norm_num
