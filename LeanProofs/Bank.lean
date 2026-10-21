@@ -1,4 +1,5 @@
 import Mathlib
+import LeanProofs.Tower
 
 /-!
 # Answer bank results, proven in Lean 4 with Mathlib
@@ -23,6 +24,33 @@ theorem p01_dice_sum_seven :
 C(20,10)/2^20 is taken from the bank's assumptions here, not proven (CHIEF's note, 2026-10-14). -/
 theorem p06_walk_return : ((Nat.choose 20 10 : ℚ) / 2 ^ 20) = 46189 / 262144 := by
   rw [show Nat.choose 20 10 = 184756 by decide]
+  norm_num
+
+/-- p06, the walk itself (ONE-LIST E1, 2026-10-20): of the 2^20 equally likely lists of 20 steps, each +1 (true) or -1 (false),
+the ones whose total is 0 (the walk ends where it started) make up exactly 46189/262144. The count C(20,10) is proven here, not assumed. -/
+theorem p06_random_walk :
+    ((Finset.univ.filter (fun x : Fin 20 → Bool => (∑ i, (if x i then (1 : ℤ) else -1)) = 0)).card : ℚ) / 2 ^ 20
+      = 46189 / 262144 := by
+  have hs : ∀ x : Fin 20 → Bool, (∑ i, (if x i then (1 : ℤ) else -1)) = 2 * (TowerBatch.heads x : ℤ) - 20 := by
+    intro x
+    unfold TowerBatch.heads
+    rw [Finset.sum_ite, Finset.sum_const, Finset.sum_const]
+    have := Finset.card_filter_add_card_filter_not (s := (Finset.univ : Finset (Fin 20))) (fun i => x i = true)
+    simp only [Finset.card_univ, Fintype.card_fin] at this
+    simp only [nsmul_eq_mul, mul_one, mul_neg]
+    omega
+  have hf : Finset.univ.filter (fun x : Fin 20 → Bool => (∑ i, (if x i then (1 : ℤ) else -1)) = 0)
+      = Finset.univ.filter (fun x : Fin 20 → Bool => TowerBatch.heads x = 10) := by
+    apply Finset.filter_congr
+    intro x _
+    rw [hs x]
+    omega
+  have hc : ((Finset.univ.filter (fun x : Fin 20 → Bool => TowerBatch.heads x = 10)).card : ℚ) = Nat.choose 20 10 := by
+    have := TowerBatch.Prob.sum_heads (n := 20) (fun k => if k = 10 then (1 : ℚ) else 0)
+    rw [Finset.sum_boole] at this
+    rw [this]
+    simp
+  rw [hf, hc, show Nat.choose 20 10 = 184756 by decide]
   norm_num
 
 /-- p10: over all 36 equally likely rolls of two fair dice, the larger face (here `val + 1`) adds up to 161. -/
