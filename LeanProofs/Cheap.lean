@@ -198,4 +198,111 @@ theorem p63_trap_coprime_pair_finite :
   rw [p63_count]
   simp
 
+section BridgeHand
+
+open Finset
+
+/-- p44: a card is (suit, rank); suit 0 is spades. -/
+abbrev Card := Fin 4 × Fin 13
+
+/-- Every 13-card hand from the 52-card deck, each equally likely. -/
+def hands : Finset (Finset Card) := powersetCard 13 univ
+
+/-- A hand with no spades but at least one card of each other suit. -/
+def NoSpadesAllElse (h : Finset Card) : Prop :=
+  (∀ c ∈ h, c.1 ≠ 0) ∧ ∀ s : Fin 4, s ≠ 0 → ∃ c ∈ h, c.1 = s
+
+instance : DecidablePred NoSpadesAllElse := fun h => by unfold NoSpadesAllElse; infer_instance
+
+/-- The cards not of suit s. -/
+def notSuit (s : Fin 4) : Finset Card := univ.filter (fun c => c.1 ≠ s)
+
+/-- The hands made only of cards from U. -/
+def within (U : Finset Card) : Finset (Finset Card) := hands.filter (· ⊆ U)
+
+theorem within_eq (U : Finset Card) : within U = powersetCard 13 U := by
+  ext h
+  simp only [within, hands, mem_filter, mem_powersetCard, subset_univ, true_and]
+  tauto
+
+theorem card_within (U : Finset Card) : (within U).card = U.card.descFactorial 13 / Nat.factorial 13 := by
+  rw [within_eq, card_powersetCard, Nat.choose_eq_descFactorial_div_factorial]
+
+theorem within_inter (U V : Finset Card) : within U ∩ within V = within (U ∩ V) := by
+  ext x : 1
+  simp only [within, mem_inter, mem_filter, subset_inter_iff]
+  generalize (x ∈ hands) = a
+  generalize (x ⊆ U) = u
+  generalize (x ⊆ V) = v
+  tauto
+
+theorem within_mono {U V : Finset Card} (hUV : U ⊆ V) : within U ⊆ within V := by
+  intro h
+  simp only [within, mem_filter]
+  exact fun ⟨a, b⟩ => ⟨a, b.trans hUV⟩
+
+theorem has_suit (h : Finset Card) (s : Fin 4) : (∃ c ∈ h, c.1 = s) ↔ ¬ h ⊆ notSuit s := by
+  simp [notSuit, subset_iff]
+
+theorem good_eq :
+    hands.filter NoSpadesAllElse =
+      within (notSuit 0) \ (within (notSuit 0 ∩ notSuit 1) ∪ within (notSuit 0 ∩ notSuit 2)
+        ∪ within (notSuit 0 ∩ notSuit 3)) := by
+  ext h : 1
+  have h0 : (∀ c ∈ h, c.1 ≠ 0) ↔ h ⊆ notSuit 0 := by simp [notSuit, subset_iff]
+  have hs : (∀ s : Fin 4, s ≠ 0 → ∃ c ∈ h, c.1 = s) ↔
+      (¬ h ⊆ notSuit 1 ∧ ¬ h ⊆ notSuit 2 ∧ ¬ h ⊆ notSuit 3) := by
+    rw [← has_suit, ← has_suit, ← has_suit]
+    constructor
+    · intro H; exact ⟨H 1 (by decide), H 2 (by decide), H 3 (by decide)⟩
+    · rintro ⟨a, b, c⟩ s hs0
+      fin_cases s
+      · exact absurd rfl hs0
+      · exact a
+      · exact b
+      · exact c
+  simp only [mem_filter, NoSpadesAllElse, h0, hs, mem_sdiff, mem_union, within, subset_inter_iff]
+  generalize (h ∈ hands) = a
+  generalize (h ⊆ notSuit 0) = p0
+  generalize (h ⊆ notSuit 1) = p1
+  generalize (h ⊆ notSuit 2) = p2
+  generalize (h ⊆ notSuit 3) = p3
+  tauto
+
+/-- p44: of the 635,013,559,600 hands of 13 cards, 8,091,223,647 have no spades but every other suit: the
+hands within the 39 non-spades, less those that also miss hearts, diamonds or clubs (inclusion and exclusion). -/
+theorem p44_count : (hands.filter NoSpadesAllElse).card = 8091223647 ∧ hands.card = 635013559600 := by
+  set B1 := within (notSuit 0 ∩ notSuit 1)
+  set B2 := within (notSuit 0 ∩ notSuit 2)
+  set B3 := within (notSuit 0 ∩ notSuit 3)
+  have hsub : B1 ∪ B2 ∪ B3 ⊆ within (notSuit 0) :=
+    union_subset (union_subset (within_mono inter_subset_left) (within_mono inter_subset_left))
+      (within_mono inter_subset_left)
+  have e1 := card_union_add_card_inter B1 B2
+  have e2 := card_union_add_card_inter (B1 ∪ B2) B3
+  rw [union_inter_distrib_right] at e2
+  have e3 := card_union_add_card_inter (B1 ∩ B3) (B2 ∩ B3)
+  have cA : (within (notSuit 0)).card = 8122425444 := by rw [card_within]; decide +kernel
+  have c1 : B1.card = 10400600 := by rw [card_within]; decide +kernel
+  have c2 : B2.card = 10400600 := by rw [card_within]; decide +kernel
+  have c3 : B3.card = 10400600 := by rw [card_within]; decide +kernel
+  have c12 : (B1 ∩ B2).card = 1 := by rw [within_inter, card_within]; decide +kernel
+  have c13 : (B1 ∩ B3).card = 1 := by rw [within_inter, card_within]; decide +kernel
+  have c23 : (B2 ∩ B3).card = 1 := by rw [within_inter, card_within]; decide +kernel
+  have c123 : (B1 ∩ B3 ∩ (B2 ∩ B3)).card = 0 := by
+    rw [within_inter, within_inter, within_inter, card_within]; decide +kernel
+  have cH : hands.card = 635013559600 := by
+    rw [hands, card_powersetCard, Nat.choose_eq_descFactorial_div_factorial]; decide +kernel
+  refine ⟨?_, cH⟩
+  rw [good_eq, card_sdiff_of_subset hsub, cA]
+  omega
+
+/-- p44: so a 13-card hand has no spades but every other suit with chance 8091223647/635013559600. -/
+theorem p44_bridge_hand_no_spades :
+    ((hands.filter NoSpadesAllElse).card : ℚ) / (hands.card : ℚ) = 8091223647 / 635013559600 := by
+  rw [p44_count.1, p44_count.2]
+  norm_num
+
+end BridgeHand
+
 end CheapLane
