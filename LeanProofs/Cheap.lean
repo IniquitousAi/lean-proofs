@@ -305,4 +305,508 @@ theorem p44_bridge_hand_no_spades :
 
 end BridgeHand
 
+section Cycles
+
+open Equiv Finset
+
+/-- The cycles of a permutation of 20 cards: its cycles of length 2 or more (Mathlib's `cycleFactorsFinset`) plus its
+fixed points (the cycles of length 1). -/
+def numCycles {n : ℕ} (σ : Perm (Fin n)) : ℕ := #σ.cycleFactorsFinset + #{x | σ x = x}
+
+/-- The lists, largest part first, with every part from 2 to M, parts adding up to at most N, and at most f parts:
+every possible list of cycle lengths (2 or more) of a permutation. -/
+def cycleShapes : ℕ → ℕ → ℕ → List (List ℕ)
+  | 0, _, _ => [[]]
+  | f + 1, N, M => [] :: (List.range' 2 (M - 1)).flatMap
+      (fun a => if a ≤ N then (cycleShapes f (N - a) a).map (a :: ·) else [])
+
+theorem mem_cycleShapes : ∀ (f N M : ℕ) (l : List ℕ), l.Pairwise (· ≥ ·) →
+    (∀ x ∈ l, 2 ≤ x ∧ x ≤ M) → l.sum ≤ N → l.length ≤ f → l ∈ cycleShapes f N M
+  | 0, _, _, [], _, _, _, _ => by simp [cycleShapes]
+  | _ + 1, _, _, [], _, _, _, _ => by simp [cycleShapes]
+  | 0, _, _, _ :: _, _, _, _, h => by simp at h
+  | f + 1, N, M, a :: t, hp, hx, hs, hl => by
+    rw [List.pairwise_cons] at hp
+    have ha := hx a List.mem_cons_self
+    simp only [List.sum_cons, List.length_cons] at hs hl
+    simp only [cycleShapes, List.mem_cons, List.mem_flatMap, List.mem_range'_1]
+    right
+    refine ⟨a, ⟨by omega, by omega⟩, ?_⟩
+    split_ifs with haN
+    · exact List.mem_map.2 ⟨t, mem_cycleShapes f (N - a) a t hp.2
+        (fun x hx' => ⟨(hx x (List.mem_cons_of_mem _ hx')).1, hp.1 x hx'⟩) (by omega) (by omega), rfl⟩
+    · omega
+
+theorem le_sum_of_mem' : ∀ (l : List ℕ) (x : ℕ), x ∈ l → x ≤ l.sum
+  | [], _, h => by simp at h
+  | a :: t, x, h => by
+    rcases List.mem_cons.1 h with rfl | h
+    · simp
+    · have := le_sum_of_mem' t x h
+      simp only [List.sum_cons]; omega
+
+theorem two_mul_length_le : ∀ (l : List ℕ), (∀ x ∈ l, 2 ≤ x) → 2 * l.length ≤ l.sum
+  | [], _ => by simp
+  | a :: t, h => by
+    have := two_mul_length_le t (fun x hx => h x (List.mem_cons_of_mem _ hx))
+    have := h a List.mem_cons_self
+    simp only [List.sum_cons, List.length_cons]; omega
+
+/-- Every listed shape is sorted, largest part first, with no part above M. -/
+theorem cycleShapes_sorted : ∀ (f N M : ℕ), ∀ l ∈ cycleShapes f N M, l.Pairwise (· ≥ ·) ∧ ∀ x ∈ l, x ≤ M
+  | 0, _, _, l, h => by
+    simp only [cycleShapes, List.mem_singleton] at h
+    subst h; simp
+  | f + 1, N, M, l, h => by
+    simp only [cycleShapes, List.mem_cons, List.mem_flatMap, List.mem_range'_1] at h
+    rcases h with rfl | ⟨a, ⟨ha2, haM⟩, h⟩
+    · simp
+    · split_ifs at h with haN
+      · obtain ⟨t, ht, rfl⟩ := List.mem_map.1 h
+        have ih := cycleShapes_sorted f (N - a) a t ht
+        refine ⟨List.pairwise_cons.2 ⟨fun x hx => ih.2 x hx, ih.1⟩, fun x hx => ?_⟩
+        rcases List.mem_cons.1 hx with rfl | hx
+        · omega
+        · have := ih.2 x hx; omega
+      · simp at h
+
+/-- No shape is listed twice. -/
+theorem cycleShapes_nodup : ∀ (f N M : ℕ), (cycleShapes f N M).Nodup
+  | 0, _, _ => by simp [cycleShapes]
+  | f + 1, N, M => by
+    rw [cycleShapes, List.nodup_cons]
+    constructor
+    · simp only [List.mem_flatMap, not_exists, not_and]
+      intro a _ h
+      split_ifs at h
+      · simp at h
+      · simp at h
+    · rw [List.nodup_flatMap]
+      constructor
+      · intro a _
+        split_ifs
+        · exact (cycleShapes_nodup f (N - a) a).map (fun _ _ h => List.cons_injective h)
+        · exact List.nodup_nil
+      · refine List.Nodup.pairwise_of_forall_ne List.nodup_range' fun a _ b _ hab => ?_
+        rw [Function.onFun, List.disjoint_left]
+        intro l hla hlb
+        split_ifs at hla hlb <;> simp only [List.mem_map, List.not_mem_nil] at hla hlb
+        obtain ⟨t, _, rfl⟩ := hla
+        obtain ⟨u, _, hu⟩ := hlb
+        exact hab (List.cons_eq_cons.1 hu).1.symm
+
+/-- The 627 cycle shapes of permutations of 20 cards. -/
+def shapes20 : List (List ℕ) := cycleShapes 10 20 20
+
+/-- The shapes as multisets (Mathlib's `cycleType` is a multiset); no two are the same, since each list is sorted. -/
+def shapeSet : Finset (Multiset ℕ) :=
+  ⟨↑(shapes20.map (fun l : List ℕ => (l : Multiset ℕ))), Multiset.coe_nodup.2 <|
+    (cycleShapes_nodup 10 20 20).map_on fun x hx y hy h =>
+      List.Perm.eq_of_pairwise' (r := (· ≥ ·)) (cycleShapes_sorted 10 20 20 x hx).1
+        (cycleShapes_sorted 10 20 20 y hy).1 (Multiset.coe_eq_coe.1 h)⟩
+
+/-- Every permutation of 20 cards has one of the listed shapes. -/
+theorem cycleType_mem_shapeSet (σ : Perm (Fin 20)) : σ.cycleType ∈ shapeSet := by
+  set l := σ.cycleType.sort (· ≥ ·)
+  have hl : (l : Multiset ℕ) = σ.cycleType := Multiset.sort_eq _ _
+  have hsum : l.sum ≤ 20 := by
+    have := Perm.sum_cycleType_le σ
+    rw [← hl, Multiset.sum_coe, Fintype.card_fin] at this
+    exact this
+  have h2 : ∀ x ∈ l, 2 ≤ x := fun x hx =>
+    Perm.two_le_of_mem_cycleType ((Multiset.mem_sort (· ≥ ·)).1 hx)
+  have hmem : l ∈ shapes20 :=
+    mem_cycleShapes 10 20 20 l (Multiset.pairwise_sort _ _)
+      (fun x hx => ⟨h2 x hx, (le_sum_of_mem' l x hx).trans hsum⟩) hsum
+      (by have := two_mul_length_le l h2; omega)
+  show σ.cycleType ∈ (↑(shapes20.map (fun l : List ℕ => (l : Multiset ℕ))) : Multiset (Multiset ℕ))
+  rw [Multiset.mem_coe, List.mem_map]
+  exact ⟨l, hmem, hl⟩
+
+theorem numCycles_eq (σ : Perm (Fin 20)) :
+    numCycles σ = Multiset.card σ.cycleType + (20 - σ.cycleType.sum) := by
+  have h1 : Multiset.card σ.cycleType = #σ.cycleFactorsFinset := by
+    rw [Perm.cycleType_def, Multiset.card_map]; rfl
+  have h2 := Finset.card_filter_add_card_filter_not (s := (univ : Finset (Fin 20))) (fun x => σ x = x)
+  have h3 : #σ.support = #(univ.filter fun x => ¬ σ x = x) := by
+    congr 1
+  simp only [card_univ, Fintype.card_fin] at h2
+  rw [Perm.sum_cycleType, h1, numCycles]
+  omega
+
+/-- p42: over all 20! permutations of 20 cards, the cycles add up to 8,752,948,036,761,600,000 = 20! * H(20): the
+permutations are grouped by cycle shape, and Mathlib's `card_of_cycleType` counts each group. -/
+theorem p42_total : ∑ σ : Perm (Fin 20), numCycles σ = 8752948036761600000 := by
+  simp only [numCycles_eq]
+  rw [← Finset.sum_fiberwise_of_maps_to (s := univ) (t := shapeSet) (g := Perm.cycleType)
+    (fun σ _ => cycleType_mem_shapeSet σ)]
+  have hfib : ∀ m ∈ shapeSet,
+      (∑ σ ∈ univ.filter (fun σ : Perm (Fin 20) => σ.cycleType = m),
+        (Multiset.card σ.cycleType + (20 - σ.cycleType.sum)))
+        = #{σ : Perm (Fin 20) | σ.cycleType = m} * (Multiset.card m + (20 - m.sum)) := by
+    intro m _
+    rw [Finset.sum_congr rfl (g := fun _ => Multiset.card m + (20 - m.sum))
+      (fun σ hσ => by rw [(Finset.mem_filter.1 hσ).2]), Finset.sum_const, smul_eq_mul]
+  rw [Finset.sum_congr rfl hfib]
+  simp only [Equiv.Perm.card_of_cycleType, Fintype.card_fin]
+  decide +kernel
+
+/-- p42: so a uniformly random permutation of 20 cards has 55835135/15519504 cycles on average (= H(20), fixed points
+counted as cycles of length 1). -/
+theorem p42_shuffle_expected_cycles :
+    ((∑ σ : Perm (Fin 20), numCycles σ : ℕ) : ℚ) / (Fintype.card (Perm (Fin 20)) : ℚ)
+      = 55835135 / 15519504 := by
+  have hf : (20 : ℕ).factorial = 2432902008176640000 := by decide +kernel
+  rw [p42_total, Fintype.card_perm, Fintype.card_fin, hf]
+  norm_num
+
+end Cycles
+
+section Shuffles
+
+/-- After card a, the cards l keep a neighbouring pair: some card is immediately followed by the card one above it. -/
+def keepsAfter : ℕ → List ℕ → Bool
+  | _, [] => false
+  | a, b :: t => (b == a + 1) || keepsAfter b t
+
+/-- A shuffled order keeps some originally neighbouring pair together, in order: some card i is immediately followed by
+card i + 1. -/
+def keepsNeighbours : List ℕ → Bool
+  | [] => false
+  | a :: t => keepsAfter a t
+
+theorem keepsAfter_iff : ∀ (a : ℕ) (t : List ℕ), keepsAfter a t = true ↔ ∃ i, [i, i + 1] <:+: a :: t
+  | a, [] => by
+    simp only [keepsAfter, Bool.false_eq_true, false_iff, not_exists]
+    intro i h
+    have := h.length_le
+    simp at this
+  | a, b :: t => by
+    have ih := keepsAfter_iff b t
+    simp only [keepsAfter, Bool.or_eq_true, beq_iff_eq, ih]
+    constructor
+    · rintro (h | ⟨i, hi⟩)
+      · exact ⟨a, List.infix_cons_iff.2 (Or.inl (by simp [h]))⟩
+      · exact ⟨i, List.infix_cons_iff.2 (Or.inr hi)⟩
+    · rintro ⟨i, h⟩
+      rcases List.infix_cons_iff.1 h with h | h
+      · left
+        simp only [List.cons_prefix_cons] at h
+        omega
+      · exact Or.inr ⟨i, h⟩
+
+/-- `keepsNeighbours` says exactly that the two-card run [i, i + 1] appears somewhere in the shuffled order. -/
+theorem keepsNeighbours_iff (l : List ℕ) : keepsNeighbours l = true ↔ ∃ i, [i, i + 1] <:+: l := by
+  cases l with
+  | nil => simp [keepsNeighbours]
+  | cons a t => exact keepsAfter_iff a t
+
+/-- Every order of the cards in r, one card at a time (n is the number of cards still to place). -/
+def orders : ℕ → List ℕ → List (List ℕ)
+  | 0, _ => [[]]
+  | _ + 1, [] => [[]]
+  | n + 1, r@(_ :: _) => r.flatMap fun x => (orders n (r.erase x)).map (x :: ·)
+
+theorem orders_step (n : ℕ) (r : List ℕ) (hr : r ≠ []) :
+    orders (n + 1) r = r.flatMap fun x => (orders n (r.erase x)).map (x :: ·) := by
+  cases r with
+  | nil => exact absurd rfl hr
+  | cons _ _ => rfl
+
+theorem mem_orders : ∀ (n : ℕ) (r l : List ℕ), r.Nodup → r.length ≤ n → (l ∈ orders n r ↔ l.Perm r)
+  | 0, r, l, _, hn => by
+    rw [List.length_eq_zero_iff.1 (Nat.le_zero.1 hn)]
+    simp [orders]
+  | _ + 1, [], l, _, _ => by simp [orders]
+  | n + 1, c :: cs, l, hr, hn => by
+    rw [orders_step _ _ (List.cons_ne_nil c cs), List.mem_flatMap]
+    constructor
+    · rintro ⟨x, hx, hl⟩
+      obtain ⟨l', hl', rfl⟩ := List.mem_map.1 hl
+      have h' := (mem_orders n _ l' (hr.erase x) (by rw [List.length_erase_of_mem hx]; simp at hn ⊢; omega)).1 hl'
+      exact (h'.cons x).trans (List.perm_cons_erase hx).symm
+    · intro hp
+      cases l with
+      | nil => exact absurd hp.symm.eq_nil (List.cons_ne_nil c cs)
+      | cons x l' =>
+        have hx : x ∈ c :: cs := hp.subset List.mem_cons_self
+        refine ⟨x, hx, List.mem_map.2 ⟨l', ?_, rfl⟩⟩
+        refine (mem_orders n _ l' (hr.erase x) (by rw [List.length_erase_of_mem hx]; simp at hn ⊢; omega)).2 ?_
+        exact (hp.trans (List.perm_cons_erase hx)).cons_inv
+
+theorem orders_nodup : ∀ (n : ℕ) (r : List ℕ), r.Nodup → (orders n r).Nodup
+  | 0, _, _ => by simp [orders]
+  | _ + 1, [], _ => by simp [orders]
+  | n + 1, c :: cs, hr => by
+    rw [orders_step _ _ (List.cons_ne_nil c cs), List.nodup_flatMap]
+    constructor
+    · intro x _
+      exact (orders_nodup n _ (hr.erase x)).map (fun _ _ h => List.cons_injective h)
+    · refine hr.pairwise_of_forall_ne fun a _ b _ hab => ?_
+      rw [Function.onFun, List.disjoint_left]
+      intro l hla hlb
+      obtain ⟨t, _, rfl⟩ := List.mem_map.1 hla
+      obtain ⟨u, _, hu⟩ := List.mem_map.1 hlb
+      exact hab (List.cons_eq_cons.1 hu).1.symm
+
+/-- How many orders of the cards in r, placed after card a, keep no neighbouring pair (counted one card at a time, a
+branch stops as soon as a pair is kept). -/
+def free : ℕ → ℕ → List ℕ → ℕ
+  | 0, _, _ => 1
+  | _ + 1, _, [] => 1
+  | n + 1, a, r@(_ :: _) => (r.map fun x => if x = a + 1 then 0 else free n x (r.erase x)).sum
+
+theorem free_step (n a : ℕ) (r : List ℕ) (hr : r ≠ []) :
+    free (n + 1) a r = (r.map fun x => if x = a + 1 then 0 else free n x (r.erase x)).sum := by
+  cases r with
+  | nil => exact absurd rfl hr
+  | cons _ _ => rfl
+
+/-- `free` counts the orders that keep no neighbouring pair. -/
+theorem countP_orders : ∀ (n a : ℕ) (r : List ℕ),
+    (orders n r).countP (fun l => !keepsAfter a l) = free n a r
+  | 0, _, _ => by simp [orders, free, keepsAfter]
+  | _ + 1, _, [] => by simp [orders, free, keepsAfter]
+  | n + 1, a, c :: cs => by
+    rw [orders_step _ _ (List.cons_ne_nil c cs), free_step _ _ _ (List.cons_ne_nil c cs), List.countP_flatMap]
+    congr 1
+    refine List.map_congr_left fun x _ => ?_
+    simp only [Function.comp_apply, List.countP_map]
+    split_ifs with h
+    · subst h
+      exact List.countP_eq_zero.2 fun l _ => by simp [keepsAfter]
+    · rw [← countP_orders n x]
+      congr 1
+      funext l
+      simp [keepsAfter, h]
+
+/-- Every order of the 10 cards 0..9 (all 10! = 3,628,800 shuffles, each equally likely). -/
+def shuffles10 : Finset (List ℕ) := ⟨↑(orders 10 (List.range 10)), Multiset.coe_nodup.2 (orders_nodup _ _ List.nodup_range)⟩
+
+theorem mem_shuffles10 (l : List ℕ) : l ∈ shuffles10 ↔ l.Perm (List.range 10) := by
+  show l ∈ (↑(orders 10 (List.range 10)) : Multiset (List ℕ)) ↔ _
+  rw [Multiset.mem_coe, mem_orders _ _ _ List.nodup_range (by simp)]
+
+set_option maxHeartbeats 4000000 in
+/-- The orders of the other nine cards after card 0 that keep no neighbouring pair: 133496. -/
+theorem free_first_0 : free 9 0 ([0, 1, 2, 3, 4, 5, 6, 7, 8, 9].erase 0) = 133496 := by
+  show free 9 0 [1, 2, 3, 4, 5, 6, 7, 8, 9] = 133496
+  have h2 : free 8 2 ([1, 2, 3, 4, 5, 6, 7, 8, 9].erase 2) = 16687 := by decide +kernel
+  have h3 : free 8 3 ([1, 2, 3, 4, 5, 6, 7, 8, 9].erase 3) = 16687 := by decide +kernel
+  have h4 : free 8 4 ([1, 2, 3, 4, 5, 6, 7, 8, 9].erase 4) = 16687 := by decide +kernel
+  have h5 : free 8 5 ([1, 2, 3, 4, 5, 6, 7, 8, 9].erase 5) = 16687 := by decide +kernel
+  have h6 : free 8 6 ([1, 2, 3, 4, 5, 6, 7, 8, 9].erase 6) = 16687 := by decide +kernel
+  have h7 : free 8 7 ([1, 2, 3, 4, 5, 6, 7, 8, 9].erase 7) = 16687 := by decide +kernel
+  have h8 : free 8 8 ([1, 2, 3, 4, 5, 6, 7, 8, 9].erase 8) = 16687 := by decide +kernel
+  have h9 : free 8 9 ([1, 2, 3, 4, 5, 6, 7, 8, 9].erase 9) = 16687 := by decide +kernel
+  refine (free_step _ _ _ (by decide)).trans ?_
+  simp only [List.map_cons, List.map_nil, List.sum_cons, List.sum_nil, h2, h3, h4, h5, h6, h7, h8, h9]
+  decide
+
+set_option maxHeartbeats 4000000 in
+/-- The orders of the other nine cards after card 1 that keep no neighbouring pair: 148329. -/
+theorem free_first_1 : free 9 1 ([0, 1, 2, 3, 4, 5, 6, 7, 8, 9].erase 1) = 148329 := by
+  show free 9 1 [0, 2, 3, 4, 5, 6, 7, 8, 9] = 148329
+  have h0 : free 8 0 ([0, 2, 3, 4, 5, 6, 7, 8, 9].erase 0) = 16687 := by decide +kernel
+  have h3 : free 8 3 ([0, 2, 3, 4, 5, 6, 7, 8, 9].erase 3) = 18806 := by decide +kernel
+  have h4 : free 8 4 ([0, 2, 3, 4, 5, 6, 7, 8, 9].erase 4) = 18806 := by decide +kernel
+  have h5 : free 8 5 ([0, 2, 3, 4, 5, 6, 7, 8, 9].erase 5) = 18806 := by decide +kernel
+  have h6 : free 8 6 ([0, 2, 3, 4, 5, 6, 7, 8, 9].erase 6) = 18806 := by decide +kernel
+  have h7 : free 8 7 ([0, 2, 3, 4, 5, 6, 7, 8, 9].erase 7) = 18806 := by decide +kernel
+  have h8 : free 8 8 ([0, 2, 3, 4, 5, 6, 7, 8, 9].erase 8) = 18806 := by decide +kernel
+  have h9 : free 8 9 ([0, 2, 3, 4, 5, 6, 7, 8, 9].erase 9) = 18806 := by decide +kernel
+  refine (free_step _ _ _ (by decide)).trans ?_
+  simp only [List.map_cons, List.map_nil, List.sum_cons, List.sum_nil, h0, h3, h4, h5, h6, h7, h8, h9]
+  decide
+
+set_option maxHeartbeats 4000000 in
+/-- The orders of the other nine cards after card 2 that keep no neighbouring pair: 148329. -/
+theorem free_first_2 : free 9 2 ([0, 1, 2, 3, 4, 5, 6, 7, 8, 9].erase 2) = 148329 := by
+  show free 9 2 [0, 1, 3, 4, 5, 6, 7, 8, 9] = 148329
+  have h0 : free 8 0 ([0, 1, 3, 4, 5, 6, 7, 8, 9].erase 0) = 16687 := by decide +kernel
+  have h1 : free 8 1 ([0, 1, 3, 4, 5, 6, 7, 8, 9].erase 1) = 18806 := by decide +kernel
+  have h4 : free 8 4 ([0, 1, 3, 4, 5, 6, 7, 8, 9].erase 4) = 18806 := by decide +kernel
+  have h5 : free 8 5 ([0, 1, 3, 4, 5, 6, 7, 8, 9].erase 5) = 18806 := by decide +kernel
+  have h6 : free 8 6 ([0, 1, 3, 4, 5, 6, 7, 8, 9].erase 6) = 18806 := by decide +kernel
+  have h7 : free 8 7 ([0, 1, 3, 4, 5, 6, 7, 8, 9].erase 7) = 18806 := by decide +kernel
+  have h8 : free 8 8 ([0, 1, 3, 4, 5, 6, 7, 8, 9].erase 8) = 18806 := by decide +kernel
+  have h9 : free 8 9 ([0, 1, 3, 4, 5, 6, 7, 8, 9].erase 9) = 18806 := by decide +kernel
+  refine (free_step _ _ _ (by decide)).trans ?_
+  simp only [List.map_cons, List.map_nil, List.sum_cons, List.sum_nil, h0, h1, h4, h5, h6, h7, h8, h9]
+  decide
+
+set_option maxHeartbeats 4000000 in
+/-- The orders of the other nine cards after card 3 that keep no neighbouring pair: 148329. -/
+theorem free_first_3 : free 9 3 ([0, 1, 2, 3, 4, 5, 6, 7, 8, 9].erase 3) = 148329 := by
+  show free 9 3 [0, 1, 2, 4, 5, 6, 7, 8, 9] = 148329
+  have h0 : free 8 0 ([0, 1, 2, 4, 5, 6, 7, 8, 9].erase 0) = 16687 := by decide +kernel
+  have h1 : free 8 1 ([0, 1, 2, 4, 5, 6, 7, 8, 9].erase 1) = 18806 := by decide +kernel
+  have h2 : free 8 2 ([0, 1, 2, 4, 5, 6, 7, 8, 9].erase 2) = 18806 := by decide +kernel
+  have h5 : free 8 5 ([0, 1, 2, 4, 5, 6, 7, 8, 9].erase 5) = 18806 := by decide +kernel
+  have h6 : free 8 6 ([0, 1, 2, 4, 5, 6, 7, 8, 9].erase 6) = 18806 := by decide +kernel
+  have h7 : free 8 7 ([0, 1, 2, 4, 5, 6, 7, 8, 9].erase 7) = 18806 := by decide +kernel
+  have h8 : free 8 8 ([0, 1, 2, 4, 5, 6, 7, 8, 9].erase 8) = 18806 := by decide +kernel
+  have h9 : free 8 9 ([0, 1, 2, 4, 5, 6, 7, 8, 9].erase 9) = 18806 := by decide +kernel
+  refine (free_step _ _ _ (by decide)).trans ?_
+  simp only [List.map_cons, List.map_nil, List.sum_cons, List.sum_nil, h0, h1, h2, h5, h6, h7, h8, h9]
+  decide
+
+set_option maxHeartbeats 4000000 in
+/-- The orders of the other nine cards after card 4 that keep no neighbouring pair: 148329. -/
+theorem free_first_4 : free 9 4 ([0, 1, 2, 3, 4, 5, 6, 7, 8, 9].erase 4) = 148329 := by
+  show free 9 4 [0, 1, 2, 3, 5, 6, 7, 8, 9] = 148329
+  have h0 : free 8 0 ([0, 1, 2, 3, 5, 6, 7, 8, 9].erase 0) = 16687 := by decide +kernel
+  have h1 : free 8 1 ([0, 1, 2, 3, 5, 6, 7, 8, 9].erase 1) = 18806 := by decide +kernel
+  have h2 : free 8 2 ([0, 1, 2, 3, 5, 6, 7, 8, 9].erase 2) = 18806 := by decide +kernel
+  have h3 : free 8 3 ([0, 1, 2, 3, 5, 6, 7, 8, 9].erase 3) = 18806 := by decide +kernel
+  have h6 : free 8 6 ([0, 1, 2, 3, 5, 6, 7, 8, 9].erase 6) = 18806 := by decide +kernel
+  have h7 : free 8 7 ([0, 1, 2, 3, 5, 6, 7, 8, 9].erase 7) = 18806 := by decide +kernel
+  have h8 : free 8 8 ([0, 1, 2, 3, 5, 6, 7, 8, 9].erase 8) = 18806 := by decide +kernel
+  have h9 : free 8 9 ([0, 1, 2, 3, 5, 6, 7, 8, 9].erase 9) = 18806 := by decide +kernel
+  refine (free_step _ _ _ (by decide)).trans ?_
+  simp only [List.map_cons, List.map_nil, List.sum_cons, List.sum_nil, h0, h1, h2, h3, h6, h7, h8, h9]
+  decide
+
+set_option maxHeartbeats 4000000 in
+/-- The orders of the other nine cards after card 5 that keep no neighbouring pair: 148329. -/
+theorem free_first_5 : free 9 5 ([0, 1, 2, 3, 4, 5, 6, 7, 8, 9].erase 5) = 148329 := by
+  show free 9 5 [0, 1, 2, 3, 4, 6, 7, 8, 9] = 148329
+  have h0 : free 8 0 ([0, 1, 2, 3, 4, 6, 7, 8, 9].erase 0) = 16687 := by decide +kernel
+  have h1 : free 8 1 ([0, 1, 2, 3, 4, 6, 7, 8, 9].erase 1) = 18806 := by decide +kernel
+  have h2 : free 8 2 ([0, 1, 2, 3, 4, 6, 7, 8, 9].erase 2) = 18806 := by decide +kernel
+  have h3 : free 8 3 ([0, 1, 2, 3, 4, 6, 7, 8, 9].erase 3) = 18806 := by decide +kernel
+  have h4 : free 8 4 ([0, 1, 2, 3, 4, 6, 7, 8, 9].erase 4) = 18806 := by decide +kernel
+  have h7 : free 8 7 ([0, 1, 2, 3, 4, 6, 7, 8, 9].erase 7) = 18806 := by decide +kernel
+  have h8 : free 8 8 ([0, 1, 2, 3, 4, 6, 7, 8, 9].erase 8) = 18806 := by decide +kernel
+  have h9 : free 8 9 ([0, 1, 2, 3, 4, 6, 7, 8, 9].erase 9) = 18806 := by decide +kernel
+  refine (free_step _ _ _ (by decide)).trans ?_
+  simp only [List.map_cons, List.map_nil, List.sum_cons, List.sum_nil, h0, h1, h2, h3, h4, h7, h8, h9]
+  decide
+
+set_option maxHeartbeats 4000000 in
+/-- The orders of the other nine cards after card 6 that keep no neighbouring pair: 148329. -/
+theorem free_first_6 : free 9 6 ([0, 1, 2, 3, 4, 5, 6, 7, 8, 9].erase 6) = 148329 := by
+  show free 9 6 [0, 1, 2, 3, 4, 5, 7, 8, 9] = 148329
+  have h0 : free 8 0 ([0, 1, 2, 3, 4, 5, 7, 8, 9].erase 0) = 16687 := by decide +kernel
+  have h1 : free 8 1 ([0, 1, 2, 3, 4, 5, 7, 8, 9].erase 1) = 18806 := by decide +kernel
+  have h2 : free 8 2 ([0, 1, 2, 3, 4, 5, 7, 8, 9].erase 2) = 18806 := by decide +kernel
+  have h3 : free 8 3 ([0, 1, 2, 3, 4, 5, 7, 8, 9].erase 3) = 18806 := by decide +kernel
+  have h4 : free 8 4 ([0, 1, 2, 3, 4, 5, 7, 8, 9].erase 4) = 18806 := by decide +kernel
+  have h5 : free 8 5 ([0, 1, 2, 3, 4, 5, 7, 8, 9].erase 5) = 18806 := by decide +kernel
+  have h8 : free 8 8 ([0, 1, 2, 3, 4, 5, 7, 8, 9].erase 8) = 18806 := by decide +kernel
+  have h9 : free 8 9 ([0, 1, 2, 3, 4, 5, 7, 8, 9].erase 9) = 18806 := by decide +kernel
+  refine (free_step _ _ _ (by decide)).trans ?_
+  simp only [List.map_cons, List.map_nil, List.sum_cons, List.sum_nil, h0, h1, h2, h3, h4, h5, h8, h9]
+  decide
+
+set_option maxHeartbeats 4000000 in
+/-- The orders of the other nine cards after card 7 that keep no neighbouring pair: 148329. -/
+theorem free_first_7 : free 9 7 ([0, 1, 2, 3, 4, 5, 6, 7, 8, 9].erase 7) = 148329 := by
+  show free 9 7 [0, 1, 2, 3, 4, 5, 6, 8, 9] = 148329
+  have h0 : free 8 0 ([0, 1, 2, 3, 4, 5, 6, 8, 9].erase 0) = 16687 := by decide +kernel
+  have h1 : free 8 1 ([0, 1, 2, 3, 4, 5, 6, 8, 9].erase 1) = 18806 := by decide +kernel
+  have h2 : free 8 2 ([0, 1, 2, 3, 4, 5, 6, 8, 9].erase 2) = 18806 := by decide +kernel
+  have h3 : free 8 3 ([0, 1, 2, 3, 4, 5, 6, 8, 9].erase 3) = 18806 := by decide +kernel
+  have h4 : free 8 4 ([0, 1, 2, 3, 4, 5, 6, 8, 9].erase 4) = 18806 := by decide +kernel
+  have h5 : free 8 5 ([0, 1, 2, 3, 4, 5, 6, 8, 9].erase 5) = 18806 := by decide +kernel
+  have h6 : free 8 6 ([0, 1, 2, 3, 4, 5, 6, 8, 9].erase 6) = 18806 := by decide +kernel
+  have h9 : free 8 9 ([0, 1, 2, 3, 4, 5, 6, 8, 9].erase 9) = 18806 := by decide +kernel
+  refine (free_step _ _ _ (by decide)).trans ?_
+  simp only [List.map_cons, List.map_nil, List.sum_cons, List.sum_nil, h0, h1, h2, h3, h4, h5, h6, h9]
+  decide
+
+set_option maxHeartbeats 4000000 in
+/-- The orders of the other nine cards after card 8 that keep no neighbouring pair: 148329. -/
+theorem free_first_8 : free 9 8 ([0, 1, 2, 3, 4, 5, 6, 7, 8, 9].erase 8) = 148329 := by
+  show free 9 8 [0, 1, 2, 3, 4, 5, 6, 7, 9] = 148329
+  have h0 : free 8 0 ([0, 1, 2, 3, 4, 5, 6, 7, 9].erase 0) = 16687 := by decide +kernel
+  have h1 : free 8 1 ([0, 1, 2, 3, 4, 5, 6, 7, 9].erase 1) = 18806 := by decide +kernel
+  have h2 : free 8 2 ([0, 1, 2, 3, 4, 5, 6, 7, 9].erase 2) = 18806 := by decide +kernel
+  have h3 : free 8 3 ([0, 1, 2, 3, 4, 5, 6, 7, 9].erase 3) = 18806 := by decide +kernel
+  have h4 : free 8 4 ([0, 1, 2, 3, 4, 5, 6, 7, 9].erase 4) = 18806 := by decide +kernel
+  have h5 : free 8 5 ([0, 1, 2, 3, 4, 5, 6, 7, 9].erase 5) = 18806 := by decide +kernel
+  have h6 : free 8 6 ([0, 1, 2, 3, 4, 5, 6, 7, 9].erase 6) = 18806 := by decide +kernel
+  have h7 : free 8 7 ([0, 1, 2, 3, 4, 5, 6, 7, 9].erase 7) = 18806 := by decide +kernel
+  refine (free_step _ _ _ (by decide)).trans ?_
+  simp only [List.map_cons, List.map_nil, List.sum_cons, List.sum_nil, h0, h1, h2, h3, h4, h5, h6, h7]
+  decide
+
+set_option maxHeartbeats 4000000 in
+/-- The orders of the other nine cards after card 9 that keep no neighbouring pair: 148329. -/
+theorem free_first_9 : free 9 9 ([0, 1, 2, 3, 4, 5, 6, 7, 8, 9].erase 9) = 148329 := by
+  show free 9 9 [0, 1, 2, 3, 4, 5, 6, 7, 8] = 148329
+  have h0 : free 8 0 ([0, 1, 2, 3, 4, 5, 6, 7, 8].erase 0) = 14833 := by decide +kernel
+  have h1 : free 8 1 ([0, 1, 2, 3, 4, 5, 6, 7, 8].erase 1) = 16687 := by decide +kernel
+  have h2 : free 8 2 ([0, 1, 2, 3, 4, 5, 6, 7, 8].erase 2) = 16687 := by decide +kernel
+  have h3 : free 8 3 ([0, 1, 2, 3, 4, 5, 6, 7, 8].erase 3) = 16687 := by decide +kernel
+  have h4 : free 8 4 ([0, 1, 2, 3, 4, 5, 6, 7, 8].erase 4) = 16687 := by decide +kernel
+  have h5 : free 8 5 ([0, 1, 2, 3, 4, 5, 6, 7, 8].erase 5) = 16687 := by decide +kernel
+  have h6 : free 8 6 ([0, 1, 2, 3, 4, 5, 6, 7, 8].erase 6) = 16687 := by decide +kernel
+  have h7 : free 8 7 ([0, 1, 2, 3, 4, 5, 6, 7, 8].erase 7) = 16687 := by decide +kernel
+  have h8 : free 8 8 ([0, 1, 2, 3, 4, 5, 6, 7, 8].erase 8) = 16687 := by decide +kernel
+  refine (free_step _ _ _ (by decide)).trans ?_
+  simp only [List.map_cons, List.map_nil, List.sum_cons, List.sum_nil, h0, h1, h2, h3, h4, h5, h6, h7, h8]
+  decide
+
+
+/-- p43: there are 10! = 3,628,800 shuffles of 10 cards. -/
+theorem p43_card_shuffles : shuffles10.card = 3628800 := by
+  have h : (shuffles10.val) = ↑(List.range 10).permutations := by
+    show (↑(orders 10 (List.range 10)) : Multiset (List ℕ)) = _
+    rw [Multiset.coe_eq_coe]
+    refine (List.perm_ext_iff_of_nodup (orders_nodup _ _ List.nodup_range)
+      (List.nodup_permutations _ List.nodup_range)).2 fun l => ?_
+    rw [mem_orders _ _ _ List.nodup_range (by simp), List.mem_permutations]
+  rw [Finset.card, h, Multiset.coe_card, List.length_permutations, List.length_range]
+  decide
+
+/-- 1,468,457 of the shuffles keep no neighbouring pair: the shuffles grouped by first card, each group counted by `free`
+(the ten `free_first` lemmas). -/
+theorem orders_none_count : (orders 10 (List.range 10)).countP (fun l => !keepsNeighbours l) = 1468457 := by
+  rw [show List.range 10 = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9] from rfl,
+    orders_step _ _ (List.cons_ne_nil _ _), List.countP_flatMap]
+  have e : ∀ x : ℕ, (List.countP (fun l => !keepsNeighbours l) ∘ fun x =>
+      (orders 9 ([0, 1, 2, 3, 4, 5, 6, 7, 8, 9].erase x)).map (x :: ·)) x
+      = free 9 x ([0, 1, 2, 3, 4, 5, 6, 7, 8, 9].erase x) := by
+    intro x
+    rw [Function.comp_apply, List.countP_map, ← countP_orders]
+    rfl
+  simp only [e, List.map_cons, List.map_nil, List.sum_cons, List.sum_nil, free_first_0, free_first_1, free_first_2,
+    free_first_3, free_first_4, free_first_5, free_first_6, free_first_7, free_first_8, free_first_9]
+  norm_num
+
+theorem card_keeps_eq_countP : (shuffles10.filter (fun l => keepsNeighbours l = true)).card
+    = (orders 10 (List.range 10)).countP keepsNeighbours := by
+  rw [List.countP_eq_length_filter]
+  show Multiset.card (Multiset.filter _ (↑(orders 10 (List.range 10)) : Multiset (List ℕ))) = _
+  rw [Multiset.filter_coe, Multiset.coe_card]
+  simp only [Bool.decide_eq_true]
+
+theorem orders_length : (orders 10 (List.range 10)).length = 3628800 := by
+  have := p43_card_shuffles
+  rwa [Finset.card, show shuffles10.val = ↑(orders 10 (List.range 10)) from rfl, Multiset.coe_card] at this
+
+theorem countP_add_countP_not (p : List ℕ → Bool) :
+    ∀ L : List (List ℕ), L.countP p + L.countP (fun l => !p l) = L.length
+  | [] => rfl
+  | a :: t => by
+    have := countP_add_countP_not p t
+    cases h : p a <;> simp [h] <;> omega
+
+/-- p43: so 3,628,800 - 1,468,457 = 2,160,343 shuffles keep some originally neighbouring pair together in order. -/
+theorem p43_count : (shuffles10.filter (fun l => keepsNeighbours l = true)).card = 2160343 := by
+  have e := countP_add_countP_not keepsNeighbours (orders 10 (List.range 10))
+  rw [orders_none_count, orders_length] at e
+  exact card_keeps_eq_countP.trans ((Nat.eq_sub_of_add_eq e).trans (by norm_num))
+
+/-- p43: so a shuffle of 10 cards keeps some neighbouring pair (a card i right before card i + 1) together in order with
+chance 2160343/3628800. -/
+theorem p43_shuffle_kept_neighbours :
+    ((shuffles10.filter (fun l => keepsNeighbours l = true)).card : ℚ) / (shuffles10.card : ℚ)
+      = 2160343 / 3628800 := by
+  rw [p43_count, p43_card_shuffles]
+  norm_num
+
+end Shuffles
+
 end CheapLane
