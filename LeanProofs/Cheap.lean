@@ -86,4 +86,29 @@ theorem p38_random_walk_2d :
   simp [Fintype.card_fin]
   norm_num
 
+/-- The urn after some draws, as (red, blue, weight): the weight is the product of the counts of the
+colour drawn at each step, so a draw order's chance is its weight over 3 * 4 * 5 * 6 * 7 = 2520. -/
+def urnDraw (s : ℕ × ℕ × ℕ) (red : Bool) : ℕ × ℕ × ℕ :=
+  if red then (s.1 + 1, s.2.1, s.2.2 * s.1) else (s.1, s.2.1 + 1, s.2.2 * s.2.1)
+
+/-- The weight of five draws from an urn starting with 2 red and 1 blue. -/
+def urnWeight (x : Fin 5 → Bool) : ℕ := ((List.ofFn x).foldl urnDraw (2, 1, 1)).2.2
+
+/-- The number of reds among the five draws. -/
+def reds (x : Fin 5 → Bool) : ℕ := (List.ofFn x).count true
+
+/-- p49: the 32 draw orders' weights add up to 2520 (so the chances add up to 1), and the orders with
+exactly three reds weigh 480. -/
+theorem p49_count :
+    (∑ x : Fin 5 → Bool, urnWeight x) = 2520 ∧
+      (∑ x ∈ Finset.univ.filter (fun x : Fin 5 → Bool => reds x = 3), urnWeight x) = 480 := by
+  decide +kernel
+
+/-- p49: so exactly three of the first five draws are red with chance 480/2520 = 4/21. -/
+theorem p49_polya_three_reds :
+    ((∑ x ∈ Finset.univ.filter (fun x : Fin 5 → Bool => reds x = 3), urnWeight x : ℕ) : ℚ)
+      / ((∑ x : Fin 5 → Bool, urnWeight x : ℕ) : ℚ) = 4 / 21 := by
+  rw [p49_count.1, p49_count.2]
+  norm_num
+
 end CheapLane
