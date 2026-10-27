@@ -111,4 +111,91 @@ theorem p49_polya_three_reds :
   rw [p49_count.1, p49_count.2]
   norm_num
 
+/-- One card dealt from a deck with (aces left, other cards left), keeping a weight: the product of how many cards of the
+kind dealt were left at each deal. A deal order's weight is the number of ordered five-card deals that follow it, so the
+weights add up to 52 * 51 * 50 * 49 * 48, and every five-card hand is equally likely. -/
+def deal (s : ℕ × ℕ × ℕ) (ace : Bool) : ℕ × ℕ × ℕ :=
+  if ace then (s.1 - 1, s.2.1, s.2.2 * s.1) else (s.1, s.2.1 - 1, s.2.2 * s.2.1)
+
+/-- The weight of five deals (true = an ace) from a 52-card deck with 4 aces. -/
+def handWeight (x : Fin 5 → Bool) : ℕ := ((List.ofFn x).foldl deal (4, 48, 1)).2.2
+
+/-- The number of aces among the five cards. -/
+def aces (x : Fin 5 → Bool) : ℕ := (List.ofFn x).count true
+
+/-- p04: the 32 ace patterns weigh 311,875,200 in all (every ordered five-card deal), and the patterns with exactly two
+aces weigh 12,453,120. -/
+theorem p04_count :
+    (∑ x : Fin 5 → Bool, handWeight x) = 311875200 ∧
+      (∑ x ∈ Finset.univ.filter (fun x : Fin 5 → Bool => aces x = 2), handWeight x) = 12453120 := by
+  decide +kernel
+
+/-- p04: so five cards hold exactly two aces with chance 12453120/311875200 = 2162/54145. -/
+theorem p04_two_aces_in_five :
+    ((∑ x ∈ Finset.univ.filter (fun x : Fin 5 → Bool => aces x = 2), handWeight x : ℕ) : ℚ)
+      / ((∑ x : Fin 5 → Bool, handWeight x : ℕ) : ℚ) = 2162 / 54145 := by
+  rw [p04_count.1, p04_count.2]
+  norm_num
+
+/-- Ten rolls grouped by which rolls are sixes (true): a pattern stands for 5^(rolls that are not a six) roll lists, since
+each of those rolls is one of the 5 other faces. -/
+def rollWeight (x : Fin 10 → Bool) : ℕ := 5 ^ ((List.ofFn x).count false)
+
+/-- p12: the 1,024 six patterns stand for 6^10 = 60,466,176 roll lists in all, and those with three or more sixes for
+13,591,176. -/
+theorem p12_count :
+    (∑ x : Fin 10 → Bool, rollWeight x) = 60466176 ∧
+      (∑ x ∈ Finset.univ.filter (fun x : Fin 10 → Bool => 3 ≤ (List.ofFn x).count true), rollWeight x)
+        = 13591176 := by
+  decide +kernel
+
+/-- p12: so ten rolls show three or more sixes with chance 13591176/60466176 = 566299/2519424. -/
+theorem p12_three_plus_sixes :
+    ((∑ x ∈ Finset.univ.filter (fun x : Fin 10 → Bool => 3 ≤ (List.ofFn x).count true), rollWeight x : ℕ) : ℚ)
+      / ((∑ x : Fin 10 → Bool, rollWeight x : ℕ) : ℚ) = 566299 / 2519424 := by
+  rw [p12_count.1, p12_count.2]
+  norm_num
+
+/-- How many b in 1..m share no factor with a, counted one b at a time. -/
+def coprimeRow (a : ℕ) : ℕ → ℕ
+  | 0 => 0
+  | m + 1 => coprimeRow a m + if Nat.gcd a (m + 1) = 1 then 1 else 0
+
+/-- How many pairs (a, b) with a in 1..k and b in 1..m share no factor, counted one a at a time. -/
+def coprimeRows (m : ℕ) : ℕ → ℕ
+  | 0 => 0
+  | k + 1 => coprimeRows m k + coprimeRow (k + 1) m
+
+theorem coprimeRow_eq (a m : ℕ) :
+    coprimeRow a m = ∑ b ∈ Finset.Icc 1 m, if Nat.gcd a b = 1 then 1 else 0 := by
+  induction m with
+  | zero => simp [coprimeRow]
+  | succ m ih => rw [coprimeRow, ih, Finset.sum_Icc_succ_top (by omega)]
+
+theorem coprimeRows_eq (m k : ℕ) :
+    coprimeRows m k = ∑ a ∈ Finset.Icc 1 k, ∑ b ∈ Finset.Icc 1 m, if Nat.gcd a b = 1 then 1 else 0 := by
+  induction k with
+  | zero => simp [coprimeRows]
+  | succ k ih => rw [coprimeRows, ih, Finset.sum_Icc_succ_top (by omega), coprimeRow_eq]
+
+/-- The pairs (a, b) with both in 1..m and no common factor are counted by the row recursion. -/
+theorem coprime_pairs_card (m : ℕ) :
+    ((Finset.Icc 1 m ×ˢ Finset.Icc 1 m).filter (fun p : ℕ × ℕ => Nat.gcd p.1 p.2 = 1)).card
+      = coprimeRows m m := by
+  rw [coprimeRows_eq, Finset.card_filter, Finset.sum_product]
+
+/-- p63: of the 1,000,000 pairs of numbers from 1 to 1000, exactly 608,383 have greatest common divisor 1. -/
+theorem p63_count :
+    ((Finset.Icc 1 1000 ×ˢ Finset.Icc 1 1000).filter (fun p : ℕ × ℕ => Nat.gcd p.1 p.2 = 1)).card = 608383 := by
+  rw [coprime_pairs_card]
+  decide +kernel
+
+/-- p63: so two numbers drawn from 1 to 1000 share no common factor with chance 608383/1000000 (the finite range, not the
+6/pi^2 limit). -/
+theorem p63_trap_coprime_pair_finite :
+    (((Finset.Icc 1 1000 ×ˢ Finset.Icc 1 1000).filter (fun p : ℕ × ℕ => Nat.gcd p.1 p.2 = 1)).card : ℚ)
+      / ((Finset.Icc 1 1000 ×ˢ Finset.Icc 1 1000).card : ℚ) = 608383 / 1000000 := by
+  rw [p63_count]
+  simp
+
 end CheapLane
