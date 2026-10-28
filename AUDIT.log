@@ -1370,3 +1370,44 @@ leanchecker: all 6 LeanProofs modules (LeanProofs.Bank LeanProofs.Basic LeanProo
 == Headline statements: 35 headline statements restated in VerifyAll.lean (p32 has two: its equation and its convergence statement)
 == Note: this run was made before scripts/test_name.sh (name spelling and UTF-8 check) was added to step 2;
 ==       that script was run on its own afterwards and passed. The next ./check.sh run includes it.
+
+== RE-RUN OF STEP 4 ONLY (appended): VerifyAll.lean now also restates Daniel's Root Theorem (LeanProofs/Root.lean)
+== started 2026-10-28T03:14:38Z
+'p01_dice_sum_seven' depends on axioms: [propext, Classical.choice, Quot.sound]
+'p02_coin_streaks' depends on axioms: [propext, Classical.choice, Quot.sound]
+'CheapLane.p04_two_aces_in_five' depends on axioms: [propext, Classical.choice, Quot.sound]
+'TowerBatch.p05_birthday_problem' depends on axioms: [propext, Classical.choice, Quot.sound]
+'p06_random_walk' depends on axioms: [propext, Classical.choice, Quot.sound]
+'p07_monty_hall' depends on axioms: [propext, Classical.choice, Quot.sound]
+'p10_max_of_two_dice' depends on axioms: [propext, Classical.choice, Quot.sound]
+'CheapLane.p12_three_plus_sixes' depends on axioms: [propext, Classical.choice, Quot.sound]
+'TowerBatch.p13_cards_to_first_ace' depends on axioms: [propext, Classical.choice, Quot.sound]
+'TowerBatch.p17_three_of_five_vote' depends on axioms: [propext, Classical.choice, Quot.sound]
+'TowerBatch.p21_rare_one_in_1000' depends on axioms: [propext, Classical.choice, Quot.sound]
+'TowerBatch.p22_st_petersburg_capped' depends on axioms: [propext, Classical.choice, Quot.sound]
+'p31_markov_weather_four_steps' depends on axioms: [propext, Classical.choice, Quot.sound]
+'CheapLane.p32_markov_token_absorption_limit' depends on axioms: [propext, Classical.choice, Quot.sound]
+'CheapLane.p36_birthday_expected_distinct' depends on axioms: [propext, Classical.choice, Quot.sound]
+'p37_random_walk_hits_three' depends on axioms: [propext, Classical.choice, Quot.sound]
+'CheapLane.p38_random_walk_2d' depends on axioms: [propext, Classical.choice, Quot.sound]
+'CheapLane.p39_expected_max' depends on axioms: [propext, Classical.choice, Quot.sound]
+'CheapLane.p40_first_return_10' depends on axioms: [propext, Classical.choice, Quot.sound]
+'p41_shuffle_derangement_ten' depends on axioms: [propext, Classical.choice, Quot.sound]
+'CheapLane.p42_shuffle_expected_cycles' depends on axioms: [propext, Classical.choice, Quot.sound]
+'CheapLane.p43_shuffle_kept_neighbours' depends on axioms: [propext, Classical.choice, Quot.sound]
+'CheapLane.p44_bridge_hand_no_spades' depends on axioms: [propext, Classical.choice, Quot.sound]
+'CheapLane.p45_aces_before_kings' depends on axioms: [propext, Classical.choice, Quot.sound]
+'TowerBatch.p48_third_success_by_twelve' depends on axioms: [propext, Classical.choice, Quot.sound]
+'CheapLane.p49_polya_three_reds' depends on axioms: [propext, Classical.choice, Quot.sound]
+'p52_random_walk_never_negative' depends on axioms: [propext, Classical.choice, Quot.sound]
+'CheapLane.p53_birthday_expected_pairs' depends on axioms: [propext, Classical.choice, Quot.sound]
+'CheapLane.p63_trap_coprime_pair_finite' depends on axioms: [propext, Classical.choice, Quot.sound]
+'TowerBatch.p65_trap_bridge_aces_kings' depends on axioms: [propext, Classical.choice, Quot.sound]
+'TowerBatch.p65_trap_medical_test_positive' depends on axioms: [propext, Classical.choice, Quot.sound]
+'TowerBatch.p68_trap_common_shock_failure' depends on axioms: [propext, Classical.choice, Quot.sound]
+'TowerBatch.p69_trap_twenty_dice_low_tail' depends on axioms: [propext, Classical.choice, Quot.sound]
+'TowerBatch.p69_trap_two_records_in_row' depends on axioms: [propext, Classical.choice, Quot.sound]
+'CheapLane.p32_markov_token_absorption' depends on axioms: [propext, Classical.choice, Quot.sound]
+'DanielRootTheorem' depends on axioms: [propext, Quot.sound]
+VerifyAll: 36 headline statements restated (34 Proven problems, p32 twice, plus DanielRootTheorem); 36 axiom reports; axioms outside propext, Quot.sound, Classical.choice: none
+== step 4 re-run: PASS (exit 0), 27 s
