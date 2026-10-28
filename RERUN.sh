@@ -5,8 +5,11 @@ set -uo pipefail
 cd "$(dirname "$0")"
 echo "Humanities Helping Hands engine, built by Daniel Steadham"
 # (a name that runs a real Python 3.11+: on Windows "python3" can be the Microsoft Store stub, which only opens the Store)
+# (and never one from WindowsApps: a Python started through the Store's alias leaves the job a guard puts the run in, so a stop
+#  could not end it; measured 2026-10-28)
 py=""
 for p in python3 python py; do
+  case "$(command -v "$p" 2>/dev/null)" in *WindowsApps*) continue;; esac
   if command -v "$p" >/dev/null 2>&1 && "$p" -c 'import sys; sys.exit(0 if sys.version_info >= (3, 11) else 1)' >/dev/null 2>&1; then py=$p; break; fi
 done
 if [ -z "$py" ]; then echo "RERUN: Python 3.11 or newer is needed (https://www.python.org/downloads/), then run RERUN again."; exit 1; fi

@@ -11,6 +11,11 @@ import rerun
 MAGIC = rerun.OTS_MAGIC + b'\x01\x08'
 
 
+def test_rerun_sh_never_picks_a_store_alias_python():   # (2026-10-28: a Python started through WindowsApps left the guard's job)
+    sh = (rerun.ROOT / 'RERUN.sh').read_text(encoding='utf-8')
+    assert '*WindowsApps*) continue' in sh
+
+
 def test_every_claim_has_a_rerun_step_and_every_step_a_claim():
     ids = rerun.receipt_ids()
     assert ids, 'RERUN-RECEIPT.md lists no claims'
