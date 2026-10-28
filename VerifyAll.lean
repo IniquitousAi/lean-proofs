@@ -3,7 +3,7 @@ import LeanProofs
 /-!
 # VerifyAll: the headline statements, restated and checked
 
-For each of the 42 problems labeled Proven, this file copies the headline theorem's statement word for word
+For each of the 43 problems labeled Proven, this file copies the headline theorem's statement word for word
 from its source file and asks Lean to accept the named theorem as a proof of it (`example : <statement> := <theorem>`).
 If a source theorem ever states something else (anything not the same statement up to definitional unfolding),
 this file stops compiling.
@@ -276,6 +276,10 @@ example : HasSum (fun k : ℕ => (1:ℝ) / ((k + 1) * (k + 2))) 1 :=
 example : HasSum (fun k : ℕ => (k:ℝ) / 2 ^ k) 2 :=
   SeriesLane.p94_k_over_two_pow
 
+-- p93_basel (Basel.lean)
+example : HasSum (fun k : ℕ => 1 / ((k:ℝ) + 1) ^ 2) (Real.pi ^ 2 / 6) :=
+  SeriesLane.p93_basel
+
 end SeriesLane
 
 /-! ## LeanProofs/CalculusLog.lean, Waiting.lean, Roots.lean (ORD-1028-BQ) -/
@@ -350,3 +354,4 @@ end RootsLane
 #print axioms CalculusLane.p100_log_over_x
 #print axioms WaitingLane.p09_rolls_to_first_six
 #print axioms RootsLane.p95_positive_root_of_two
+#print axioms SeriesLane.p93_basel
