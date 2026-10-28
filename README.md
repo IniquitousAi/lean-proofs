@@ -164,7 +164,7 @@ problem's own cases. Axioms are from `#print axioms` (Measured: `runs/lean_gate.
 |---|---|---|---|
 | p03 | Falling object: time to fall 100 m | `sqrt(200/9.80665) seconds` | Reasoned |
 | p08 | Buffon's needle: pi from crossing probability 2/pi | `pi` | Reasoned |
-| p09 | Waiting for a six: expected rolls to first 6 | `6 rolls` | Reasoned |
+| p09 | Waiting for a six: expected rolls to first 6: `6 rolls` | [`WaitingLane.p09_rolls_to_first_six`](LeanProofs/Waiting.lean#L14) | propext, Classical.choice, Quot.sound | Proven |
 | p11 | Falling object plus measurement noise: estimate within 1% | `1559861/1599960` | Reasoned |
 | p14 | Gambler's ruin: reach 20 before 0 from 10 | `79792266297612001/198834690125225002` | Reasoned |
 | p15 | Coupon collector: expected rolls to see all six faces | `147/10 rolls` | Reasoned |
@@ -179,7 +179,7 @@ problem's own cases. Axioms are from `#print axioms` (Measured: `runs/lean_gate.
 | p27 | Pendulum: period of a 1 m pendulum, small swing | `2*pi*sqrt(1/9.80665) s` | Reasoned |
 | p28 | Orbit: period of a circular orbit 7,000 km from Earth's centre | `2*pi*sqrt(7000000^3/3.986004418e14) s` | Reasoned |
 | p29 | Cooling: coffee temperature after 10 minutes | `20+70/e deg C` | Reasoned |
-| p30 | Area under a curve: y = x^2 from 0 to 3 | `9` | Reasoned |
+| p30 | Area under a curve: y = x^2 from 0 to 3: `9` | [`CalculusLane.p30_area_under_square`](LeanProofs/Calculus.lean#L15) | propext, Classical.choice, Quot.sound | Proven |
 | p33 | Birthday triple: some day shared by at least three of 20 people | `318216859291500848355491224812734106060376537/38605964915937015670485458180605550689697265625` | Reasoned |
 | p34 | Birthday near-match: two of 12 birthdays equal or one day apart | `52320594080314323068895673/122549486550140511084765625` | Reasoned |
 | p35 | Birthday cross-match: a day shared between two groups of 15 and 20 | `147141185471117953786100199811792158919834035766785934516561730075538112528019110234401/262414233172146075072926452987537249139191971290746359275449091685004532337188720703125` | Reasoned |
@@ -190,7 +190,7 @@ problem's own cases. Axioms are from `#print axioms` (Measured: `runs/lean_gate.
 | p51 | Markov machine: expected worn days in the next eight days | `149797/65536 days` | Reasoned |
 | p54 | Cards: expected cards to reveal to see all four suits | `4829/630 cards` | Reasoned |
 | p55 | Waiting: the first event is type A and comes within half an hour | `(2/5)*(1-exp(-5/2))` | Reasoned |
-| p56 | Trap: expected value of a wide lognormal payout | `exp(2)` | Reasoned |
+| p56 | Trap: expected value of a wide lognormal payout: `exp(2)` | [`WaitingLane.p56_lognormal_mean`](LeanProofs/Lognormal.lean#L15) | propext, Classical.choice, Quot.sound | Proven |
 | p57 | Trap: expected capped Pareto payout with tail index 3/2 | `3-2/sqrt(1000000) dollars` | Reasoned |
 | p58 | Trap: at least three events in a half-rate Poisson hour | `1-exp(-1/2)*(1+1/2+1/8)` | Reasoned |
 | p59 | Trap: a 100-step walk spends over 90% of its steps above zero | `53590814556005219805049997187/316912650057057350374175801344` | Reasoned |
@@ -221,16 +221,16 @@ problem's own cases. Axioms are from `#print axioms` (Measured: `runs/lean_gate.
 | p88 | Elastic collision: speed of the 2 kg cart after a head-on hit | `1 m/s` | Reasoned |
 | p89 | Gas: work in a slow isothermal expansion from 0.03 to 0.09 cubic metres | `6000*log(3) J` | Reasoned |
 | p90 | Dam: total water force on a 20 m wide, 5 m deep wall | `1000*9.80665*20*5^2/2 N` | Reasoned |
-| p91 | Integral: area under exp(x) from 0 to 1 | `e-1` | Reasoned |
-| p92 | Integral: area under one arch of the sine curve | `2` | Reasoned |
-| p93 | Series: the sum of 1/k^2 over all positive integers | `pi^2/6` | Reasoned |
-| p94 | Series: the sum of k/2^k over all positive integers | `2` | Reasoned |
-| p95 | Root finding: the positive root of x^2 = 2 | `sqrt(2)` | Reasoned |
+| p91 | Integral: area under exp(x) from 0 to 1: `e-1` | [`CalculusLane.p91_exp_area`](LeanProofs/Calculus.lean#L23) | propext, Classical.choice, Quot.sound | Proven |
+| p92 | Integral: area under one arch of the sine curve: `2` | [`CalculusLane.p92_sine_arch`](LeanProofs/Calculus.lean#L19) | propext, Classical.choice, Quot.sound | Proven |
+| p93 | Series: the sum of 1/k^2 over all positive integers: `pi^2/6` | [`SeriesLane.p93_basel`](LeanProofs/Basel.lean#L15) | propext, Classical.choice, Quot.sound | Proven |
+| p94 | Series: the sum of k/2^k over all positive integers: `2` | [`SeriesLane.p94_k_over_two_pow`](LeanProofs/Series.lean#L34) | propext, Classical.choice, Quot.sound | Proven |
+| p95 | Root finding: the positive root of x^2 = 2: `sqrt(2)` | [`RootsLane.p95_positive_root_of_two`](LeanProofs/Roots.lean#L15) | propext, Classical.choice, Quot.sound | Proven |
 | p96 | Root finding: the positive root of x^2 - x - 1 = 0 | `(1+sqrt(5))/2` | Reasoned |
 | p97 | ODE: logistic growth from 10 toward a cap of 100 after 2 days | `50` | Reasoned |
 | p98 | ODE: value of the oscillator y'' + 4y = 0 at t = pi/6 | `1/2` | Reasoned |
-| p99 | Series: the sum of 1/(k(k+1)) over all positive integers | `1` | Reasoned |
-| p100 | Integral: area under log(x)/x from 1 to e | `1/2` | Reasoned |
+| p99 | Series: the sum of 1/(k(k+1)) over all positive integers: `1` | [`SeriesLane.p99_telescoping`](LeanProofs/Series.lean#L26) | propext, Classical.choice, Quot.sound | Proven |
+| p100 | Integral: area under log(x)/x from 1 to e: `1/2` | [`CalculusLane.p100_log_over_x`](LeanProofs/CalculusLog.lean#L21) | propext, Classical.choice, Quot.sound | Proven |
 
 </details>
 
