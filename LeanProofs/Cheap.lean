@@ -4,6 +4,8 @@ import Mathlib
 # The cheap lane (ORD-1027-AK step 3)
 
 Bank problems whose answer is a finite count, proven by the kernel counting every case.
+p32 is a limit, not a count: its chance of having won within n moves is proven to close in on 4/7 by a factor
+of 3/4 each move.
 -/
 
 namespace CheapLane
@@ -808,5 +810,104 @@ theorem p43_shuffle_kept_neighbours :
   norm_num
 
 end Shuffles
+
+section MarkovToken
+
+/-!
+# p32: Markov token, reaching the win square before the lose square (bank answer 4/7)
+
+Squares 0, 1, 2, 3. The token starts on square 1. Square 0 loses and square 3 wins; both stop the game.
+From square 1 it moves to 0, stays on 1, or moves to 2 with chances 1/4, 1/4, 1/2.
+From square 2 it moves to 1, stays on 2, or moves to 3 with chances 1/4, 1/4, 1/2.
+
+`winWithin n s` is the chance that a token on square s is on the win square after n moves. The stopped squares keep
+the token (chance 1 of staying), so this is the chance of having won within n moves. The chance of reaching the win
+square before the lose square is the limit of `winWithin n 1` as n grows.
+-/
+
+namespace P32
+
+/-- `move s t`: the chance of going from square s to square t in one move. -/
+def move : Fin 4 → Fin 4 → ℚ :=
+  ![![1, 0, 0, 0],
+    ![1/4, 1/4, 1/2, 0],
+    ![0, 1/4, 1/4, 1/2],
+    ![0, 0, 0, 1]]
+
+/-- The chance of being on square 3 (won) after n moves, starting from square s. -/
+def winWithin : ℕ → Fin 4 → ℚ
+  | 0, s => if s = 3 then 1 else 0
+  | n + 1, s => ∑ t : Fin 4, move s t * winWithin n t
+
+end P32
+
+/-- p32: a token starting on square 1 reaches the win square before the lose square with chance exactly 4/7: the chance
+of having won within n moves tends to 4/7 as n grows. -/
+theorem p32_markov_token_absorption :
+    Filter.Tendsto (fun n : ℕ => (P32.winWithin n 1 : ℝ)) Filter.atTop (nhds (4 / 7 : ℝ)) := by
+  have h0 : ∀ n, P32.winWithin n 0 = 0 := by
+    intro n
+    induction n with
+    | zero => simp [P32.winWithin]
+    | succ n ih => simp [P32.winWithin, Fin.sum_univ_four, P32.move, ih]
+  have h3 : ∀ n, P32.winWithin n 3 = 1 := by
+    intro n
+    induction n with
+    | zero => simp [P32.winWithin]
+    | succ n ih => simp [P32.winWithin, Fin.sum_univ_four, P32.move, ih]
+  have hrec1 : ∀ n, P32.winWithin (n+1) 1 = 1/4 * P32.winWithin n 1 + 1/2 * P32.winWithin n 2 := by
+    intro n
+    simp [P32.winWithin, Fin.sum_univ_four, P32.move, h0]
+  have hrec2 : ∀ n, P32.winWithin (n+1) 2 = 1/4 * P32.winWithin n 1 + 1/4 * P32.winWithin n 2 + 1/2 := by
+    intro n
+    simp [P32.winWithin, Fin.sum_univ_four, P32.move, h3]
+  have ra : ∀ n, (P32.winWithin (n+1) 1 : ℝ) = 1/4 * (P32.winWithin n 1 : ℝ) + 1/2 * (P32.winWithin n 2 : ℝ) := by
+    intro n
+    rw [hrec1]; push_cast; ring
+  have rb : ∀ n, (P32.winWithin (n+1) 2 : ℝ) = 1/4 * (P32.winWithin n 1 : ℝ) + 1/4 * (P32.winWithin n 2 : ℝ) + 1/2 := by
+    intro n
+    rw [hrec2]; push_cast; ring
+  have aux : ∀ e f : ℝ, |1/4*e+1/2*f| + |1/4*e+1/4*f| ≤ 3/4*(|e|+|f|) := by
+    intro e f
+    rcases abs_cases e with ⟨h1, h1'⟩ | ⟨h1, h1'⟩ <;>
+    rcases abs_cases f with ⟨h2, h2'⟩ | ⟨h2, h2'⟩ <;>
+    rcases abs_cases (1/4*e+1/2*f) with ⟨h3, h3'⟩ | ⟨h3, h3'⟩ <;>
+    rcases abs_cases (1/4*e+1/4*f) with ⟨h4, h4'⟩ | ⟨h4, h4'⟩ <;>
+    linarith
+  have step : ∀ n, |(P32.winWithin (n+1) 1 : ℝ) - 4/7| + |(P32.winWithin (n+1) 2 : ℝ) - 6/7|
+      ≤ 3/4 * (|(P32.winWithin n 1 : ℝ) - 4/7| + |(P32.winWithin n 2 : ℝ) - 6/7|) := by
+    intro n
+    have e1 : (P32.winWithin (n+1) 1 : ℝ) - 4/7
+        = 1/4 * ((P32.winWithin n 1 : ℝ) - 4/7) + 1/2 * ((P32.winWithin n 2 : ℝ) - 6/7) := by
+      rw [ra]; ring
+    have e2 : (P32.winWithin (n+1) 2 : ℝ) - 6/7
+        = 1/4 * ((P32.winWithin n 1 : ℝ) - 4/7) + 1/4 * ((P32.winWithin n 2 : ℝ) - 6/7) := by
+      rw [rb]; ring
+    rw [e1, e2]
+    exact aux _ _
+  have key : ∀ n, |(P32.winWithin n 1 : ℝ) - 4/7| + |(P32.winWithin n 2 : ℝ) - 6/7|
+      ≤ (3/4 : ℝ)^n * (|(P32.winWithin 0 1 : ℝ) - 4/7| + |(P32.winWithin 0 2 : ℝ) - 6/7|) := by
+    intro n
+    induction n with
+    | zero => simp
+    | succ n ih =>
+      calc _ ≤ 3/4 * (|(P32.winWithin n 1 : ℝ) - 4/7| + |(P32.winWithin n 2 : ℝ) - 6/7|) := step n
+        _ ≤ 3/4 * ((3/4 : ℝ)^n * (|(P32.winWithin 0 1 : ℝ) - 4/7| + |(P32.winWithin 0 2 : ℝ) - 6/7|)) :=
+            mul_le_mul_of_nonneg_left ih (by norm_num)
+        _ = _ := by ring
+  have hg : Filter.Tendsto (fun n : ℕ => (3/4 : ℝ)^n * (|(P32.winWithin 0 1 : ℝ) - 4/7| + |(P32.winWithin 0 2 : ℝ) - 6/7|))
+      Filter.atTop (nhds 0) := by
+    have := (tendsto_pow_atTop_nhds_zero_of_lt_one (r := (3/4 : ℝ)) (by norm_num) (by norm_num)).mul_const
+      (|(P32.winWithin 0 1 : ℝ) - 4/7| + |(P32.winWithin 0 2 : ℝ) - 6/7|)
+    simpa using this
+  have hz : Filter.Tendsto (fun n : ℕ => (P32.winWithin n 1 : ℝ) - 4/7) Filter.atTop (nhds 0) := by
+    refine squeeze_zero_norm (fun n => ?_) hg
+    rw [Real.norm_eq_abs]
+    have := key n
+    have := abs_nonneg ((P32.winWithin n 2 : ℝ) - 6/7)
+    linarith
+  exact (tendsto_sub_nhds_zero_iff).mp hz
+
+end MarkovToken
 
 end CheapLane
