@@ -10,8 +10,8 @@ average. One command, `./check.sh`, re-checks everything from scratch and writes
 Private by design until every internal check is perfected; the browser example works either way.
 
 The problems come from the answer bank (100 problems with known exact answers) and from the simulator engine that
-checks it. 34 problems are Proven here: 31 of the bank's 100, plus 3 the engine adds
-(p48_third_success_by_twelve, p65_trap_bridge_aces_kings, p69_trap_twenty_dice_low_tail). No problem with a Lean theorem is held back: all of them are Proven. The other 69 bank problems have no Lean proof yet and are listed at
+checks it. 48 problems are Proven here: 45 of the bank's 100, plus 3 the engine adds
+(p48_third_success_by_twelve, p65_trap_bridge_aces_kings, p69_trap_twenty_dice_low_tail). No problem with a Lean theorem is held back: all of them are Proven. The other 55 bank problems have no Lean proof yet and are listed at
 the end.
 
 **Every claim on this page carries one of four labels:**
@@ -28,11 +28,11 @@ the end.
 | | Count |
 |---|---:|
 | Problems in the answer bank | 100 |
-| Problems with a Lean theorem stating the exact answer | 34 |
-| Proven | 34 |
-| Proven, from the bank's 100 | 31 |
+| Problems with a Lean theorem stating the exact answer | 48 |
+| Proven | 48 |
+| Proven, from the bank's 100 | 45 |
 | Proven, engine problems beyond the bank | 3 |
-| Headline statements restated in `VerifyAll.lean`: 35 for the 34 Proven problems (p32 has two: its equation, the limit equals 4/7, and the convergence statement it comes from), plus Daniel's Root Theorem | 36 |
+| Headline statements restated in `VerifyAll.lean`: 49 for the 48 Proven problems (p32 has two: its equation, the limit equals 4/7, and the convergence statement it comes from), plus Daniel's Root Theorem | 50 |
 | Pass Lean but held at Guess | 0 |
 | Bank problems with no Lean proof yet | 69 |
 | `sorry`, `admit`, `axiom`, `unsafe`, `extern`, `implemented_by`, `native_decide` in `LeanProofs/` (comments removed) | 0 |
@@ -114,7 +114,7 @@ Runners-up: p43 (Proven: the kernel counts the shuffles of 10 cards, all 3,628,8
 directly before card i + 1) and p32 (Proven: a Markov token's chance of winning within n moves tends to exactly 4/7, a
 limit rather than a finite count).
 
-## The 34 problems with a Lean proof
+## The 48 problems with a Lean proof
 
 Plain claim and exact answer from the answer bank's `answers.json` (for the 3 engine problems, our own plain reading of
 the engine's spec in `problems.txt`, Reasoned); the theorem states that exact value about the
@@ -128,12 +128,14 @@ problem's own cases. Axioms are from `#print axioms` (Measured: `runs/lean_gate.
 | p05 | Birthday problem: a shared birthday among 23 people: `1 - (365*364*363*...*343)/365^23` | [`TowerBatch.p05_birthday_problem`](LeanProofs/Tower.lean#L916) | propext, Classical.choice, Quot.sound | Proven |
 | p06 | Random walk: return to origin after 20 steps: `46189/262144` | [`p06_random_walk`](LeanProofs/Bank.lean#L31) | propext, Classical.choice, Quot.sound | Proven |
 | p07 | Monty Hall: win probability when switching: `2/3` | [`p07_monty_hall`](LeanProofs/Bank.lean#L93) | propext, Classical.choice, Quot.sound | Proven |
+| p09 | Waiting for a six: expected rolls to first 6: `6 rolls` | [`WaitingLane.p09_rolls_to_first_six`](LeanProofs/Waiting.lean#L14) | propext, Classical.choice, Quot.sound | Proven |
 | p10 | Maximum of two dice: expected larger face: `161/36` | [`p10_max_of_two_dice`](LeanProofs/Bank.lean#L62) | propext, Classical.choice, Quot.sound | Proven |
 | p12 | Three or more sixes in ten rolls: `566299/2519424` | [`CheapLane.p12_three_plus_sixes`](LeanProofs/Cheap.lean#L155) | propext, Classical.choice, Quot.sound | Proven |
 | p13 | Expected cards to the first ace: `53/5 cards` | [`TowerBatch.p13_cards_to_first_ace`](LeanProofs/Tower.lean#L929) | propext, Classical.choice, Quot.sound | Proven |
 | p17 | Three-of-five vote: chance of passing at 60% yes: `2133/3125` | [`TowerBatch.p17_three_of_five_vote`](LeanProofs/Tower.lean#L947) | propext, Classical.choice, Quot.sound | Proven |
 | p21 | Trap: one specified outcome in 1,000: `1/1000` | [`TowerBatch.p21_rare_one_in_1000`](LeanProofs/Tower.lean#L958) | propext, Classical.choice, Quot.sound | Proven |
 | p22 | Trap: St. Petersburg payout capped at 2^20: `21 dollars` | [`TowerBatch.p22_st_petersburg_capped`](LeanProofs/Tower.lean#L970) | propext, Classical.choice, Quot.sound | Proven |
+| p30 | Area under a curve: y = x^2 from 0 to 3: `9` | [`CalculusLane.p30_area_under_square`](LeanProofs/Calculus.lean#L15) | propext, Classical.choice, Quot.sound | Proven |
 | p31 | Markov weather: rain exactly four steps after a sunny start: `2137/10000` | [`p31_markov_weather_four_steps`](LeanProofs/Bank.lean#L104) | propext, Classical.choice, Quot.sound | Proven |
 | p32 | Markov token: reaching the win square before the lose square: `4/7` | [`CheapLane.p32_markov_token_absorption_limit`](LeanProofs/Cheap.lean#L912) | propext, Classical.choice, Quot.sound | Proven |
 | p36 | Birthdays: expected number of different days among 30 people: `5840637997733944304472717260382885356354745452713098221901782271034552207449/202531728519726872798204574491055504334773427222006304748356342315673828125` | [`CheapLane.p36_birthday_expected_distinct`](LeanProofs/Cheap.lean#L1002) | propext, Classical.choice, Quot.sound | Proven |
@@ -150,21 +152,32 @@ problem's own cases. Axioms are from `#print axioms` (Measured: `runs/lean_gate.
 | p49 | Polya urn: exactly three reds in five draws: `4/21` | [`CheapLane.p49_polya_three_reds`](LeanProofs/Cheap.lean#L110) | propext, Classical.choice, Quot.sound | Proven |
 | p52 | Random walk: never below the start and back at it after 12 steps: `33/1024` | [`p52_random_walk_never_negative`](LeanProofs/Walks.lean#L272) | propext, Classical.choice, Quot.sound | Proven |
 | p53 | Birthdays: expected number of same-birthday pairs among 28 people: `378/365 pairs` | [`CheapLane.p53_birthday_expected_pairs`](LeanProofs/Cheap.lean#L937) | propext, Classical.choice, Quot.sound | Proven |
+| p56 | Trap: expected value of a wide lognormal payout: `exp(2)` | [`WaitingLane.p56_lognormal_mean`](LeanProofs/Lognormal.lean#L15) | propext, Classical.choice, Quot.sound | Proven |
 | p63 | Trap: two numbers up to 1,000 share no common factor: `608383/1000000` | [`CheapLane.p63_trap_coprime_pair_finite`](LeanProofs/Cheap.lean#L197) | propext, Classical.choice, Quot.sound | Proven |
 | p65 | A 13-card hand from a shuffled deck holds all four aces and all four kings (engine problem, not in the bank's 100): `11/6431950` | [`TowerBatch.p65_trap_bridge_aces_kings`](LeanProofs/Tower.lean#L1003) | propext, Classical.choice, Quot.sound | Proven |
 | p65 | Trap: chance of disease after a positive 99%-sensitive test: `11/122` | [`TowerBatch.p65_trap_medical_test_positive`](LeanProofs/Tower.lean#L1051) | propext, Classical.choice, Quot.sound | Proven |
 | p68 | Trap: all five backup units fail, with a rare common shock: `10000000999/10000000000000` | [`TowerBatch.p68_trap_common_shock_failure`](LeanProofs/Tower.lean#L1059) | propext, Classical.choice, Quot.sound | Proven |
 | p69 | Twenty fair dice total 30 or less (engine problem, not in the bank's 100): `9944165/1218719480020992` | [`TowerBatch.p69_trap_twenty_dice_low_tail`](LeanProofs/Tower.lean#L1077) | propext, Classical.choice, Quot.sound | Proven |
 | p69 | Trap: days 100 and 101 are both rainfall records: `1/10100` | [`TowerBatch.p69_trap_two_records_in_row`](LeanProofs/Tower.lean#L1089) | propext, Classical.choice, Quot.sound | Proven |
+| p83 | Floating block: submerged depth of a wooden block: `3/10 m` | [`PhysicsLane.p83_floating_block_depth`](LeanProofs/Physics.lean#L29) | propext, Classical.choice, Quot.sound | Proven |
+| p88 | Elastic collision: speed of the 2 kg cart after a head-on hit: `1 m/s` | [`PhysicsLane.p88_elastic_two_kg_cart`](LeanProofs/Physics.lean#L16) | propext, Classical.choice, Quot.sound | Proven |
+| p91 | Integral: area under exp(x) from 0 to 1: `e-1` | [`CalculusLane.p91_exp_area`](LeanProofs/Calculus.lean#L23) | propext, Classical.choice, Quot.sound | Proven |
+| p92 | Integral: area under one arch of the sine curve: `2` | [`CalculusLane.p92_sine_arch`](LeanProofs/Calculus.lean#L19) | propext, Classical.choice, Quot.sound | Proven |
+| p93 | Series: the sum of 1/k^2 over all positive integers: `pi^2/6` | [`SeriesLane.p93_basel`](LeanProofs/Basel.lean#L15) | propext, Classical.choice, Quot.sound | Proven |
+| p94 | Series: the sum of k/2^k over all positive integers: `2` | [`SeriesLane.p94_k_over_two_pow`](LeanProofs/Series.lean#L34) | propext, Classical.choice, Quot.sound | Proven |
+| p95 | Root finding: the positive root of x^2 = 2: `sqrt(2)` | [`RootsLane.p95_positive_root_of_two`](LeanProofs/Roots.lean#L15) | propext, Classical.choice, Quot.sound | Proven |
+| p97 | ODE: logistic growth from 10 toward a cap of 100 after 2 days: `50` | [`CalculusLane.p97_logistic`](LeanProofs/Logistic.lean#L17) | propext, Classical.choice, Quot.sound | Proven |
+| p98 | ODE: value of the oscillator y'' + 4y = 0 at t = pi/6: `1/2` | [`CalculusLane.p98_oscillator`](LeanProofs/Oscillator.lean#L17) | propext, Classical.choice, Quot.sound | Proven |
+| p99 | Series: the sum of 1/(k(k+1)) over all positive integers: `1` | [`SeriesLane.p99_telescoping`](LeanProofs/Series.lean#L26) | propext, Classical.choice, Quot.sound | Proven |
+| p100 | Integral: area under log(x)/x from 1 to e: `1/2` | [`CalculusLane.p100_log_over_x`](LeanProofs/CalculusLog.lean#L21) | propext, Classical.choice, Quot.sound | Proven |
 
 <details>
-<summary>The 69 problems with no Lean proof yet (label: Reasoned, the exact answer is derived by hand)</summary>
+<summary>The 55 problems with no Lean proof yet (label: Reasoned, the exact answer is derived by hand)</summary>
 
 | Problem | Claim | Exact answer | Label |
 |---|---|---|---|
 | p03 | Falling object: time to fall 100 m | `sqrt(200/9.80665) seconds` | Reasoned |
 | p08 | Buffon's needle: pi from crossing probability 2/pi | `pi` | Reasoned |
-| p09 | Waiting for a six: expected rolls to first 6: `6 rolls` | [`WaitingLane.p09_rolls_to_first_six`](LeanProofs/Waiting.lean#L14) | propext, Classical.choice, Quot.sound | Proven |
 | p11 | Falling object plus measurement noise: estimate within 1% | `1559861/1599960` | Reasoned |
 | p14 | Gambler's ruin: reach 20 before 0 from 10 | `79792266297612001/198834690125225002` | Reasoned |
 | p15 | Coupon collector: expected rolls to see all six faces | `147/10 rolls` | Reasoned |
@@ -179,7 +192,6 @@ problem's own cases. Axioms are from `#print axioms` (Measured: `runs/lean_gate.
 | p27 | Pendulum: period of a 1 m pendulum, small swing | `2*pi*sqrt(1/9.80665) s` | Reasoned |
 | p28 | Orbit: period of a circular orbit 7,000 km from Earth's centre | `2*pi*sqrt(7000000^3/3.986004418e14) s` | Reasoned |
 | p29 | Cooling: coffee temperature after 10 minutes | `20+70/e deg C` | Reasoned |
-| p30 | Area under a curve: y = x^2 from 0 to 3: `9` | [`CalculusLane.p30_area_under_square`](LeanProofs/Calculus.lean#L15) | propext, Classical.choice, Quot.sound | Proven |
 | p33 | Birthday triple: some day shared by at least three of 20 people | `318216859291500848355491224812734106060376537/38605964915937015670485458180605550689697265625` | Reasoned |
 | p34 | Birthday near-match: two of 12 birthdays equal or one day apart | `52320594080314323068895673/122549486550140511084765625` | Reasoned |
 | p35 | Birthday cross-match: a day shared between two groups of 15 and 20 | `147141185471117953786100199811792158919834035766785934516561730075538112528019110234401/262414233172146075072926452987537249139191971290746359275449091685004532337188720703125` | Reasoned |
@@ -190,7 +202,6 @@ problem's own cases. Axioms are from `#print axioms` (Measured: `runs/lean_gate.
 | p51 | Markov machine: expected worn days in the next eight days | `149797/65536 days` | Reasoned |
 | p54 | Cards: expected cards to reveal to see all four suits | `4829/630 cards` | Reasoned |
 | p55 | Waiting: the first event is type A and comes within half an hour | `(2/5)*(1-exp(-5/2))` | Reasoned |
-| p56 | Trap: expected value of a wide lognormal payout: `exp(2)` | [`WaitingLane.p56_lognormal_mean`](LeanProofs/Lognormal.lean#L15) | propext, Classical.choice, Quot.sound | Proven |
 | p57 | Trap: expected capped Pareto payout with tail index 3/2 | `3-2/sqrt(1000000) dollars` | Reasoned |
 | p58 | Trap: at least three events in a half-rate Poisson hour | `1-exp(-1/2)*(1+1/2+1/8)` | Reasoned |
 | p59 | Trap: a 100-step walk spends over 90% of its steps above zero | `53590814556005219805049997187/316912650057057350374175801344` | Reasoned |
@@ -213,24 +224,13 @@ problem's own cases. Axioms are from `#print axioms` (Measured: `runs/lean_gate.
 | p80 | Heat equation: temperature 1 m from a heat spike after 25 seconds | `10/sqrt(pi)*exp(-1) K` | Reasoned |
 | p81 | Heat equation: warmth 2 m into cold ground after 100 seconds | `100*erfc(1) deg C` | Reasoned |
 | p82 | RC circuit: capacitor voltage after 2 seconds of charging | `12*(1-exp(-2)) V` | Reasoned |
-| p83 | Floating block: submerged depth of a wooden block | `3/10 m` | Reasoned |
 | p84 | LC circuit: resonant frequency of a 10 mH coil and 1 microfarad capacitor | `1/(2*pi*sqrt(0.01*1e-6)) Hz` | Reasoned |
 | p85 | RLC circuit: series impedance at 1000 radians per second | `sqrt(30^2+(1000*0.2-1/(1000*6.25e-6))^2) ohm` | Reasoned |
 | p86 | Atwood machine: acceleration of 5 kg against 3 kg | `(5-3)*9.80665/(5+3) m/s^2` | Reasoned |
 | p87 | Incline: acceleration down a 30-degree slope with friction 0.2 | `9.80665*(sin(30 deg)-0.2*cos(30 deg)) m/s^2` | Reasoned |
-| p88 | Elastic collision: speed of the 2 kg cart after a head-on hit | `1 m/s` | Reasoned |
 | p89 | Gas: work in a slow isothermal expansion from 0.03 to 0.09 cubic metres | `6000*log(3) J` | Reasoned |
 | p90 | Dam: total water force on a 20 m wide, 5 m deep wall | `1000*9.80665*20*5^2/2 N` | Reasoned |
-| p91 | Integral: area under exp(x) from 0 to 1: `e-1` | [`CalculusLane.p91_exp_area`](LeanProofs/Calculus.lean#L23) | propext, Classical.choice, Quot.sound | Proven |
-| p92 | Integral: area under one arch of the sine curve: `2` | [`CalculusLane.p92_sine_arch`](LeanProofs/Calculus.lean#L19) | propext, Classical.choice, Quot.sound | Proven |
-| p93 | Series: the sum of 1/k^2 over all positive integers: `pi^2/6` | [`SeriesLane.p93_basel`](LeanProofs/Basel.lean#L15) | propext, Classical.choice, Quot.sound | Proven |
-| p94 | Series: the sum of k/2^k over all positive integers: `2` | [`SeriesLane.p94_k_over_two_pow`](LeanProofs/Series.lean#L34) | propext, Classical.choice, Quot.sound | Proven |
-| p95 | Root finding: the positive root of x^2 = 2: `sqrt(2)` | [`RootsLane.p95_positive_root_of_two`](LeanProofs/Roots.lean#L15) | propext, Classical.choice, Quot.sound | Proven |
 | p96 | Root finding: the positive root of x^2 - x - 1 = 0 | `(1+sqrt(5))/2` | Reasoned |
-| p97 | ODE: logistic growth from 10 toward a cap of 100 after 2 days | `50` | Reasoned |
-| p98 | ODE: value of the oscillator y'' + 4y = 0 at t = pi/6 | `1/2` | Reasoned |
-| p99 | Series: the sum of 1/(k(k+1)) over all positive integers: `1` | [`SeriesLane.p99_telescoping`](LeanProofs/Series.lean#L26) | propext, Classical.choice, Quot.sound | Proven |
-| p100 | Integral: area under log(x)/x from 1 to e: `1/2` | [`CalculusLane.p100_log_over_x`](LeanProofs/CalculusLog.lean#L21) | propext, Classical.choice, Quot.sound | Proven |
 
 </details>
 
