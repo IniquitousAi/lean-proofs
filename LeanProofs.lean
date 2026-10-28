@@ -4,3 +4,8 @@ import LeanProofs.Tower
 import LeanProofs.Walks
 import LeanProofs.Cheap
 import LeanProofs.Root
+import LeanProofs.Calculus
+import LeanProofs.Series
+import LeanProofs.CalculusLog
+import LeanProofs.Waiting
+import LeanProofs.Roots
