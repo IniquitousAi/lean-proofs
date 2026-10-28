@@ -3,7 +3,7 @@ import LeanProofs
 /-!
 # VerifyAll: the headline statements, restated and checked
 
-For each of the 43 problems labeled Proven, this file copies the headline theorem's statement word for word
+For each of the 46 problems labeled Proven, this file copies the headline theorem's statement word for word
 from its source file and asks Lean to accept the named theorem as a proof of it (`example : <statement> := <theorem>`).
 If a source theorem ever states something else (anything not the same statement up to definitional unfolding),
 this file stops compiling.
@@ -298,6 +298,10 @@ namespace WaitingLane
 example : HasSum (fun k : ℕ => ((k:ℝ) + 1) * ((5/6) ^ k * (1/6))) 6 :=
   WaitingLane.p09_rolls_to_first_six
 
+-- p56_lognormal_mean (Lognormal.lean)
+example : ∫ x, Real.exp (2 * x) ∂(ProbabilityTheory.gaussianReal 0 1) = Real.exp 2 :=
+  WaitingLane.p56_lognormal_mean
+
 end WaitingLane
 
 namespace RootsLane
@@ -308,6 +312,22 @@ example : (0 < √2 ∧ √2 ^ 2 = 2) ∧ ∀ x : ℝ, 0 < x → x ^ 2 = 2 → x
   RootsLane.p95_positive_root_of_two
 
 end RootsLane
+
+namespace PhysicsLane
+
+-- p88_elastic_two_kg_cart (Physics.lean)
+example (u w : ℝ)
+    (momentum : 2 * u + 1 * w = 2 * 5 + 1 * (-1))
+    (energy : 2 * u ^ 2 / 2 + 1 * w ^ 2 / 2 = 2 * 5 ^ 2 / 2 + 1 * (-1) ^ 2 / 2)
+    (collided : u ≠ 5) : u = 1 :=
+  PhysicsLane.p88_elastic_two_kg_cart u w momentum energy collided
+
+-- p83_floating_block_depth (Physics.lean)
+example (A g d : ℝ) (hA : 0 < A) (hg : 0 < g)
+    (floats : 600 * (A * (1/2)) * g = 1000 * (A * d) * g) : d = 3/10 :=
+  PhysicsLane.p83_floating_block_depth A g d hA hg floats
+
+end PhysicsLane
 
 /-! ## Axioms each headline theorem rests on -/
 #print axioms p01_dice_sum_seven
@@ -355,3 +375,6 @@ end RootsLane
 #print axioms WaitingLane.p09_rolls_to_first_six
 #print axioms RootsLane.p95_positive_root_of_two
 #print axioms SeriesLane.p93_basel
+#print axioms WaitingLane.p56_lognormal_mean
+#print axioms PhysicsLane.p88_elastic_two_kg_cart
+#print axioms PhysicsLane.p83_floating_block_depth
