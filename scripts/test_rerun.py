@@ -40,6 +40,14 @@ def test_every_run_credits_daniel(capsys, monkeypatch):
     assert lines == rerun.receipt_ids(), 'the table is not in the receipt order'
 
 
+def test_only_reruns_one_claim(capsys, monkeypatch):   # (the paranoia button's command)
+    ran = []
+    monkeypatch.setattr(rerun, 'STEPS', {i: (lambda ctx, i=i: ran.append(i) or (True, 'ok')) for i in rerun.receipt_ids()})
+    rerun.main(['--only', 'stamps'])
+    assert ran == ['stamps']
+    assert rerun.main(['--only', 'made-up']) == 2
+
+
 def make(tmp_path, body, logged):
     (tmp_path / 'd').mkdir(); (tmp_path / 'd' / 'a.txt.ots').write_bytes(MAGIC + bytes.fromhex(hashlib.sha256(body).hexdigest()))
     (tmp_path / 'STAMPS.md').write_text(f'| x | d/a.txt | {logged} | d/a.txt.ots | pending |\n', encoding='utf-8')

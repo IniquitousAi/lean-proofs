@@ -4,7 +4,11 @@
 set -uo pipefail
 cd "$(dirname "$0")"
 echo "Humanities Helping Hands engine, built by Daniel Steadham"
-py=$(command -v python3 || command -v python || true)
+# (a name that runs a real Python 3.11+: on Windows "python3" can be the Microsoft Store stub, which only opens the Store)
+py=""
+for p in python3 python py; do
+  if command -v "$p" >/dev/null 2>&1 && "$p" -c 'import sys; sys.exit(0 if sys.version_info >= (3, 11) else 1)' >/dev/null 2>&1; then py=$p; break; fi
+done
 if [ -z "$py" ]; then echo "RERUN: Python 3.11 or newer is needed (https://www.python.org/downloads/), then run RERUN again."; exit 1; fi
 if ! command -v lake >/dev/null 2>&1; then
   if [ "${1:-}" = "--install" ]; then
