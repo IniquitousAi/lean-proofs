@@ -3,7 +3,7 @@ import LeanProofs
 /-!
 # VerifyAll: the headline statements, restated and checked
 
-For each of the 34 problems labeled Proven, this file copies the headline theorem's statement word for word
+For each of the 42 problems labeled Proven, this file copies the headline theorem's statement word for word
 from its source file and asks Lean to accept the named theorem as a proof of it (`example : <statement> := <theorem>`).
 If a source theorem ever states something else (anything not the same statement up to definitional unfolding),
 this file stops compiling.
@@ -246,6 +246,65 @@ example (c n : ℕ) :
 
 end Root
 
+/-! ## LeanProofs/Calculus.lean: the calculus lane (ORD-1028-BQ) -/
+namespace CalculusLane
+open Real intervalIntegral
+
+-- p30_area_under_square (Calculus.lean)
+example : ∫ x in (0:ℝ)..3, x ^ 2 = 9 :=
+  CalculusLane.p30_area_under_square
+
+-- p92_sine_arch (Calculus.lean)
+example : ∫ x in (0:ℝ)..π, sin x = 2 :=
+  CalculusLane.p92_sine_arch
+
+-- p91_exp_area (Calculus.lean)
+example : ∫ x in (0:ℝ)..1, exp x = exp 1 - 1 :=
+  CalculusLane.p91_exp_area
+
+end CalculusLane
+
+/-! ## LeanProofs/Series.lean: the series lane (ORD-1028-BQ) -/
+namespace SeriesLane
+open Filter Topology
+
+-- p99_telescoping (Series.lean)
+example : HasSum (fun k : ℕ => (1:ℝ) / ((k + 1) * (k + 2))) 1 :=
+  SeriesLane.p99_telescoping
+
+-- p94_k_over_two_pow (Series.lean)
+example : HasSum (fun k : ℕ => (k:ℝ) / 2 ^ k) 2 :=
+  SeriesLane.p94_k_over_two_pow
+
+end SeriesLane
+
+/-! ## LeanProofs/CalculusLog.lean, Waiting.lean, Roots.lean (ORD-1028-BQ) -/
+namespace CalculusLane
+open Real
+
+-- p100_log_over_x (CalculusLog.lean)
+example : ∫ x in (1:ℝ)..exp 1, log x / x = 1 / 2 :=
+  CalculusLane.p100_log_over_x
+
+end CalculusLane
+
+namespace WaitingLane
+
+-- p09_rolls_to_first_six (Waiting.lean)
+example : HasSum (fun k : ℕ => ((k:ℝ) + 1) * ((5/6) ^ k * (1/6))) 6 :=
+  WaitingLane.p09_rolls_to_first_six
+
+end WaitingLane
+
+namespace RootsLane
+open Real
+
+-- p95_positive_root_of_two (Roots.lean)
+example : (0 < √2 ∧ √2 ^ 2 = 2) ∧ ∀ x : ℝ, 0 < x → x ^ 2 = 2 → x = √2 :=
+  RootsLane.p95_positive_root_of_two
+
+end RootsLane
+
 /-! ## Axioms each headline theorem rests on -/
 #print axioms p01_dice_sum_seven
 #print axioms p02_coin_streaks
@@ -283,3 +342,11 @@ end Root
 #print axioms TowerBatch.p69_trap_two_records_in_row
 #print axioms CheapLane.p32_markov_token_absorption
 #print axioms DanielRootTheorem
+#print axioms CalculusLane.p30_area_under_square
+#print axioms CalculusLane.p92_sine_arch
+#print axioms CalculusLane.p91_exp_area
+#print axioms SeriesLane.p99_telescoping
+#print axioms SeriesLane.p94_k_over_two_pow
+#print axioms CalculusLane.p100_log_over_x
+#print axioms WaitingLane.p09_rolls_to_first_six
+#print axioms RootsLane.p95_positive_root_of_two
