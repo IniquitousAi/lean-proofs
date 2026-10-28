@@ -1,0 +1,45 @@
+name: Verify (check.sh)
+
+# Runs the same one-command check an outside reader runs: Mathlib cache, source audit, lake build,
+# VerifyAll.lean (headline statements restated + axiom audit), leanchecker kernel replay.
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install elan (the Lean version manager; lean-toolchain picks Lean 4.35.0)
+        run: |
+          curl -sSfL https://raw.githubusercontent.com/leanprover/elan/master/elan-init.sh -o elan-init.sh
+          bash elan-init.sh -y --default-toolchain none
+          rm elan-init.sh
+          echo "$HOME/.elan/bin" >> "$GITHUB_PATH"
+
+      - name: Cache the toolchain, Mathlib and the build
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.elan
+            .lake
+          key: lean-${{ runner.os }}-${{ hashFiles('lean-toolchain', 'lake-manifest.json') }}-${{ hashFiles('LeanProofs/**/*.lean', 'LeanProofs.lean') }}
+          restore-keys: |
+            lean-${{ runner.os }}-${{ hashFiles('lean-toolchain', 'lake-manifest.json') }}-
+
+      - name: ./check.sh
+        run: ./check.sh
+
+      - name: Keep AUDIT.log
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: AUDIT.log
+          path: AUDIT.log
