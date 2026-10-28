@@ -10,3 +10,5 @@ import LeanProofs.CalculusLog
 import LeanProofs.Waiting
 import LeanProofs.Roots
 import LeanProofs.Basel
+import LeanProofs.Lognormal
+import LeanProofs.Physics
