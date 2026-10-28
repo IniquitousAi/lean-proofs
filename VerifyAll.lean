@@ -3,7 +3,7 @@ import LeanProofs
 /-!
 # VerifyAll: the headline statements, restated and checked
 
-For each of the 47 problems labeled Proven, this file copies the headline theorem's statement word for word
+For each of the 48 problems labeled Proven, this file copies the headline theorem's statement word for word
 from its source file and asks Lean to accept the named theorem as a proof of it (`example : <statement> := <theorem>`).
 If a source theorem ever states something else (anything not the same statement up to definitional unfolding),
 this file stops compiling.
