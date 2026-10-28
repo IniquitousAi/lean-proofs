@@ -908,6 +908,11 @@ theorem p32_markov_token_absorption :
     linarith
   exact (tendsto_sub_nhds_zero_iff).mp hz
 
+/-- p32: the same answer as an equation: the limit of the chance of having won within n moves is exactly 4/7. -/
+theorem p32_markov_token_absorption_limit :
+    Filter.limUnder Filter.atTop (fun n : ℕ => (P32.winWithin n 1 : ℝ)) = 4 / 7 :=
+  p32_markov_token_absorption.limUnder_eq
+
 end MarkovToken
 
 end CheapLane
