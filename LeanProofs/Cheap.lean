@@ -915,4 +915,125 @@ theorem p32_markov_token_absorption_limit :
 
 end MarkovToken
 
+/-!
+# p53: Birthdays, expected number of same-birthday pairs among 28 people (bank answer 378/365)
+
+There are 365 possible birthdays (leap day ignored). The 28 birthdays are independent and uniform over the 365 days, so every one
+of the 365^28 lists is equally likely. A same-birthday pair is an unordered pair of people on the same day (three people on one
+day make three pairs); the expected count is the total over all lists divided by 365^28.
+
+`pairTotal d k` adds up, over every list of k birthdays out of d days, how many unordered pairs i < j share a day.
+-/
+
+namespace P53
+
+/-- The number of unordered same-day pairs (i < j), added up over all d^k birthday lists for k people. -/
+def pairTotal (d k : ℕ) : ℕ :=
+  ∑ f : Fin k → Fin d, (Finset.univ.filter (fun q : Fin k × Fin k => q.1 < q.2 ∧ f q.1 = f q.2)).card
+
+end P53
+
+/-- p53: among 28 people with birthdays uniform over 365 days, the expected number of unordered same-birthday pairs is exactly 378/365. -/
+theorem p53_birthday_expected_pairs : (P53.pairTotal 365 28 : ℚ) / 365 ^ 28 = 378 / 365 := by
+  have h27 : ∀ j : Fin 28, Fintype.card {x : Fin 28 // x ≠ j} = 27 := by decide +kernel
+  have key : ∀ i j : Fin 28, i ≠ j →
+      (Finset.univ.filter (fun f : Fin 28 → Fin 365 => f i = f j)).card = 365 ^ 27 := by
+    intro i j hij
+    have e : {f : Fin 28 → Fin 365 // f i = f j} ≃ ({x : Fin 28 // x ≠ j} → Fin 365) :=
+      { toFun := fun f x => f.1 x.1
+        invFun := fun g => ⟨fun x => if h : x = j then g ⟨i, hij⟩ else g ⟨x, h⟩, by simp [hij]⟩
+        left_inv := by
+          intro f
+          apply Subtype.ext
+          funext x
+          by_cases h : x = j
+          · simp [h, f.2]
+          · simp [h]
+        right_inv := by
+          intro g
+          funext x
+          obtain ⟨x, hx⟩ := x
+          simp [hx] }
+    rw [← Fintype.card_subtype]
+    rw [Fintype.card_congr e, Fintype.card_fun, h27 j]
+    simp
+  have h : P53.pairTotal 365 28 = 378 * 365 ^ 27 := by
+    unfold P53.pairTotal
+    simp_rw [Finset.card_filter]
+    rw [Finset.sum_comm]
+    have h2 : ∀ q : Fin 28 × Fin 28,
+        (∑ f : Fin 28 → Fin 365, if (q.1 < q.2 ∧ f q.1 = f q.2) then (1 : ℕ) else 0)
+          = if q.1 < q.2 then (365 ^ 27 : ℕ) else 0 := by
+      intro q
+      by_cases hq : q.1 < q.2
+      · rw [if_pos hq]
+        simp only [hq, true_and]
+        rw [← Finset.card_filter]
+        exact key q.1 q.2 (ne_of_lt hq)
+      · simp [hq]
+    rw [Finset.sum_congr rfl (fun q _ => h2 q)]
+    rw [← Finset.sum_filter, Finset.sum_const, smul_eq_mul]
+    have hc : (Finset.univ.filter (fun q : Fin 28 × Fin 28 => q.1 < q.2)).card = 378 := by
+      decide +kernel
+    rw [hc]
+  rw [h, div_eq_div_iff (by positivity) (by norm_num)]
+  push_cast
+  ring
+
+/-!
+# p36: Birthdays, expected number of different days among 30 people (bank answer below)
+
+There are 365 possible birthdays (leap day ignored). The 30 birthdays are independent and uniform over the 365 days, so every one
+of the 365^30 lists is equally likely, and the expected count of days used by at least one person is the total of that count over
+all lists, divided by 365^30.
+
+`distinctTotal d k` adds up, over every list of k birthdays out of d days, how many different days the list uses.
+-/
+
+namespace P36
+
+/-- The number of different days used, added up over all d^k birthday lists for k people. -/
+def distinctTotal (d k : ℕ) : ℕ :=
+  ∑ f : Fin k → Fin d, (Finset.univ.image f).card
+
+end P36
+
+/-- p36: among 30 people with birthdays uniform over 365 days, the expected number of different days used is exactly the bank fraction (about 28.838). -/
+theorem p36_birthday_expected_distinct : (P36.distinctTotal 365 30 : ℚ) / 365 ^ 30
+    = 5840637997733944304472717260382885356354745452713098221901782271034552207449 / 202531728519726872798204574491055504334773427222006304748356342315673828125 := by
+  have key : ∀ d k : ℕ, P36.distinctTotal d k = d * (d ^ k - (d - 1) ^ k) := by
+    intro d k
+    unfold P36.distinctTotal
+    have h1 : ∀ f : Fin k → Fin d, (Finset.univ.image f).card
+        = ∑ x : Fin d, if (∃ i, f i = x) then 1 else 0 := by
+      intro f
+      have e : Finset.univ.image f = Finset.univ.filter (fun x => ∃ i, f i = x) := by
+        ext x; simp
+      rw [e, Finset.card_filter]
+    rw [Finset.sum_congr rfl (fun f _ => h1 f), Finset.sum_comm]
+    have h2 : ∀ x : Fin d, (∑ f : Fin k → Fin d, if (∃ i, f i = x) then 1 else 0)
+        = d ^ k - (d - 1) ^ k := by
+      intro x
+      rw [← Finset.card_filter]
+      have hx : Fintype.card {y : Fin d // y ≠ x} = d - 1 := by
+        first
+          | simp
+          | (rw [Fintype.card_subtype, Finset.filter_ne', Finset.card_erase_of_mem (Finset.mem_univ _)]
+             simp)
+      have hneg : (Finset.univ.filter (fun f : Fin k → Fin d => ¬ ∃ i, f i = x)).card = (d - 1) ^ k := by
+        have e : Finset.univ.filter (fun f : Fin k → Fin d => ¬ ∃ i, f i = x)
+            = Finset.univ.filter (fun f : Fin k → Fin d => ∀ i, f i ≠ x) := by
+          ext f; simp
+        rw [e, ← Fintype.card_subtype,
+          Fintype.card_congr (Equiv.subtypePiEquivPi (β := fun _ : Fin k => Fin d) (p := fun _ y => y ≠ x))]
+        rw [Fintype.card_pi]
+        simp [hx]
+      have hsum := Finset.card_filter_add_card_filter_not (s := (Finset.univ : Finset (Fin k → Fin d)))
+        (fun f : Fin k → Fin d => ∃ i, f i = x)
+      have hu : (Finset.univ : Finset (Fin k → Fin d)).card = d ^ k := by simp
+      omega
+    simp [h2]
+  rw [key]
+  norm_num
+
 end CheapLane
