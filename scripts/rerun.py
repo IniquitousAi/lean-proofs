@@ -6,6 +6,7 @@ files, pip fetching pytest when it is missing, and git fetching the answer bank 
 
     python scripts/rerun.py              every step
     python scripts/rerun.py --no-lean    skip the long Lean steps (about 20 minutes); they then read SKIPPED, not PASS
+    python scripts/rerun.py --only stamps     re-run one claim (its id from RERUN-RECEIPT.md)
 """
 from __future__ import annotations
 
@@ -173,6 +174,15 @@ def anchor_20261022_manifest(ctx):
     return False, ANCHOR_REASON
 
 
+def reminder():
+    """One goal reminder in the receipt footer (ORD-1027-BJ). The lines live in vibe-lab/hhh/reminders.json on his PC; a stranger
+    without it gets the first line."""
+    import json, random
+    try: lines = json.loads((ROOT.parent / 'vibe-lab' / 'hhh' / 'reminders.json').read_text(encoding='utf-8'))['lines']
+    except (OSError, ValueError, KeyError): lines = ['Check the root first. It saves the most time.']
+    return random.choice(lines)
+
+
 STEPS = {'toolchain': toolchain, 'source-audit': source_audit, 'build': build, 'headline': headline, 'root': root, 'kernel': kernel,
          'answer-bank': answer_bank, 'stamps': stamps, 'anchor-20261022-manifest': anchor_20261022_manifest}
 KNOWN_FAIL = {'anchor-20261022-manifest'}
@@ -186,7 +196,9 @@ def main(argv=sys.argv[1:]):
     print(f'Re-run started {started} on {os.environ.get("COMPUTERNAME") or os.uname().nodename}')
     print('Timestamped proof ids: ' + ', '.join(f'{p.stem} {ots_digest(p.read_bytes())[0][:12]}' for p in sorted(STAMPS.rglob('*.ots')) if ots_digest(p.read_bytes())[0]))
     results = []
-    for rid in receipt_ids():
+    only = argv[argv.index('--only') + 1:argv.index('--only') + 2] if '--only' in argv else []   # (one claim: the paranoia button)
+    if only and only[0] not in STEPS: print(f'no claim {only[0]}; the claims are: {", ".join(receipt_ids())}'); return 2
+    for rid in only or receipt_ids():
         t0 = time.time()
         try: ok, why = STEPS[rid](ctx)
         except Exception as ex: ok, why = False, f'the step crashed: {type(ex).__name__}: {ex}'[:200]
@@ -202,6 +214,7 @@ def main(argv=sys.argv[1:]):
     surprise = [r[0] for r in results if r[1] == 'FAIL' and r[0] not in KNOWN_FAIL]
     print(f'\n{passed} of {len(results)} PASS. ' + (f'Unexpected FAIL: {", ".join(surprise)}.' if surprise else
           'The only FAIL is the known one, shown on purpose.' if passed < len(results) else ''))
+    print(reminder())
     return 1 if surprise or any(r[1] == 'SKIPPED' for r in results) else 0
 
 
