@@ -13,3 +13,4 @@ import LeanProofs.Basel
 import LeanProofs.Lognormal
 import LeanProofs.Physics
 import LeanProofs.Oscillator
+import LeanProofs.Logistic

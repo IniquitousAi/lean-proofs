@@ -297,6 +297,12 @@ example (y y' y'' : ℝ → ℝ)
     y (π / 6) = 1 / 2 :=
   CalculusLane.p98_oscillator y y' y'' hy hy' ode h0 h0'
 
+-- p97_logistic (Logistic.lean)
+example (P P' : ℝ → ℝ) (hP : ∀ t, HasDerivAt P (P' t) t)
+    (ode : ∀ t, P' t = log 3 * P t * (1 - P t / 100)) (h0 : P 0 = 10) :
+    P 2 = 50 :=
+  CalculusLane.p97_logistic P P' hP ode h0
+
 end CalculusLane
 
 namespace WaitingLane
@@ -386,3 +392,4 @@ end PhysicsLane
 #print axioms PhysicsLane.p88_elastic_two_kg_cart
 #print axioms PhysicsLane.p83_floating_block_depth
 #print axioms CalculusLane.p98_oscillator
+#print axioms CalculusLane.p97_logistic
