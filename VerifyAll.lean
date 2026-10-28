@@ -3,7 +3,7 @@ import LeanProofs
 /-!
 # VerifyAll: the headline statements, restated and checked
 
-For each of the 46 problems labeled Proven, this file copies the headline theorem's statement word for word
+For each of the 47 problems labeled Proven, this file copies the headline theorem's statement word for word
 from its source file and asks Lean to accept the named theorem as a proof of it (`example : <statement> := <theorem>`).
 If a source theorem ever states something else (anything not the same statement up to definitional unfolding),
 this file stops compiling.
@@ -290,6 +290,13 @@ open Real
 example : ∫ x in (1:ℝ)..exp 1, log x / x = 1 / 2 :=
   CalculusLane.p100_log_over_x
 
+-- p98_oscillator (Oscillator.lean)
+example (y y' y'' : ℝ → ℝ)
+    (hy : ∀ t, HasDerivAt y (y' t) t) (hy' : ∀ t, HasDerivAt y' (y'' t) t)
+    (ode : ∀ t, y'' t + 4 * y t = 0) (h0 : y 0 = 1) (h0' : y' 0 = 0) :
+    y (π / 6) = 1 / 2 :=
+  CalculusLane.p98_oscillator y y' y'' hy hy' ode h0 h0'
+
 end CalculusLane
 
 namespace WaitingLane
@@ -378,3 +385,4 @@ end PhysicsLane
 #print axioms WaitingLane.p56_lognormal_mean
 #print axioms PhysicsLane.p88_elastic_two_kg_cart
 #print axioms PhysicsLane.p83_floating_block_depth
+#print axioms CalculusLane.p98_oscillator
