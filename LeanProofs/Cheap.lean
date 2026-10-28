@@ -1036,4 +1036,159 @@ theorem p36_birthday_expected_distinct : (P36.distinctTotal 365 30 : ℚ) / 365 
   rw [key]
   norm_num
 
+-- (tournament proof m_ec1ce20849, Count every case; setup checked in vibe-lab twin/statements/CHECKED.json)
+/-!
+# p20: Loaded die, expected gross payout (bank answer 183/20 dollars)
+
+A loaded die shows faces 1 to 6 with chances 1/10, 1/10, 3/20, 3/20, 1/5, 3/10. Faces 1 to 6 pay $0, $1, $2, $5, $10, $20
+(gross, before any cost to roll). Rolls are independent. A face is a `Fin 6` (0 to 5) standing for face value + 1.
+
+`expectedTotal n` is the expected total payout of n rolls: over every list of n faces, the list's chance (the product of its
+faces' chances) times its total payout, added up. The question is one roll.
+-/
+
+namespace P20
+
+/-- The chance of each face (index 0 is face 1). -/
+def chance : Fin 6 → ℚ := ![1/10, 1/10, 3/20, 3/20, 1/5, 3/10]
+
+/-- The gross payout of each face in dollars (index 0 is face 1). -/
+def pay : Fin 6 → ℚ := ![0, 1, 2, 5, 10, 20]
+
+/-- The expected total gross payout of n independent rolls, over all 6^n lists of faces. -/
+def expectedTotal (n : ℕ) : ℚ :=
+  ∑ f : Fin n → Fin 6, (∏ i, chance (f i)) * ∑ i, pay (f i)
+
+end P20
+
+theorem p20_loaded_die_payout : P20.expectedTotal 1 = 183 / 20 := by
+  first
+    | decide +kernel
+    | (simp [P20.expectedTotal, P20.chance, P20.pay, Fin.sum_univ_succ, Fintype.sum_pi_single]
+       <;> norm_num)
+
+-- (tournament proof m_39727f5267, Count every case; setup checked in vibe-lab twin/statements/CHECKED.json)
+/-!
+# p14: Gambler's ruin, reaching 20 before 0 from 10 (bank answer 79792266297612001/198834690125225002)
+
+The gambler starts with 10 units, wins on reaching 20 and is ruined at 0; both stop the game. Each independent bet adds one unit
+with chance 49/100 or takes one away with chance 51/100.
+
+`winWithin n s` is the chance that a gambler holding s units has reached 20 (before 0) within n bets. A stopped game stays
+where it stopped. The chance of reaching 20 before 0 is the limit of `winWithin n 10` as n grows.
+-/
+
+namespace P14
+
+/-- The chance of having reached 20 (before 0) within n bets, starting from s units. -/
+def winWithin : ℕ → ℕ → ℚ
+  | 0, s => if s = 20 then 1 else 0
+  | n + 1, s => if s = 0 then 0 else if s = 20 then 1
+      else 49/100 * winWithin n (s + 1) + 51/100 * winWithin n (s - 1)
+
+end P14
+
+theorem p14_gamblers_ruin : Filter.Tendsto (fun n : ℕ => (P14.winWithin n 10 : ℝ)) Filter.atTop
+    (nhds (79792266297612001 / 198834690125225002 : ℝ)) := by
+  have key : ∃ h : ℕ → ℝ,
+      (∀ s, 1 ≤ s → s < 20 → h s = 49/100 * h (s+1) + 51/100 * h (s-1)) ∧
+      h 0 = 0 ∧ h 20 = 1 ∧ (∀ s, s ≤ 20 → 0 ≤ h s ∧ h s ≤ 1) ∧
+      h 10 = (79792266297612001 / 198834690125225002 : ℝ) := by
+    have hD : 0 < ((51/49:ℝ)^20 - 1) := by norm_num
+    refine ⟨fun s => ((51/49:ℝ)^s - 1) / ((51/49:ℝ)^20 - 1), ?_, ?_, ?_, ?_, ?_⟩
+    · intro s hs1 hs2
+      obtain ⟨t, rfl⟩ : ∃ t, s = t + 1 := ⟨s - 1, by omega⟩
+      simp only [Nat.add_sub_cancel]
+      rw [← mul_div_assoc, ← mul_div_assoc, ← add_div]
+      congr 1
+      ring
+    · simp
+    · exact div_self hD.ne'
+    · intro s hs
+      constructor
+      · exact div_nonneg (sub_nonneg.2 (one_le_pow₀ (by norm_num))) hD.le
+      · refine (div_le_one hD).2 ?_
+        have := pow_le_pow_right₀ (by norm_num : (1:ℝ) ≤ 51/49) hs
+        linarith
+    · show ((51/49:ℝ)^10 - 1) / ((51/49:ℝ)^20 - 1) = _
+      norm_num
+  obtain ⟨h, h1, h0, h20, hb, h10⟩ := key
+  have e : ∀ n s, P14.winWithin (n+1) s = if s = 0 then 0 else if s = 20 then 1
+      else 49/100 * P14.winWithin n (s + 1) + 51/100 * P14.winWithin n (s - 1) := by
+    intro n s
+    simp only [P14.winWithin]
+  have e0 : ∀ s, P14.winWithin 0 s = if s = 20 then 1 else 0 := by
+    intro s
+    simp only [P14.winWithin]
+  have bound : ∀ n : ℕ, ∀ s : ℕ, s ≤ 20 →
+      |h s - (P14.winWithin n s : ℝ)| ≤ (621/625:ℝ)^n * ((s:ℝ) * (20 - (s:ℝ))) / 19 := by
+    intro n
+    induction n with
+    | zero =>
+      intro s hs
+      rw [e0]
+      by_cases h20' : s = 20
+      · subst h20'
+        simp [h20]
+      · rw [if_neg h20']
+        by_cases h0' : s = 0
+        · subst h0'
+          simp [h0]
+        · have hbs := hb s hs
+          have hs1 : 1 ≤ s := by omega
+          have hs19 : s ≤ 19 := by omega
+          have hs1' : (1:ℝ) ≤ s := by exact_mod_cast hs1
+          have hs2' : (s:ℝ) ≤ 19 := by exact_mod_cast hs19
+          simp only [pow_zero, Rat.cast_zero, sub_zero]
+          rw [abs_of_nonneg hbs.1]
+          nlinarith [hbs.2, mul_nonneg (sub_nonneg.2 hs1') (sub_nonneg.2 hs2')]
+    | succ n ih =>
+      intro s hs
+      by_cases h0 : s = 0
+      · subst h0
+        rw [e]
+        norm_num [h0]
+      · by_cases h20' : s = 20
+        · subst h20'
+          rw [e]
+          norm_num [h20]
+        · have hs1 : 1 ≤ s := by omega
+          have hs2 : s < 20 := by omega
+          rw [e, if_neg h0, if_neg h20']
+          have hh := h1 s hs1 hs2
+          have i1 := ih (s+1) (by omega)
+          have i2 := ih (s-1) (by omega)
+          have c : ((s-1:ℕ):ℝ) = (s:ℝ) - 1 := by
+            rw [Nat.cast_sub hs1]; simp
+          rw [c] at i2
+          push_cast at i1 ⊢
+          have q : 49/100 * (((s:ℝ)+1) * (20 - ((s:ℝ)+1)))
+              + 51/100 * (((s:ℝ)-1) * (20 - ((s:ℝ)-1)))
+              ≤ 621/625 * ((s:ℝ) * (20 - (s:ℝ))) := by
+            nlinarith [sq_nonneg ((s:ℝ) - 13)]
+          have hP : 0 ≤ (621/625:ℝ)^n := by positivity
+          have q2 := mul_le_mul_of_nonneg_left q hP
+          obtain ⟨i1a, i1b⟩ := abs_le.1 i1
+          obtain ⟨i2a, i2b⟩ := abs_le.1 i2
+          have hp : (621/625:ℝ)^(n+1) = (621/625:ℝ)^n * (621/625) := pow_succ _ _
+          rw [hp, abs_le]
+          constructor <;> linarith
+  have hlim : Filter.Tendsto (fun n : ℕ => (621/625:ℝ)^n * (100/19)) Filter.atTop (nhds 0) := by
+    have := (tendsto_pow_atTop_nhds_zero_of_lt_one (by norm_num : (0:ℝ) ≤ 621/625)
+      (by norm_num)).mul_const (100/19)
+    rw [zero_mul] at this
+    exact this
+  rw [← h10, tendsto_iff_norm_sub_tendsto_zero]
+  refine squeeze_zero (fun n => norm_nonneg _) (fun n => ?_) hlim
+  have := bound n 10 (by norm_num)
+  rw [Real.norm_eq_abs, abs_sub_comm]
+  refine this.trans (le_of_eq ?_)
+  push_cast
+  ring
+
+/-- p14 as an equation, so the exact-answer check (which reads X = number) sees the bank fraction. -/
+theorem p14_gamblers_ruin_limit :
+    Filter.limUnder Filter.atTop (fun n : ℕ => (P14.winWithin n 10 : ℝ)) = 79792266297612001 / 198834690125225002 :=
+  p14_gamblers_ruin.limUnder_eq
+
 end CheapLane
