@@ -15,6 +15,8 @@ Then `#print axioms` lists what each headline theorem rests on. check.sh fails u
 
 No problem is held at Guess: every problem with a Lean theorem is restated below.
 p32 has two entries: its headline equation (the limit equals 4/7) and the convergence statement it comes from.
+Daniel's Root Theorem (LeanProofs/Root.lean, not an answer-bank problem) is restated last, so all 36 headline
+statements in the project are bound to their theorems here.
 -/
 
 /-! ## LeanProofs/Bank.lean -/
@@ -234,6 +236,16 @@ example :
 
 end TowerBatch
 
+/-! ## LeanProofs/Root.lean: Daniel's Root Theorem (not an answer-bank problem) -/
+section Root
+
+-- DanielRootTheorem (Root.lean)
+example (c n : ℕ) :
+    (1 ≤ n → c ≤ n * c) ∧ (2 ≤ n → 0 < c → c < n * c) :=
+  DanielRootTheorem c n
+
+end Root
+
 /-! ## Axioms each headline theorem rests on -/
 #print axioms p01_dice_sum_seven
 #print axioms p02_coin_streaks
@@ -270,3 +282,4 @@ end TowerBatch
 #print axioms TowerBatch.p69_trap_twenty_dice_low_tail
 #print axioms TowerBatch.p69_trap_two_records_in_row
 #print axioms CheapLane.p32_markov_token_absorption
+#print axioms DanielRootTheorem

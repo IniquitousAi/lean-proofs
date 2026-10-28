@@ -32,7 +32,7 @@ the end.
 | Proven | 34 |
 | Proven, from the bank's 100 | 31 |
 | Proven, engine problems beyond the bank | 3 |
-| Headline statements restated in `VerifyAll.lean` (p32 has two: its equation, the limit equals 4/7, and the convergence statement it comes from) | 35 |
+| Headline statements restated in `VerifyAll.lean`: 35 for the 34 Proven problems (p32 has two: its equation, the limit equals 4/7, and the convergence statement it comes from), plus Daniel's Root Theorem | 36 |
 | Pass Lean but held at Guess | 0 |
 | Bank problems with no Lean proof yet | 69 |
 | `sorry`, `admit`, `axiom`, `unsafe`, `extern`, `implemented_by`, `native_decide` in `LeanProofs/` (comments removed) | 0 |
@@ -252,7 +252,8 @@ wall-clock lines) with the commit hash.
 ## Files
 
 - `LeanProofs/Bank.lean`, `Walks.lean`, `Cheap.lean`, `Tower.lean`: the proofs. `LeanProofs/Root.lean`: Daniel's Root
-  Theorem (`DANIELS-ROOT-THEOREM.md`), not an answer-bank problem.
+  Theorem (`DANIELS-ROOT-THEOREM.md`), not an answer-bank problem; its headline `DanielRootTheorem` is restated in
+  `VerifyAll.lean` too (Proven: axioms `propext`, `Quot.sound` only; replayed by `leanchecker`).
 - `VerifyAll.lean`: the headline statements restated, plus `#print axioms`.
 - `check.sh`, `scripts/audit_source.sh`: the one-command check. `AUDIT.log`: its last full output.
 - `flagship_playground.lean`, `FLAGSHIP_URL.txt`: the flagship proof as one file, and its browser link.
