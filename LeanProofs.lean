@@ -9,3 +9,4 @@ import LeanProofs.Series
 import LeanProofs.CalculusLog
 import LeanProofs.Waiting
 import LeanProofs.Roots
+import LeanProofs.Basel
