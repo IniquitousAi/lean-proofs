@@ -1,0 +1,11 @@
+{
+  "name": "lean-proofs (Lean 4.35.0 + Mathlib)",
+  "image": "mcr.microsoft.com/devcontainers/base:ubuntu",
+  "hostRequirements": { "cpus": 4, "memory": "16gb", "storage": "32gb" },
+  "onCreateCommand": "curl -sSfL https://raw.githubusercontent.com/leanprover/elan/master/elan-init.sh -o /tmp/elan-init.sh && bash /tmp/elan-init.sh -y --default-toolchain none && $HOME/.elan/bin/lake exe cache get",
+  "remoteEnv": { "PATH": "${containerEnv:PATH}:/home/vscode/.elan/bin" },
+  "customizations": {
+    "vscode": { "extensions": ["leanprover.lean4"] }
+  },
+  "postAttachCommand": "echo 'Run ./check.sh to verify everything (about the time in AUDIT.log, more on a cold machine).'"
+}
