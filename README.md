@@ -166,16 +166,16 @@ problem's own cases. "Starts from" is read from `#print axioms` (Measured: `runs
 | p43 | Shuffle: some originally neighbouring pair stays together in order: `2160343/3628800` | [`CheapLane.p43_shuffle_kept_neighbours`](LeanProofs/Cheap.lean#L806) | Lean's logic + the standard 3 | Proven |
 | p44 | Cards: a 13-card hand with no spades but every other suit present: `8091223647/635013559600` | [`CheapLane.p44_bridge_hand_no_spades`](LeanProofs/Cheap.lean#L303) | Lean's logic + the standard 3 | Proven |
 | p45 | Cards: all four aces appear before any king in a shuffled deck: `1/70` | [`CheapLane.p45_aces_before_kings`](LeanProofs/Cheap.lean#L27) | Lean's logic + the standard 3 | Proven |
-| p48 | At least 3 successes in 12 trials, each a success with chance 1/3 (engine problem, not in the bank's 100): `435185/531441` | [`TowerBatch.p48_third_success_by_twelve`](LeanProofs/Tower.lean#L992) | Lean's logic + the standard 3 | Proven |
+| p48 | At least 3 successes in 12 trials, each a success with chance 1/3: `435185/531441` | [`TowerBatch.p48_third_success_by_twelve`](LeanProofs/Tower.lean#L992) | Lean's logic + the standard 3 | Proven |
 | p49 | Polya urn: exactly three reds in five draws: `4/21` | [`CheapLane.p49_polya_three_reds`](LeanProofs/Cheap.lean#L110) | Lean's logic + the standard 3 | Proven |
 | p52 | Random walk: never below the start and back at it after 12 steps: `33/1024` | [`p52_random_walk_never_negative`](LeanProofs/Walks.lean#L272) | Lean's logic + the standard 3 | Proven |
 | p53 | Birthdays: expected number of same-birthday pairs among 28 people: `378/365 pairs` | [`CheapLane.p53_birthday_expected_pairs`](LeanProofs/Cheap.lean#L937) | Lean's logic + the standard 3 | Proven |
 | p56 | Trap: expected value of a wide lognormal payout: `exp(2)` | [`WaitingLane.p56_lognormal_mean`](LeanProofs/Lognormal.lean#L15) | Lean's logic + the standard 3 | Proven |
 | p63 | Trap: two numbers up to 1,000 share no common factor: `608383/1000000` | [`CheapLane.p63_trap_coprime_pair_finite`](LeanProofs/Cheap.lean#L197) | Lean's logic + the standard 3 | Proven |
-| p65 | A 13-card hand from a shuffled deck holds all four aces and all four kings (engine problem, not in the bank's 100): `11/6431950` | [`TowerBatch.p65_trap_bridge_aces_kings`](LeanProofs/Tower.lean#L1003) | Lean's logic + the standard 3 | Proven |
+| p65 | A 13-card hand from a shuffled deck holds all four aces and all four kings: `11/6431950` | [`TowerBatch.p65_trap_bridge_aces_kings`](LeanProofs/Tower.lean#L1003) | Lean's logic + the standard 3 | Proven |
 | p65 | Trap: chance of disease after a positive 99%-sensitive test: `11/122` | [`TowerBatch.p65_trap_medical_test_positive`](LeanProofs/Tower.lean#L1051) | Lean's logic + the standard 3 | Proven |
 | p68 | Trap: all five backup units fail, with a rare common shock: `10000000999/10000000000000` | [`TowerBatch.p68_trap_common_shock_failure`](LeanProofs/Tower.lean#L1059) | Lean's logic + the standard 3 | Proven |
-| p69 | Twenty fair dice total 30 or less (engine problem, not in the bank's 100): `9944165/1218719480020992` | [`TowerBatch.p69_trap_twenty_dice_low_tail`](LeanProofs/Tower.lean#L1077) | Lean's logic + the standard 3 | Proven |
+| p69 | Twenty fair dice total 30 or less: `9944165/1218719480020992` | [`TowerBatch.p69_trap_twenty_dice_low_tail`](LeanProofs/Tower.lean#L1077) | Lean's logic + the standard 3 | Proven |
 | p69 | Trap: days 100 and 101 are both rainfall records: `1/10100` | [`TowerBatch.p69_trap_two_records_in_row`](LeanProofs/Tower.lean#L1089) | Lean's logic + the standard 3 | Proven |
 | p83 | Floating block: submerged depth of a wooden block: `3/10 m` | [`PhysicsLane.p83_floating_block_depth`](LeanProofs/Physics.lean#L29) | Lean's logic + the standard 3 | Proven |
 | p88 | Elastic collision: speed of the 2 kg cart after a head-on hit: `1 m/s` | [`PhysicsLane.p88_elastic_two_kg_cart`](LeanProofs/Physics.lean#L16) | Lean's logic + the standard 3 | Proven |
