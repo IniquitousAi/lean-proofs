@@ -1,0 +1,10 @@
+{
+  "title": "HHH lean-proofs: exact answers to small probability and counting problems, checked by Lean 4",
+  "description": "Lean 4 theorems from Humanities Helping Hands (humanitieshelpinghands.com). Each one states, about a problem's own objects (every roll, hand, walk or shuffle), that a count or a chance equals one exact number, and Lean's kernel checks the proof with Mathlib. The repository has no sorry. One command, ./check.sh, re-checks everything from scratch. It also holds a small Lean file showing that checking a proposed SAT answer is fast (P vs NP, piece 1); this is a known fact and does not prove or claim anything about P vs NP itself.",
+  "creators": [{"name": "Steadham, Daniel"}],
+  "upload_type": "software",
+  "license": "Apache-2.0",
+  "access_right": "open",
+  "keywords": ["Lean 4", "Mathlib", "formal verification", "probability", "combinatorics", "SAT", "certificate checking"],
+  "related_identifiers": [{"identifier": "https://humanitieshelpinghands.com", "relation": "isSupplementTo", "resource_type": "other"}]
+}
