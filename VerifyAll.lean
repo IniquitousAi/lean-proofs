@@ -246,6 +246,17 @@ example (c n : ℕ) :
 
 end Root
 
+/-! ## LeanProofs/Founder.lean: Daniel's Founder's Claim (not an answer-bank problem) -/
+section Founder
+
+-- DanielFounderClaim (Founder.lean)
+example (facts cost : ℕ → ℝ) :
+    ((∀ n, cost (n + 1) - cost n ≤ facts (n + 1) - facts n) → Monotone (fun n => facts n - cost n)) ∧
+    ((∀ n, cost (n + 1) - cost n < facts (n + 1) - facts n) → StrictMono (fun n => facts n - cost n)) :=
+  DanielFounderClaim facts cost
+
+end Founder
+
 /-! ## LeanProofs/Calculus.lean: the calculus lane (ORD-1028-BQ) -/
 namespace CalculusLane
 open Real intervalIntegral
@@ -393,3 +404,4 @@ end PhysicsLane
 #print axioms PhysicsLane.p83_floating_block_depth
 #print axioms CalculusLane.p98_oscillator
 #print axioms CalculusLane.p97_logistic
+#print axioms DanielFounderClaim
