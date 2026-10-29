@@ -14,3 +14,4 @@ import LeanProofs.Lognormal
 import LeanProofs.Physics
 import LeanProofs.Oscillator
 import LeanProofs.Logistic
+import LeanProofs.Stamp
