@@ -26,6 +26,12 @@ theorem fact_1b582937ca : ((147 : ℚ) / 2) ≤ ((165 : ℚ) - (32 : ℚ)) * (5 
 theorem fact_34bb651c45 : (2 : ℚ) ^ 31 - (1 : ℚ) = (2147483647 : ℚ) := by
   norm_num
 
+set_option maxRecDepth 100000 in
+set_option maxHeartbeats 4000000 in
+/-- c3: `2^31 - 1 is prime` -/
+theorem fact_b5d080bd5b : Nat.Prime (2^31 - 1 : ℕ) := by
+  norm_num
+
 /-- c4: `31 is prime` -/
 theorem fact_312af59383 : Nat.Prime (31 : ℕ) := by
   norm_num
@@ -41,6 +47,13 @@ theorem fact_3a8141b546 : (23 : ℚ) * (89 : ℚ) = (2047 : ℚ) := by
 /-- c7: `2047 is not prime` -/
 theorem fact_80343816ea : ¬ Nat.Prime (2047 : ℕ) := by
   norm_num
+
+/-- c8: `2147483647^(1/2) ~= 46341` -/
+theorem fact_d67c9c2c3d : 92681/2 ≤ Real.sqrt 2147483647 ∧ Real.sqrt 2147483647 ≤ 92683/2 := by
+  constructor
+  · exact Real.le_sqrt_of_sq_le (by norm_num)
+  · have h := Real.sqrt_le_sqrt (show (2147483647:ℝ) ≤ (92683/2)^2 by norm_num)
+    rwa [Real.sqrt_sq (by norm_num)] at h
 
 /-- c9: `2.7 / 0.2365882365 ~= 11` -/
 theorem fact_43bbfa7405 : ((21 : ℚ) / 2) ≤ ((27 : ℚ) / 10) / ((473176473 : ℚ) / 2000000000) ∧ ((27 : ℚ) / 10) / ((473176473 : ℚ) / 2000000000) ≤ ((23 : ℚ) / 2) := by
@@ -193,6 +206,13 @@ theorem fact_b22544441d : (2 : ℚ) / (3 : ℚ) - (1 : ℚ) / (3 : ℚ) - (1 : �
 /-- c46: `c * year = 9460730472580800` -/
 theorem fact_06569616c2 : (299792458 : ℚ) * (31557600 : ℚ) = (9460730472580800 : ℚ) := by
   norm_num
+
+/-- c47: `au * 648000 / pi / lightyear ~= 3.26` -/
+theorem fact_792b18acab : 651/200 ≤ (149597870700:ℝ) * 648000 / Real.pi / 9460730472580800 ∧ (149597870700:ℝ) * 648000 / Real.pi / 9460730472580800 ≤ 653/200 := by
+  have hp := Real.pi_pos; have h1 := Real.pi_gt_d4; have h2 := Real.pi_lt_d4
+  constructor
+  · rw [le_div_iff₀ (by norm_num), le_div_iff₀ hp]; nlinarith
+  · rw [div_le_iff₀ (by norm_num), div_le_iff₀ hp]; nlinarith
 
 /-- c48: `au / c ~= 499` -/
 theorem fact_11d8614ede : ((997 : ℚ) / 2) ≤ (149597870700 : ℚ) / (299792458 : ℚ) ∧ (149597870700 : ℚ) / (299792458 : ℚ) ≤ ((999 : ℚ) / 2) := by
