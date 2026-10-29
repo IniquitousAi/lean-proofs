@@ -43,7 +43,7 @@ echo "== toolchain: $(cat lean-toolchain)"
 echo "== mathlib (lake-manifest.json): $(grep -B6 '"name": "mathlib"' lake-manifest.json | grep '"rev"' | tr -d ' ,')"
 echo "== lean: $(lake env lean --version)"
 
-step "1/5 lake exe cache get"
+step "1/6 lake exe cache get"
 # Skipped when the last fetch succeeded for this exact manifest and toolchain and Mathlib's build folder is still there
 # (it took 188 s on 2026-10-28 with nothing to fetch). Delete .lake/cache-stamp to force a fetch.
 want=$(cat lake-manifest.json lean-toolchain | git hash-object --stdin)
@@ -54,14 +54,14 @@ else
   echo "$want" > .lake/cache-stamp
 fi
 
-step "2/5 source and text audit"
+step "2/6 source and text audit"
 bash scripts/audit_source.sh
 bash scripts/test_name.sh
 
-step "3/5 lake build"
+step "3/6 lake build"
 lake build
 
-step "4/5 lake env lean VerifyAll.lean"
+step "4/6 lake env lean VerifyAll.lean"
 out=$(lake env lean VerifyAll.lean 2>&1)
 echo "$out"
 flat=$(echo "$out" | tr '\n' ' ' | tr -s ' ')
@@ -75,7 +75,7 @@ problems=$(grep -oE '^-- p[0-9]+_[A-Za-z0-9_]+' VerifyAll.lean | sort -u | grep 
 echo "VerifyAll: $problems Proven problems; $expected headline statements restated; $got axiom reports; axioms outside propext, Quot.sound, Classical.choice: ${bad:-none}"
 if [ "$got" -ne "$expected" ] || [ -n "$bad" ]; then echo "VerifyAll: FAIL"; exit 1; fi
 
-step "5/5 leanchecker: kernel replay of the LeanProofs modules"
+step "5/6 leanchecker: kernel replay of the LeanProofs modules"
 # One module at a time (all at once peaked above 14 GB of memory), named from the source files so a stale .olean
 # left in .lake/build by a deleted file is not mistaken for part of the project. LeanProofs.lean itself only imports.
 mods=()
@@ -88,3 +88,20 @@ for m in "${mods[@]}"; do
   echo "leanchecker: $m replayed with no error ($(( $(date +%s) - t0 )) s)"
 done
 echo "leanchecker: all ${#mods[@]} LeanProofs modules (${mods[*]}) replayed through the kernel with no error"
+
+step "6/6 nanoda: a second, independent kernel (Rust) checks every headline theorem"
+# A proof stays Proven only when both kernels accept it: Lean's own (step 5) and nanoda, written separately in Rust
+# (github.com/ammkrn/nanoda_lib), reading what lean4export writes. Only the headline theorems and everything they rest on are
+# exported (a whole-Mathlib export is huge). Tools: ../external/nanoda_lib (cargo build --release) and ../external/lean4export
+# (tag v4.35.0, lake build); the GitHub Action builds both the same way. A planted change to a proven number is refused (vibe-lab tests/test_nanoda_planted.py).
+NANODA=../external/nanoda_lib/target/release/nanoda_bin; [ -x "$NANODA.exe" ] && NANODA=$NANODA.exe   # (pinned: nanoda d0a02cc)
+EXPORT=../external/lean4export/.lake/build/bin/lean4export; [ -x "$EXPORT.exe" ] && EXPORT=$EXPORT.exe
+[ -x "$NANODA" ] && [ -x "$EXPORT" ] || { echo "nanoda: not installed (see the comment above step 6)"; exit 1; }
+names=$(grep '^#print axioms' VerifyAll.lean | awk '{print $3}' | tr '\n' ' ')
+mkdir -p .lake/nanoda
+t0=$(date +%s)
+lake env "$EXPORT" LeanProofs -- $names HHHStampRule > .lake/nanoda/headlines.ndjson
+nout=$("$NANODA" scripts/nanoda.json < .lake/nanoda/headlines.ndjson 2>&1); ns=$?
+echo "$nout" | head -3
+if [ $ns -ne 0 ] || ! echo "$nout" | grep -q 'with no typechecker errors'; then echo "nanoda: FAIL (exit $ns)"; exit 1; fi
+echo "nanoda: $(echo $names | wc -w) headline theorems and the stamp rule re-checked by a second kernel with no error ($(( $(date +%s) - t0 )) s)"

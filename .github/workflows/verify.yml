@@ -34,6 +34,14 @@ jobs:
           restore-keys: |
             lean-${{ runner.os }}-${{ hashFiles('lean-toolchain', 'lake-manifest.json') }}-
 
+      - name: Build the second kernel (nanoda, Rust) and the exporter it reads (lean4export v4.35.0), pinned
+        run: |
+          mkdir -p ../external && cd ../external
+          git clone -q https://github.com/ammkrn/nanoda_lib.git && git -C nanoda_lib checkout -q d0a02cc
+          git clone -q --branch v4.35.0 --depth 1 https://github.com/leanprover/lean4export.git
+          (cd nanoda_lib && cargo build --release -q)
+          (cd lean4export && lake build)
+
       - name: ./check.sh
         run: ./check.sh
 
