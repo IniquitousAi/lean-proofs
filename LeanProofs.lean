@@ -16,3 +16,4 @@ import LeanProofs.Physics
 import LeanProofs.Oscillator
 import LeanProofs.Logistic
 import LeanProofs.Stamp
+import LeanProofs.PvsNP

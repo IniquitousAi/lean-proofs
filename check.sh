@@ -84,12 +84,26 @@ for f in LeanProofs/*.lean; do m="${f%.lean}"; mods+=("${m//\//.}"); done
 #  under 5 minutes and was stopped; 4.35 starts one task per module at once and has no worker flag. The loop stays.
 #  2026-10-29 04:5x: a group of only 5 small modules in one call also reached 90% and was stopped by safe_run, with the PC at
 #  about 56% before Lean started: each module still loads its own Mathlib. Grouping does not fit on this PC.)
+# (2026-10-29, ORD-1029-HUNT2: replay took 77% of the 31 minutes. A module whose compiled file is byte for byte the one that
+#  already passed this replay, on the same toolchain and Mathlib, and whose LeanProofs imports are also unchanged, is skipped
+#  with its stamp printed: the same trust as step 1's cache skip, since the kernel replays exactly those bytes. FULL=1 replays
+#  every module; a fresh checkout (the GitHub Action, any outside reader) has no stamps, so it always replays all of them.)
+mkdir -p .lake/replay-stamps
+base=$(cat lake-manifest.json lean-toolchain | git hash-object --stdin)
+olean() { echo ".lake/build/lib/lean/${1//.//}.olean"; }
 for m in "${mods[@]}"; do
   t0=$(date +%s)
+  deps=$( (grep -oE '^import LeanProofs\.[A-Za-z0-9_.]+' "${m//.//}.lean" || true) | sed 's/^import //' | sort)   # (no match is fine: set -e)
+  key=$( { echo "$base"; for d in $m $deps; do git hash-object "$(olean "$d")"; done; } | git hash-object --stdin)
+  if [ "${FULL:-0}" != 1 ] && [ "$(cat ".lake/replay-stamps/$m" 2>/dev/null)" = "$key" ]; then
+    echo "leanchecker: $m skipped: same .olean, imports and toolchain as its last kernel pass (stamp $key)"
+    continue
+  fi
   lake env leanchecker -v "$m"
+  echo "$key" > ".lake/replay-stamps/$m"
   echo "leanchecker: $m replayed with no error ($(( $(date +%s) - t0 )) s)"
 done
-echo "leanchecker: all ${#mods[@]} LeanProofs modules (${mods[*]}) replayed through the kernel with no error"
+echo "leanchecker: all ${#mods[@]} LeanProofs modules (${mods[*]}) replayed through the kernel with no error, now or at their stamped pass"
 
 step "6/6 nanoda: a second, independent kernel (Rust) checks every headline theorem"
 # A proof stays Proven only when both kernels accept it: Lean's own (step 5) and nanoda, written separately in Rust
