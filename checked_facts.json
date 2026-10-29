@@ -6,7 +6,7 @@
   "hard": 1
  },
  "built": true,
- "proved": 46,
+ "proved": 49,
  "facts": {
   "(325 - 32) * 5 / 9 ~= 163": {
    "id": "c0",
@@ -50,10 +50,15 @@
   "2^31 - 1 is prime": {
    "id": "c3",
    "tier": "medium",
-   "reason": "a prime check: Mathlib's norm_num prime extension decides Nat.Prime 2147483647 (Lean refused the norm_num proof)",
+   "reason": "a prime check: norm_num decides Nat.Prime 2147483647 with a larger recursion budget",
    "theorem": "Checked.fact_b5d080bd5b",
    "statement": "Nat.Prime (2^31 - 1 : ℕ)",
-   "proved": false
+   "proved": true,
+   "axioms": [
+    "Classical.choice",
+    "Quot.sound",
+    "propext"
+   ]
   },
   "31 is prime": {
    "id": "c4",
@@ -108,10 +113,15 @@
   "2147483647^(1/2) ~= 46341": {
    "id": "c8",
    "tier": "medium",
-   "reason": "a fractional or negative power (a root): needs the bound written by hand",
-   "theorem": null,
-   "statement": null,
-   "proved": false
+   "reason": "a square root: both bounds written as squares by hand",
+   "theorem": "Checked.fact_d67c9c2c3d",
+   "statement": "92681/2 ≤ Real.sqrt 2147483647 ∧ Real.sqrt 2147483647 ≤ 92683/2",
+   "proved": true,
+   "axioms": [
+    "Classical.choice",
+    "Quot.sound",
+    "propext"
+   ]
   },
   "2.7 / 0.2365882365 ~= 11": {
    "id": "c9",
@@ -610,10 +620,15 @@
   "au * 648000 / pi / lightyear ~= 3.26": {
    "id": "c47",
    "tier": "hard",
-   "reason": "needs bounds on pi (Mathlib has them, but each statement must be hand-fitted)",
-   "theorem": null,
-   "statement": null,
-   "proved": false
+   "reason": "pi's bounds from Mathlib (3.1415 < pi < 3.1416), hand-fitted to this statement",
+   "theorem": "Checked.fact_792b18acab",
+   "statement": "651/200 ≤ (149597870700:ℝ) * 648000 / Real.pi / 9460730472580800 ∧ (149597870700:ℝ) * 648000 / Real.pi / 9460730472580800 ≤ 653/200",
+   "proved": true,
+   "axioms": [
+    "Classical.choice",
+    "Quot.sound",
+    "propext"
+   ]
   },
   "au / c ~= 499": {
    "id": "c48",
