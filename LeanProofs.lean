@@ -17,3 +17,4 @@ import LeanProofs.Oscillator
 import LeanProofs.Logistic
 import LeanProofs.Stamp
 import LeanProofs.PvsNP
+import LeanProofs.Checked

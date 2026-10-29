@@ -1,0 +1,632 @@
+{
+ "made_by": "vibe-lab/tools/lean_upgrade.py",
+ "tiers": {
+  "easy": 44,
+  "medium": 4,
+  "hard": 1
+ },
+ "built": true,
+ "proved": 46,
+ "facts": {
+  "(325 - 32) * 5 / 9 ~= 163": {
+   "id": "c0",
+   "tier": "easy",
+   "reason": "a rounding over exact fractions: norm_num checks both bounds",
+   "theorem": "Checked.fact_93037ba0b0",
+   "statement": "((325 : ℚ) / 2) ≤ ((325 : ℚ) - (32 : ℚ)) * (5 : ℚ) / (9 : ℚ) ∧ ((325 : ℚ) - (32 : ℚ)) * (5 : ℚ) / (9 : ℚ) ≤ ((327 : ℚ) / 2)",
+   "proved": true,
+   "axioms": [
+    "Classical.choice",
+    "Quot.sound",
+    "propext"
+   ]
+  },
+  "(165 - 32) * 5 / 9 ~= 74": {
+   "id": "c1",
+   "tier": "easy",
+   "reason": "a rounding over exact fractions: norm_num checks both bounds",
+   "theorem": "Checked.fact_1b582937ca",
+   "statement": "((147 : ℚ) / 2) ≤ ((165 : ℚ) - (32 : ℚ)) * (5 : ℚ) / (9 : ℚ) ∧ ((165 : ℚ) - (32 : ℚ)) * (5 : ℚ) / (9 : ℚ) ≤ ((149 : ℚ) / 2)",
+   "proved": true,
+   "axioms": [
+    "Classical.choice",
+    "Quot.sound",
+    "propext"
+   ]
+  },
+  "2^31 - 1 = 2147483647": {
+   "id": "c2",
+   "tier": "easy",
+   "reason": "exact arithmetic over fractions: norm_num decides it",
+   "theorem": "Checked.fact_34bb651c45",
+   "statement": "(2 : ℚ) ^ 31 - (1 : ℚ) = (2147483647 : ℚ)",
+   "proved": true,
+   "axioms": [
+    "Classical.choice",
+    "Quot.sound",
+    "propext"
+   ]
+  },
+  "2^31 - 1 is prime": {
+   "id": "c3",
+   "tier": "medium",
+   "reason": "a prime check: Mathlib's norm_num prime extension decides Nat.Prime 2147483647 (Lean refused the norm_num proof)",
+   "theorem": "Checked.fact_b5d080bd5b",
+   "statement": "Nat.Prime (2^31 - 1 : ℕ)",
+   "proved": false
+  },
+  "31 is prime": {
+   "id": "c4",
+   "tier": "medium",
+   "reason": "a prime check: Mathlib's norm_num prime extension decides Nat.Prime 31",
+   "theorem": "Checked.fact_312af59383",
+   "statement": "Nat.Prime (31 : ℕ)",
+   "proved": true,
+   "axioms": [
+    "Classical.choice",
+    "Quot.sound",
+    "propext"
+   ]
+  },
+  "2^11 - 1 = 2047": {
+   "id": "c5",
+   "tier": "easy",
+   "reason": "exact arithmetic over fractions: norm_num decides it",
+   "theorem": "Checked.fact_c644418975",
+   "statement": "(2 : ℚ) ^ 11 - (1 : ℚ) = (2047 : ℚ)",
+   "proved": true,
+   "axioms": [
+    "Classical.choice",
+    "Quot.sound",
+    "propext"
+   ]
+  },
+  "23 * 89 = 2047": {
+   "id": "c6",
+   "tier": "easy",
+   "reason": "exact arithmetic over fractions: norm_num decides it",
+   "theorem": "Checked.fact_3a8141b546",
+   "statement": "(23 : ℚ) * (89 : ℚ) = (2047 : ℚ)",
+   "proved": true,
+   "axioms": [
+    "Classical.choice",
+    "Quot.sound",
+    "propext"
+   ]
+  },
+  "2047 is not prime": {
+   "id": "c7",
+   "tier": "medium",
+   "reason": "a prime check: Mathlib's norm_num prime extension decides Nat.Prime 2047",
+   "theorem": "Checked.fact_80343816ea",
+   "statement": "¬ Nat.Prime (2047 : ℕ)",
+   "proved": true,
+   "axioms": [
+    "propext"
+   ]
+  },
+  "2147483647^(1/2) ~= 46341": {
+   "id": "c8",
+   "tier": "medium",
+   "reason": "a fractional or negative power (a root): needs the bound written by hand",
+   "theorem": null,
+   "statement": null,
+   "proved": false
+  },
+  "2.7 / 0.2365882365 ~= 11": {
+   "id": "c9",
+   "tier": "easy",
+   "reason": "a rounding over exact fractions: norm_num checks both bounds",
+   "theorem": "Checked.fact_43bbfa7405",
+   "statement": "((21 : ℚ) / 2) ≤ ((27 : ℚ) / 10) / ((473176473 : ℚ) / 2000000000) ∧ ((27 : ℚ) / 10) / ((473176473 : ℚ) / 2000000000) ≤ ((23 : ℚ) / 2)",
+   "proved": true,
+   "axioms": [
+    "Classical.choice",
+    "Quot.sound",
+    "propext"
+   ]
+  },
+  "10000 * 1.07^10 ~= 19671.51": {
+   "id": "c10",
+   "tier": "easy",
+   "reason": "a rounding over exact fractions: norm_num checks both bounds",
+   "theorem": "Checked.fact_63ff73722c",
+   "statement": "((3934301 : ℚ) / 200) ≤ (10000 : ℚ) * ((107 : ℚ) / 100) ^ 10 ∧ (10000 : ℚ) * ((107 : ℚ) / 100) ^ 10 ≤ ((3934303 : ℚ) / 200)",
+   "proved": true,
+   "axioms": [
+    "Classical.choice",
+    "Quot.sound",
+    "propext"
+   ]
+  },
+  "19671.51 - 10000 ~= 9672": {
+   "id": "c11",
+   "tier": "easy",
+   "reason": "a rounding over exact fractions: norm_num checks both bounds",
+   "theorem": "Checked.fact_9e39028ab6",
+   "statement": "((19343 : ℚ) / 2) ≤ ((1967151 : ℚ) / 100) - (10000 : ℚ) ∧ ((1967151 : ℚ) / 100) - (10000 : ℚ) ≤ ((19345 : ℚ) / 2)",
+   "proved": true,
+   "axioms": [
+    "Classical.choice",
+    "Quot.sound",
+    "propext"
+   ]
+  },
+  "10000 * (1 + 0.07 / 12)^120 ~= 20097": {
+   "id": "c12",
+   "tier": "easy",
+   "reason": "a rounding over exact fractions: norm_num checks both bounds",
+   "theorem": "Checked.fact_fcdb5f37fe",
+   "statement": "((40193 : ℚ) / 2) ≤ (10000 : ℚ) * ((1 : ℚ) + ((7 : ℚ) / 100) / (12 : ℚ)) ^ 120 ∧ (10000 : ℚ) * ((1 : ℚ) + ((7 : ℚ) / 100) / (12 : ℚ)) ^ 120 ≤ ((40195 : ℚ) / 2)",
+   "proved": true,
+   "axioms": [
+    "Classical.choice",
+    "Quot.sound",
+    "propext"
+   ]
+  },
+  "c / 1000 ~= 300000": {
+   "id": "c13",
+   "tier": "easy",
+   "reason": "a rounding over exact fractions: norm_num checks both bounds",
+   "theorem": "Checked.fact_97722815d6",
+   "statement": "(250000 : ℚ) ≤ (299792458 : ℚ) / (1000 : ℚ) ∧ (299792458 : ℚ) / (1000 : ℚ) ≤ (350000 : ℚ)",
+   "proved": true,
+   "axioms": [
+    "Classical.choice",
+    "Quot.sound",
+    "propext"
+   ]
+  },
+  "c / mile ~= 186282": {
+   "id": "c14",
+   "tier": "easy",
+   "reason": "a rounding over exact fractions: norm_num checks both bounds",
+   "theorem": "Checked.fact_c5f17bbea5",
+   "statement": "((372563 : ℚ) / 2) ≤ (299792458 : ℚ) / ((201168 : ℚ) / 125) ∧ (299792458 : ℚ) / ((201168 : ℚ) / 125) ≤ ((372565 : ℚ) / 2)",
+   "proved": true,
+   "axioms": [
+    "Classical.choice",
+    "Quot.sound",
+    "propext"
+   ]
+  },
+  "384400000 / c ~= 1.3": {
+   "id": "c15",
+   "tier": "easy",
+   "reason": "a rounding over exact fractions: norm_num checks both bounds",
+   "theorem": "Checked.fact_0408b364e3",
+   "statement": "((5 : ℚ) / 4) ≤ (384400000 : ℚ) / (299792458 : ℚ) ∧ (384400000 : ℚ) / (299792458 : ℚ) ≤ ((27 : ℚ) / 20)",
+   "proved": true,
+   "axioms": [
+    "Classical.choice",
+    "Quot.sound",
+    "propext"
+   ]
+  },
+  "2^100 > 10^30": {
+   "id": "c16",
+   "tier": "easy",
+   "reason": "exact arithmetic over fractions: norm_num decides it",
+   "theorem": "Checked.fact_7258aa51ff",
+   "statement": "(2 : ℚ) ^ 100 > (10 : ℚ) ^ 30",
+   "proved": true,
+   "axioms": [
+    "Classical.choice",
+    "Quot.sound",
+    "propext"
+   ]
+  },
+  "2^10 = 1024": {
+   "id": "c17",
+   "tier": "easy",
+   "reason": "exact arithmetic over fractions: norm_num decides it",
+   "theorem": "Checked.fact_1702a99383",
+   "statement": "(2 : ℚ) ^ 10 = (1024 : ℚ)",
+   "proved": true,
+   "axioms": [
+    "Classical.choice",
+    "Quot.sound",
+    "propext"
+   ]
+  },
+  "2^10 > 10^3": {
+   "id": "c18",
+   "tier": "easy",
+   "reason": "exact arithmetic over fractions: norm_num decides it",
+   "theorem": "Checked.fact_9aa214201b",
+   "statement": "(2 : ℚ) ^ 10 > (10 : ℚ) ^ 3",
+   "proved": true,
+   "axioms": [
+    "Classical.choice",
+    "Quot.sound",
+    "propext"
+   ]
+  },
+  "2^100 = (2^10)^10": {
+   "id": "c19",
+   "tier": "easy",
+   "reason": "exact arithmetic over fractions: norm_num decides it",
+   "theorem": "Checked.fact_52bf7960c3",
+   "statement": "(2 : ℚ) ^ 100 = ((2 : ℚ) ^ 10) ^ 10",
+   "proved": true,
+   "axioms": [
+    "Classical.choice",
+    "Quot.sound",
+    "propext"
+   ]
+  },
+  "(2^10)^10 > (10^3)^10": {
+   "id": "c20",
+   "tier": "easy",
+   "reason": "exact arithmetic over fractions: norm_num decides it",
+   "theorem": "Checked.fact_013633654f",
+   "statement": "((2 : ℚ) ^ 10) ^ 10 > ((10 : ℚ) ^ 3) ^ 10",
+   "proved": true,
+   "axioms": [
+    "Classical.choice",
+    "Quot.sound",
+    "propext"
+   ]
+  },
+  "(10^3)^10 = 10^30": {
+   "id": "c21",
+   "tier": "easy",
+   "reason": "exact arithmetic over fractions: norm_num decides it",
+   "theorem": "Checked.fact_9b91ccd4cd",
+   "statement": "((10 : ℚ) ^ 3) ^ 10 = (10 : ℚ) ^ 30",
+   "proved": true,
+   "axioms": [
+    "Classical.choice",
+    "Quot.sound",
+    "propext"
+   ]
+  },
+  "2^100 ~= 1.2677 * 10^30": {
+   "id": "c22",
+   "tier": "easy",
+   "reason": "a rounding over exact fractions: norm_num checks both bounds",
+   "theorem": "Checked.fact_3c5f43f4be",
+   "statement": "(1267650000000000000000000000000 : ℚ) ≤ (2 : ℚ) ^ 100 ∧ (2 : ℚ) ^ 100 ≤ (1267750000000000000000000000000 : ℚ)",
+   "proved": true,
+   "axioms": [
+    "Classical.choice",
+    "Quot.sound",
+    "propext"
+   ]
+  },
+  "(2^100 - 10^30) / 10^30 ~= 0.27": {
+   "id": "c23",
+   "tier": "easy",
+   "reason": "a rounding over exact fractions: norm_num checks both bounds",
+   "theorem": "Checked.fact_3ca05c76a2",
+   "statement": "((53 : ℚ) / 200) ≤ ((2 : ℚ) ^ 100 - (10 : ℚ) ^ 30) / (10 : ℚ) ^ 30 ∧ ((2 : ℚ) ^ 100 - (10 : ℚ) ^ 30) / (10 : ℚ) ^ 30 ≤ ((11 : ℚ) / 40)",
+   "proved": true,
+   "axioms": [
+    "Classical.choice",
+    "Quot.sound",
+    "propext"
+   ]
+  },
+  "8848.86 / 0.3048 ~= 29031.7": {
+   "id": "c24",
+   "tier": "easy",
+   "reason": "a rounding over exact fractions: norm_num checks both bounds",
+   "theorem": "Checked.fact_0513c316ec",
+   "statement": "((580633 : ℚ) / 20) ≤ ((442443 : ℚ) / 50) / ((381 : ℚ) / 1250) ∧ ((442443 : ℚ) / 50) / ((381 : ℚ) / 1250) ≤ ((116127 : ℚ) / 4)",
+   "proved": true,
+   "axioms": [
+    "Classical.choice",
+    "Quot.sound",
+    "propext"
+   ]
+  },
+  "au / 1000 ~= 149600000": {
+   "id": "c25",
+   "tier": "easy",
+   "reason": "a rounding over exact fractions: norm_num checks both bounds",
+   "theorem": "Checked.fact_b29cd928ac",
+   "statement": "(149550000 : ℚ) ≤ (149597870700 : ℚ) / (1000 : ℚ) ∧ (149597870700 : ℚ) / (1000 : ℚ) ≤ (149650000 : ℚ)",
+   "proved": true,
+   "axioms": [
+    "Classical.choice",
+    "Quot.sound",
+    "propext"
+   ]
+  },
+  "au / mile ~= 93000000": {
+   "id": "c26",
+   "tier": "easy",
+   "reason": "a rounding over exact fractions: norm_num checks both bounds",
+   "theorem": "Checked.fact_6558b4c522",
+   "statement": "(92500000 : ℚ) ≤ (149597870700 : ℚ) / ((201168 : ℚ) / 125) ∧ (149597870700 : ℚ) / ((201168 : ℚ) / 125) ≤ (93500000 : ℚ)",
+   "proved": true,
+   "axioms": [
+    "Classical.choice",
+    "Quot.sound",
+    "propext"
+   ]
+  },
+  "(100 * 9 / 5) + 32 = 212": {
+   "id": "c27",
+   "tier": "easy",
+   "reason": "exact arithmetic over fractions: norm_num decides it",
+   "theorem": "Checked.fact_39937949b1",
+   "statement": "((100 : ℚ) * (9 : ℚ) / (5 : ℚ)) + (32 : ℚ) = (212 : ℚ)",
+   "proved": true,
+   "axioms": [
+    "Classical.choice",
+    "Quot.sound",
+    "propext"
+   ]
+  },
+  "65 * 3.5 = 227.5": {
+   "id": "c28",
+   "tier": "easy",
+   "reason": "exact arithmetic over fractions: norm_num decides it",
+   "theorem": "Checked.fact_fadd39bffc",
+   "statement": "(65 : ℚ) * ((7 : ℚ) / 2) = ((455 : ℚ) / 2)",
+   "proved": true,
+   "axioms": [
+    "Classical.choice",
+    "Quot.sound",
+    "propext"
+   ]
+  },
+  "227.5 * 1.609344 ~= 366.1": {
+   "id": "c29",
+   "tier": "easy",
+   "reason": "a rounding over exact fractions: norm_num checks both bounds",
+   "theorem": "Checked.fact_9ca9a0e24b",
+   "statement": "((7321 : ℚ) / 20) ≤ ((455 : ℚ) / 2) * ((25146 : ℚ) / 15625) ∧ ((455 : ℚ) / 2) * ((25146 : ℚ) / 15625) ≤ ((7323 : ℚ) / 20)",
+   "proved": true,
+   "axioms": [
+    "Classical.choice",
+    "Quot.sound",
+    "propext"
+   ]
+  },
+  "86400 = 24 * 60 * 60": {
+   "id": "c30",
+   "tier": "easy",
+   "reason": "exact arithmetic over fractions: norm_num decides it",
+   "theorem": "Checked.fact_075d9c7407",
+   "statement": "(86400 : ℚ) = (24 : ℚ) * (60 : ℚ) * (60 : ℚ)",
+   "proved": true,
+   "axioms": [
+    "Classical.choice",
+    "Quot.sound",
+    "propext"
+   ]
+  },
+  "24 * 60 * 60 = 86400": {
+   "id": "c31",
+   "tier": "easy",
+   "reason": "exact arithmetic over fractions: norm_num decides it",
+   "theorem": "Checked.fact_a56a2971f6",
+   "statement": "(24 : ℚ) * (60 : ℚ) * (60 : ℚ) = (86400 : ℚ)",
+   "proved": true,
+   "axioms": [
+    "Classical.choice",
+    "Quot.sound",
+    "propext"
+   ]
+  },
+  "365 * 86400 = 31536000": {
+   "id": "c32",
+   "tier": "easy",
+   "reason": "exact arithmetic over fractions: norm_num decides it",
+   "theorem": "Checked.fact_1bee5d9801",
+   "statement": "(365 : ℚ) * (86400 : ℚ) = (31536000 : ℚ)",
+   "proved": true,
+   "axioms": [
+    "Classical.choice",
+    "Quot.sound",
+    "propext"
+   ]
+  },
+  "366 * 86400 = 31622400": {
+   "id": "c33",
+   "tier": "easy",
+   "reason": "exact arithmetic over fractions: norm_num decides it",
+   "theorem": "Checked.fact_e552d5a370",
+   "statement": "(366 : ℚ) * (86400 : ℚ) = (31622400 : ℚ)",
+   "proved": true,
+   "axioms": [
+    "Classical.choice",
+    "Quot.sound",
+    "propext"
+   ]
+  },
+  "365.2425 * 86400 ~= 31556952": {
+   "id": "c34",
+   "tier": "easy",
+   "reason": "a rounding over exact fractions: norm_num checks both bounds",
+   "theorem": "Checked.fact_3cc938df76",
+   "statement": "((63113903 : ℚ) / 2) ≤ ((146097 : ℚ) / 400) * (86400 : ℚ) ∧ ((146097 : ℚ) / 400) * (86400 : ℚ) ≤ ((63113905 : ℚ) / 2)",
+   "proved": true,
+   "axioms": [
+    "Classical.choice",
+    "Quot.sound",
+    "propext"
+   ]
+  },
+  "165000000 / 1.609344^2 ~= 64000000": {
+   "id": "c35",
+   "tier": "easy",
+   "reason": "a rounding over exact fractions: norm_num checks both bounds",
+   "theorem": "Checked.fact_0b44015d6d",
+   "statement": "(63500000 : ℚ) ≤ (165000000 : ℚ) / ((25146 : ℚ) / 15625) ^ 2 ∧ (165000000 : ℚ) / ((25146 : ℚ) / 15625) ^ 2 ≤ (64500000 : ℚ)",
+   "proved": true,
+   "axioms": [
+    "Classical.choice",
+    "Quot.sound",
+    "propext"
+   ]
+  },
+  "4000 / 0.3048 ~= 13000": {
+   "id": "c36",
+   "tier": "easy",
+   "reason": "a rounding over exact fractions: norm_num checks both bounds",
+   "theorem": "Checked.fact_7e36616bb7",
+   "statement": "(12500 : ℚ) ≤ (4000 : ℚ) / ((381 : ℚ) / 1250) ∧ (4000 : ℚ) / ((381 : ℚ) / 1250) ≤ (13500 : ℚ)",
+   "proved": true,
+   "axioms": [
+    "Classical.choice",
+    "Quot.sound",
+    "propext"
+   ]
+  },
+  "11000 / 0.3048 ~= 36000": {
+   "id": "c37",
+   "tier": "easy",
+   "reason": "a rounding over exact fractions: norm_num checks both bounds",
+   "theorem": "Checked.fact_287ec5269b",
+   "statement": "(35500 : ℚ) ≤ (11000 : ℚ) / ((381 : ℚ) / 1250) ∧ (11000 : ℚ) / ((381 : ℚ) / 1250) ≤ (36500 : ℚ)",
+   "proved": true,
+   "axioms": [
+    "Classical.choice",
+    "Quot.sound",
+    "propext"
+   ]
+  },
+  "343 * 3.6 ~= 1235": {
+   "id": "c38",
+   "tier": "easy",
+   "reason": "a rounding over exact fractions: norm_num checks both bounds",
+   "theorem": "Checked.fact_5937c69a9b",
+   "statement": "((2469 : ℚ) / 2) ≤ (343 : ℚ) * ((18 : ℚ) / 5) ∧ (343 : ℚ) * ((18 : ℚ) / 5) ≤ ((2471 : ℚ) / 2)",
+   "proved": true,
+   "axioms": [
+    "Classical.choice",
+    "Quot.sound",
+    "propext"
+   ]
+  },
+  "343 * 3600 / 1609.344 ~= 767": {
+   "id": "c39",
+   "tier": "easy",
+   "reason": "a rounding over exact fractions: norm_num checks both bounds",
+   "theorem": "Checked.fact_4ac5ceac02",
+   "statement": "((1533 : ℚ) / 2) ≤ (343 : ℚ) * (3600 : ℚ) / ((201168 : ℚ) / 125) ∧ (343 : ℚ) * (3600 : ℚ) / ((201168 : ℚ) / 125) ≤ ((1535 : ℚ) / 2)",
+   "proved": true,
+   "axioms": [
+    "Classical.choice",
+    "Quot.sound",
+    "propext"
+   ]
+  },
+  "1000 / 343 ~= 3": {
+   "id": "c40",
+   "tier": "easy",
+   "reason": "a rounding over exact fractions: norm_num checks both bounds",
+   "theorem": "Checked.fact_2c327e50ff",
+   "statement": "((5 : ℚ) / 2) ≤ (1000 : ℚ) / (343 : ℚ) ∧ (1000 : ℚ) / (343 : ℚ) ≤ ((7 : ℚ) / 2)",
+   "proved": true,
+   "axioms": [
+    "Classical.choice",
+    "Quot.sound",
+    "propext"
+   ]
+  },
+  "mile / 343 ~= 5": {
+   "id": "c41",
+   "tier": "easy",
+   "reason": "a rounding over exact fractions: norm_num checks both bounds",
+   "theorem": "Checked.fact_c759d2f46a",
+   "statement": "((9 : ℚ) / 2) ≤ ((201168 : ℚ) / 125) / (343 : ℚ) ∧ ((201168 : ℚ) / 125) / (343 : ℚ) ≤ ((11 : ℚ) / 2)",
+   "proved": true,
+   "axioms": [
+    "Classical.choice",
+    "Quot.sound",
+    "propext"
+   ]
+  },
+  "5 * 343 / 1000 ~= 1.7": {
+   "id": "c42",
+   "tier": "easy",
+   "reason": "a rounding over exact fractions: norm_num checks both bounds",
+   "theorem": "Checked.fact_862b60e90c",
+   "statement": "((33 : ℚ) / 20) ≤ (5 : ℚ) * (343 : ℚ) / (1000 : ℚ) ∧ (5 : ℚ) * (343 : ℚ) / (1000 : ℚ) ≤ ((7 : ℚ) / 4)",
+   "proved": true,
+   "axioms": [
+    "Classical.choice",
+    "Quot.sound",
+    "propext"
+   ]
+  },
+  "5 * 343 / mile ~= 1": {
+   "id": "c43",
+   "tier": "easy",
+   "reason": "a rounding over exact fractions: norm_num checks both bounds",
+   "theorem": "Checked.fact_5ed9eab202",
+   "statement": "((1 : ℚ) / 2) ≤ (5 : ℚ) * (343 : ℚ) / ((201168 : ℚ) / 125) ∧ (5 : ℚ) * (343 : ℚ) / ((201168 : ℚ) / 125) ≤ ((3 : ℚ) / 2)",
+   "proved": true,
+   "axioms": [
+    "Classical.choice",
+    "Quot.sound",
+    "propext"
+   ]
+  },
+  "2/3 + 2/3 - 1/3 = 1": {
+   "id": "c44",
+   "tier": "easy",
+   "reason": "exact arithmetic over fractions: norm_num decides it",
+   "theorem": "Checked.fact_85d8aab008",
+   "statement": "(2 : ℚ) / (3 : ℚ) + (2 : ℚ) / (3 : ℚ) - (1 : ℚ) / (3 : ℚ) = (1 : ℚ)",
+   "proved": true,
+   "axioms": [
+    "Classical.choice",
+    "Quot.sound",
+    "propext"
+   ]
+  },
+  "2/3 - 1/3 - 1/3 = 0": {
+   "id": "c45",
+   "tier": "easy",
+   "reason": "exact arithmetic over fractions: norm_num decides it",
+   "theorem": "Checked.fact_b22544441d",
+   "statement": "(2 : ℚ) / (3 : ℚ) - (1 : ℚ) / (3 : ℚ) - (1 : ℚ) / (3 : ℚ) = (0 : ℚ)",
+   "proved": true,
+   "axioms": [
+    "Classical.choice",
+    "Quot.sound",
+    "propext"
+   ]
+  },
+  "c * year = 9460730472580800": {
+   "id": "c46",
+   "tier": "easy",
+   "reason": "exact arithmetic over fractions: norm_num decides it",
+   "theorem": "Checked.fact_06569616c2",
+   "statement": "(299792458 : ℚ) * (31557600 : ℚ) = (9460730472580800 : ℚ)",
+   "proved": true,
+   "axioms": [
+    "Classical.choice",
+    "Quot.sound",
+    "propext"
+   ]
+  },
+  "au * 648000 / pi / lightyear ~= 3.26": {
+   "id": "c47",
+   "tier": "hard",
+   "reason": "needs bounds on pi (Mathlib has them, but each statement must be hand-fitted)",
+   "theorem": null,
+   "statement": null,
+   "proved": false
+  },
+  "au / c ~= 499": {
+   "id": "c48",
+   "tier": "easy",
+   "reason": "a rounding over exact fractions: norm_num checks both bounds",
+   "theorem": "Checked.fact_11d8614ede",
+   "statement": "((997 : ℚ) / 2) ≤ (149597870700 : ℚ) / (299792458 : ℚ) ∧ (149597870700 : ℚ) / (299792458 : ℚ) ≤ ((999 : ℚ) / 2)",
+   "proved": true,
+   "axioms": [
+    "Classical.choice",
+    "Quot.sound",
+    "propext"
+   ]
+  }
+ }
+}
