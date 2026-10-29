@@ -1,0 +1,18 @@
+cff-version: 1.2.0
+message: "If you use this work, please cite it as below."
+title: "HHH lean-proofs: exact answers to small probability and counting problems, checked by Lean 4"
+abstract: "Lean 4 theorems from Humanities Helping Hands. Each states that a count or a chance about a problem's own objects equals one exact number, checked by Lean's kernel with Mathlib. No sorry."
+type: software
+authors:
+  - family-names: Steadham
+    given-names: Daniel
+license: Apache-2.0
+repository-code: "https://github.com/IniquitousAi/lean-proofs"
+url: "https://humanitieshelpinghands.com"
+keywords:
+  - Lean 4
+  - Mathlib
+  - formal verification
+  - probability
+  - combinatorics
+date-released: 2026-10-29
