@@ -91,9 +91,15 @@ for f in LeanProofs/*.lean; do m="${f%.lean}"; mods+=("${m//\//.}"); done
 mkdir -p .lake/replay-stamps
 base=$(cat lake-manifest.json lean-toolchain | git hash-object --stdin)
 olean() { echo ".lake/build/lib/lean/${1//.//}.olean"; }
+imports() { (grep -oE '^import LeanProofs\.[A-Za-z0-9_.]+' "${1//.//}.lean" || true) | sed 's/^import //'; }   # (no match is fine: set -e)
+# (ORD-1029-HUNT2V item 3: the key covers the whole LeanProofs import chain, not only direct imports, so a change two imports
+#  down still forces a replay)
+chain() { local seen=" " todo; todo=$(imports "$1"); while [ -n "$todo" ]; do local next=""; for d in $todo; do
+  case "$seen" in *" $d "*) ;; *) seen="$seen$d "; next="$next $(imports "$d")";; esac; done; todo=$next; done
+  echo $seen | tr ' ' '\n' | sort; }
 for m in "${mods[@]}"; do
   t0=$(date +%s)
-  deps=$( (grep -oE '^import LeanProofs\.[A-Za-z0-9_.]+' "${m//.//}.lean" || true) | sed 's/^import //' | sort)   # (no match is fine: set -e)
+  deps=$(chain "$m")
   key=$( { echo "$base"; for d in $m $deps; do git hash-object "$(olean "$d")"; done; } | git hash-object --stdin)
   if [ "${FULL:-0}" != 1 ] && [ "$(cat ".lake/replay-stamps/$m" 2>/dev/null)" = "$key" ]; then
     echo "leanchecker: $m skipped: same .olean, imports and toolchain as its last kernel pass (stamp $key)"
