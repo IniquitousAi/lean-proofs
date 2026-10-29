@@ -81,7 +81,9 @@ step "5/6 leanchecker: kernel replay of the LeanProofs modules"
 mods=()
 for f in LeanProofs/*.lean; do m="${f%.lean}"; mods+=("${m//\//.}"); done
 # (Tried 2026-10-28, ORD-1028-BZ: one leanchecker call for all 16 with LEAN_NUM_THREADS=2 still reached 90% of 32 GB in
-#  under 5 minutes and was stopped; 4.35 starts one task per module at once and has no worker flag. The loop stays.)
+#  under 5 minutes and was stopped; 4.35 starts one task per module at once and has no worker flag. The loop stays.
+#  2026-10-29 04:5x: a group of only 5 small modules in one call also reached 90% and was stopped by safe_run, with the PC at
+#  about 56% before Lean started: each module still loads its own Mathlib. Grouping does not fit on this PC.)
 for m in "${mods[@]}"; do
   t0=$(date +%s)
   lake env leanchecker -v "$m"
