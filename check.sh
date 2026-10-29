@@ -43,6 +43,19 @@ echo "== toolchain: $(cat lean-toolchain)"
 echo "== mathlib (lake-manifest.json): $(grep -B6 '"name": "mathlib"' lake-manifest.json | grep '"rev"' | tr -d ' ,')"
 echo "== lean: $(lake env lean --version)"
 
+step "0/6 stamps: every stamps/**/*.ots is committed and pushed (nothing proven is ever lost)"
+# An OpenTimestamps proof that exists only on this PC is a proof that can be lost. Untracked or modified .ots files, or a
+# commit touching stamps/ that origin does not have yet, fail the run before the long steps start.
+if git rev-parse --git-dir >/dev/null 2>&1 && [ -d stamps ]; then
+  bad=$(git status --porcelain -uall -- stamps | grep '\.ots$' || true)
+  if [ -n "$bad" ]; then echo "stamps: FAIL, .ots files not committed:"; echo "$bad"; exit 1; fi
+  if git rev-parse '@{u}' >/dev/null 2>&1; then
+    unpushed=$(git log '@{u}..HEAD' --name-only --pretty=format: -- stamps | grep '\.ots$' || true)
+    if [ -n "$unpushed" ]; then echo "stamps: FAIL, .ots files committed but not pushed:"; echo "$unpushed"; exit 1; fi
+  fi
+  echo "stamps: every .ots under stamps/ is committed and pushed"
+fi
+
 step "1/6 lake exe cache get"
 # Skipped when the last fetch succeeded for this exact manifest and toolchain and Mathlib's build folder is still there
 # (it took 188 s on 2026-10-28 with nothing to fetch). Delete .lake/cache-stamp to force a fetch.
