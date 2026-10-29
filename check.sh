@@ -44,7 +44,15 @@ echo "== mathlib (lake-manifest.json): $(grep -B6 '"name": "mathlib"' lake-manif
 echo "== lean: $(lake env lean --version)"
 
 step "1/5 lake exe cache get"
-lake exe cache get
+# Skipped when the last fetch succeeded for this exact manifest and toolchain and Mathlib's build folder is still there
+# (it took 188 s on 2026-10-28 with nothing to fetch). Delete .lake/cache-stamp to force a fetch.
+want=$(cat lake-manifest.json lean-toolchain | git hash-object --stdin)
+if [ -d .lake/packages/mathlib/.lake/build/lib ] && [ "$(cat .lake/cache-stamp 2>/dev/null)" = "$want" ]; then
+  echo "cache: same manifest and toolchain as the last successful fetch ($want), Mathlib build present: skipped"
+else
+  lake exe cache get
+  echo "$want" > .lake/cache-stamp
+fi
 
 step "2/5 source and text audit"
 bash scripts/audit_source.sh
@@ -72,6 +80,8 @@ step "5/5 leanchecker: kernel replay of the LeanProofs modules"
 # left in .lake/build by a deleted file is not mistaken for part of the project. LeanProofs.lean itself only imports.
 mods=()
 for f in LeanProofs/*.lean; do m="${f%.lean}"; mods+=("${m//\//.}"); done
+# (Tried 2026-10-28, ORD-1028-BZ: one leanchecker call for all 16 with LEAN_NUM_THREADS=2 still reached 90% of 32 GB in
+#  under 5 minutes and was stopped; 4.35 starts one task per module at once and has no worker flag. The loop stays.)
 for m in "${mods[@]}"; do
   t0=$(date +%s)
   lake env leanchecker -v "$m"
