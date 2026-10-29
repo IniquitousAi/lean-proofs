@@ -257,6 +257,16 @@ example (facts cost : ℕ → ℝ) :
 
 end Founder
 
+/-! ## LeanProofs/PvsNP.lean: P vs NP piece 1, checking a proposed answer is right and fast (ORD-1029-CR, a known fact) -/
+section PvsNP
+
+-- PvsNP.sat_check_is_fast_and_right (PvsNP.lean)
+example (a : ℕ → Bool) (f : PvsNP.CNF) :
+    ((PvsNP.cnfCost a f).2 = true ↔ ∀ c ∈ f, ∃ l ∈ c, PvsNP.evalLit a l = true) ∧ (PvsNP.cnfCost a f).1 ≤ PvsNP.size f + 1 :=
+  PvsNP.sat_check_is_fast_and_right a f
+
+end PvsNP
+
 /-! ## LeanProofs/Calculus.lean: the calculus lane (ORD-1028-BQ) -/
 namespace CalculusLane
 open Real intervalIntegral
@@ -405,3 +415,4 @@ end PhysicsLane
 #print axioms CalculusLane.p98_oscillator
 #print axioms CalculusLane.p97_logistic
 #print axioms DanielFounderClaim
+#print axioms PvsNP.sat_check_is_fast_and_right
