@@ -1,5 +1,7 @@
 # lean-proofs
 
+**Prove it once. Keep it forever. Move on.**
+
 *Part of Humanities Helping Hands™. © 2026 Daniel Steadham.*
 
 Exact answers to small probability and counting problems, stated as Lean 4 theorems and checked by Lean's kernel with
