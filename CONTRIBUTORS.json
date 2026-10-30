@@ -1,0 +1,4 @@
+{
+ "about": "Everyone with a merged proof. Each entry: handle (GitHub name), theorem (full Lean name), pr (pull request number). The website shows the handle on that fact's receipt.",
+ "contributors": []
+}
