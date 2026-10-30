@@ -1,13 +1,14 @@
 #!/usr/bin/env bash
-# Source audit: scans LeanProofs/*.lean with comments removed for anything that would let a proof skip the kernel
+# Source audit: scans every LeanProofs/**/*.lean with comments removed for anything that would let a proof skip the kernel
 # or add an assumption: sorry, admit, unsafe, extern, implemented_by, native_decide, and `axiom` declarations.
 # Exit 0 and "0 matches" when clean; exit 1 and every match (file:line: text) otherwise.
 set -euo pipefail
 cd "$(dirname "$0")/.."
 
-shopt -s nullglob
-files=(LeanProofs/*.lean)
-if [ ${#files[@]} -eq 0 ]; then echo "audit_source: no LeanProofs/*.lean files found"; exit 1; fi
+# Every .lean file under LeanProofs, subfolders included, so a contributed file in a new folder is scanned too.
+shopt -s nullglob globstar
+files=(LeanProofs/**/*.lean)
+if [ ${#files[@]} -eq 0 ]; then echo "audit_source: no LeanProofs/**/*.lean files found"; exit 1; fi
 
 # Removes -- line comments and /- ... -/ block comments (nested, doc comments included), keeps line numbers.
 strip_comments() {
