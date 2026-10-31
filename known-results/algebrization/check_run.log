@@ -1,0 +1,111 @@
+Cloning into '<build dir>/up'...
+done.
+✔ [8560/8583] Built Relativization.Frame (2.2s)
+✔ [8561/8583] Built Relativization.Count (2.6s)
+✔ [8562/8583] Built Relativization.Countable (2.7s)
+✔ [8563/8583] Built Relativization.Oracle (2.8s)
+✔ [8564/8583] Built Relativization.Classes (1.4s)
+✔ [8565/8583] Built Relativization.Halt (1.4s)
+✔ [8566/8583] Built Relativization.Queries (1.4s)
+✔ [8567/8583] Built Relativization.Normal (2.2s)
+✔ [8568/8583] Built Relativization.Self (1.5s)
+✔ [8569/8583] Built Relativization.Plain (1.8s)
+✔ [8570/8583] Built Relativization.Prog (3.3s)
+✔ [8571/8583] Built Relativization.Comp (2.5s)
+✔ [8572/8583] Built Relativization.Codes (1.8s)
+✔ [8573/8583] Built Relativization.Emb (1.6s)
+✔ [8574/8583] Built Relativization.Sep (1.6s)
+✔ [8575/8583] Built Relativization.Univ (1.6s)
+✔ [8576/8583] Built Relativization.Stage (1.6s)
+✔ [8577/8583] Built Relativization.Counter (4.6s)
+✔ [8578/8583] Built Relativization.Pad (1.9s)
+✔ [8579/8583] Built Relativization.Collapse (1.4s)
+✔ [8580/8583] Built Relativization.BakerGillSolovay (1.2s)
+✔ [8581/8583] Built Relativization (1.2s)
+⚠ [8582/8583] Built HHHAlg (15s)
+warning: HHHAlg.lean:44:28: This simp argument is unused:
+  Pi.single_apply
+
+Hint: Omit it from the simp argument list.
+  simp [P̵i̵.̵s̵i̵n̵g̵l̵e̵_̵a̵p̵p̵l̵y̵,̵ ̵hb]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+warning: HHHAlg.lean:57:21: This simp argument is unused:
+  this
+
+Hint: Omit it from the simp argument list.
+  simp [x, hn'',̵ ̵t̵h̵i̵s̵]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+warning: HHHAlg.lean:278:0: automatically included section variable(s) unused in theorem `HHH.AW.qs_length`:
+  [Field F]
+consider restructuring your `variable` declarations so that the variables are not in scope or explicitly omit them:
+  omit [Field F] in theorem ...
+
+Note: This linter can be disabled with `set_option linter.unusedSectionVars false`
+warning: HHHAlg.lean:283:0: automatically included section variable(s) unused in theorem `HHH.AW.runQ_congr`:
+  [Field F]
+consider restructuring your `variable` declarations so that the variables are not in scope or explicitly omit them:
+  omit [Field F] in theorem ...
+
+Note: This linter can be disabled with `set_option linter.unusedSectionVars false`
+warning: HHHAlg.lean:446:34: this tactic is never executed
+
+Note: This linter can be disabled with `set_option linter.unreachableTactic false`
+warning: HHHAlg.lean:446:34: 'exact this' tactic does nothing
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+warning: HHHAlg.lean:477:0: automatically included section variable(s) unused in theorem `HHH.AW.theorem_5_3_query`:
+  hN
+consider restructuring your `variable` declarations so that the variables are not in scope or explicitly omit them:
+  omit hN in theorem ...
+
+Note: This linter can be disabled with `set_option linter.unusedSectionVars false`
+warning: HHHAlg.lean:548:0: automatically included section variable(s) unused in theorem `HHH.AWB.mqs_length`:
+  [(k : κ) → Field (Fk k)]
+consider restructuring your `variable` declarations so that the variables are not in scope or explicitly omit them:
+  omit [(k : κ) → Field (Fk k)] in theorem ...
+
+Note: This linter can be disabled with `set_option linter.unusedSectionVars false`
+warning: HHHAlg.lean:553:0: automatically included section variable(s) unused in theorem `HHH.AWB.mrun_congr`:
+  [(k : κ) → Field (Fk k)]
+consider restructuring your `variable` declarations so that the variables are not in scope or explicitly omit them:
+  omit [(k : κ) → Field (Fk k)] in theorem ...
+
+Note: This linter can be disabled with `set_option linter.unusedSectionVars false`
+warning: HHHAlg.lean:785:0: automatically included section variable(s) unused in theorem `HHH.AWB.theorem_5_3_allfields`:
+  hN
+consider restructuring your `variable` declarations so that the variables are not in scope or explicitly omit them:
+  omit hN in theorem ...
+
+Note: This linter can be disabled with `set_option linter.unusedSectionVars false`
+warning: HHHAlg.lean:897:0: automatically included section variable(s) unused in theorem `HHH.Bridge.mrun_length`:
+  [(k : κ) → Field (Fk k)]
+consider restructuring your `variable` declarations so that the variables are not in scope or explicitly omit them:
+  omit [(k : κ) → Field (Fk k)] in theorem ...
+
+Note: This linter can be disabled with `set_option linter.unusedSectionVars false`
+warning: HHHAlg.lean:1095:48: This simp argument is unused:
+  List.append_nil
+
+Hint: Omit it from the simp argument list.
+  simp only [List.append_assoc, readNum_wr, hr,̵ ̵L̵i̵s̵t̵.̵a̵p̵p̵e̵n̵d̵_̵n̵i̵l̵]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+Build completed successfully (8583 jobs).
+
+real	0m46.807s
+user	1m5.022s
+sys	0m19.565s
+sorry count:
+0
+'HHH.Bridge.aw_tm_separation_galois' depends on axioms: [propext, Classical.choice, Quot.sound]
+'HHH.Bridge.aw_tm_separation' depends on axioms: [propext, Classical.choice, Quot.sound]
+'HHH.Bridge.gfDec_encode' depends on axioms: [propext, Classical.choice, Quot.sound]
+'HHH.Bridge.mem_Aenc_gf' depends on axioms: [propext, Classical.choice, Quot.sound]
+'HHH.Bridge.bits_determine' depends on axioms: [propext, Classical.choice, Quot.sound]
+'HHH.Bridge.finite_field_iso_galois' depends on axioms: [propext, Classical.choice, Quot.sound]
+'HHH.AWB.theorem_5_3_spread' depends on axioms: [propext, Classical.choice, Quot.sound]
+'HHH.AW.theorem_4_4' depends on axioms: [propext, Classical.choice, Quot.sound]
+'HHH.AW.lemma_4_3' depends on axioms: [propext, Classical.choice, Quot.sound]
+'HHH.AW.one_query_decides' depends on axioms: [propext, Classical.choice, Quot.sound]

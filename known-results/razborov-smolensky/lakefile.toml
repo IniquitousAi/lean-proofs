@@ -1,0 +1,29 @@
+# Pinned build recipe. check.sh overlays Project/HHH_*.lean onto the upstream project
+# at this exact commit and uses the pinned lake-manifest.json (mathlib rev pinned there).
+# upstream = https://github.com/ucb-lean-course-sp26/final-projects
+# upstream_commit = fbb5be4875dd86fd0e180b97e359a6cece930cbd
+# upstream_subdir = "AC0[2] Circuit Lower Bounds-Yichuan Wang"
+name = "main"
+version = "0.1.0"
+defaultTargets = ["Project"]
+
+[leanOptions]
+pp.unicode.fun = true # pretty-prints `fun a ↦ b`
+relaxedAutoImplicit = false
+weak.linter.mathlibStandardSet = true
+weak.linter.style.longLine = false
+weak.linter.flexible = false
+maxSynthPendingDepth = 3
+
+[[require]]
+name = "cslib"
+scope = "leanprover"
+rev = "main"
+
+[[require]]
+name = "mathlib"
+scope = "leanprover-community"
+rev = "master"
+
+[[lean_lib]]
+name = "Project"
