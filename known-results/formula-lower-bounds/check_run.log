@@ -1,0 +1,197 @@
+⚠ [18216/18233] Replayed PvNP.Subbotovskaya
+warning: PvNP/Subbotovskaya.lean: imports `Mathlib` from package `mathlib`, which is designed for use with the module system; consider adding `module` to the start of this file
+warning: PvNP/Subbotovskaya.lean:59:9: Variable name `A` is not explicitly referenced.
+
+Hint: The binding can be removed (if unused) or named `_` (if used implicitly). Alternatively, prefix the name with `_` to silence this warning:
+  [apply] _A
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+warning: PvNP/Subbotovskaya.lean:66:9: Variable name `A` is not explicitly referenced.
+
+Hint: The binding can be removed (if unused) or named `_` (if used implicitly). Alternatively, prefix the name with `_` to silence this warning:
+  [apply] _A
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+warning: PvNP/Subbotovskaya.lean:245:2: `push_neg` has been deprecated. Prefer using `push Not` instead.
+If you'd rather continue using `push_neg` in your project, you can implement it as follows:
+```
+open Lean.Parser.Tactic in
+macro "push_neg" cfg:optConfig loc:(location)? : tactic =>
+  `(tactic| push $cfg:optConfig Not $[$loc]?)
+```
+warning: PvNP/Subbotovskaya.lean:247:2: `push_neg` has been deprecated. Prefer using `push Not` instead.
+If you'd rather continue using `push_neg` in your project, you can implement it as follows:
+```
+open Lean.Parser.Tactic in
+macro "push_neg" cfg:optConfig loc:(location)? : tactic =>
+  `(tactic| push $cfg:optConfig Not $[$loc]?)
+```
+warning: PvNP/Subbotovskaya.lean:290:6: `push_neg` has been deprecated. Prefer using `push Not` instead.
+If you'd rather continue using `push_neg` in your project, you can implement it as follows:
+```
+open Lean.Parser.Tactic in
+macro "push_neg" cfg:optConfig loc:(location)? : tactic =>
+  `(tactic| push $cfg:optConfig Not $[$loc]?)
+```
+warning: PvNP/Subbotovskaya.lean:304:6: `push_neg` has been deprecated. Prefer using `push Not` instead.
+If you'd rather continue using `push_neg` in your project, you can implement it as follows:
+```
+open Lean.Parser.Tactic in
+macro "push_neg" cfg:optConfig loc:(location)? : tactic =>
+  `(tactic| push $cfg:optConfig Not $[$loc]?)
+```
+warning: PvNP/Subbotovskaya.lean:332:6: `push_neg` has been deprecated. Prefer using `push Not` instead.
+If you'd rather continue using `push_neg` in your project, you can implement it as follows:
+```
+open Lean.Parser.Tactic in
+macro "push_neg" cfg:optConfig loc:(location)? : tactic =>
+  `(tactic| push $cfg:optConfig Not $[$loc]?)
+```
+warning: PvNP/Subbotovskaya.lean:347:6: `push_neg` has been deprecated. Prefer using `push Not` instead.
+If you'd rather continue using `push_neg` in your project, you can implement it as follows:
+```
+open Lean.Parser.Tactic in
+macro "push_neg" cfg:optConfig loc:(location)? : tactic =>
+  `(tactic| push $cfg:optConfig Not $[$loc]?)
+```
+⚠ [18217/18233] Ran PvNP.Subbotovskaya:irArts
+warning: PvNP/Subbotovskaya.lean: imports `Mathlib` from package `mathlib`, which is designed for use with the module system; consider adding `module` to the start of this file
+⚠ [18218/18233] Replayed PvNP.SubbotovskayaRandom
+warning: PvNP/SubbotovskayaRandom.lean:28:2: `push_neg` has been deprecated. Prefer using `push Not` instead.
+If you'd rather continue using `push_neg` in your project, you can implement it as follows:
+```
+open Lean.Parser.Tactic in
+macro "push_neg" cfg:optConfig loc:(location)? : tactic =>
+  `(tactic| push $cfg:optConfig Not $[$loc]?)
+```
+warning: PvNP/SubbotovskayaRandom.lean:72:10: `dif_pos` has been deprecated: Use `dite_eq_left` instead
+
+Hint: Replace the deprecated name:
+  d̵i̵f̵_̵p̵o̵s̵d̲i̲t̲e̲_̲e̲q̲_̲l̲e̲f̲t̲
+warning: PvNP/SubbotovskayaRandom.lean:77:10: `dif_pos` has been deprecated: Use `dite_eq_left` instead
+
+Hint: Replace the deprecated name:
+  d̵i̵f̵_̵p̵o̵s̵d̲i̲t̲e̲_̲e̲q̲_̲l̲e̲f̲t̲
+warning: PvNP/SubbotovskayaRandom.lean:197:4: `push_neg` has been deprecated. Prefer using `push Not` instead.
+If you'd rather continue using `push_neg` in your project, you can implement it as follows:
+```
+open Lean.Parser.Tactic in
+macro "push_neg" cfg:optConfig loc:(location)? : tactic =>
+  `(tactic| push $cfg:optConfig Not $[$loc]?)
+```
+warning: PvNP/SubbotovskayaRandom.lean:204:8: `if_neg` has been deprecated: Use `ite_eq_right` instead
+
+Hint: Replace the deprecated name:
+  i̵f̵_̵n̵e̵g̵i̲t̲e̲_̲e̲q̲_̲r̲i̲g̲h̲t̲
+⚠ [18222/18233] Replayed PvNP.Andreev
+warning: PvNP/Andreev.lean:133:8: `if_neg` has been deprecated: Use `ite_eq_right` instead
+
+Hint: Replace the deprecated name:
+  i̵f̵_̵n̵e̵g̵i̲t̲e̲_̲e̲q̲_̲r̲i̲g̲h̲t̲
+warning: PvNP/Andreev.lean:200:22: `if_false` has been deprecated: Use `ite_false` instead
+
+Hint: Replace the deprecated name:
+  i̵f̵_̵f̵a̵l̵s̵e̵i̲t̲e̲_̲f̲a̲l̲s̲e̲
+warning: PvNP/Andreev.lean:289:42: This simp argument is unused:
+  Function.update_of_ne hv
+
+Hint: Omit it from the simp argument list.
+  [apply] simp [hv, hw]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+warning: PvNP/Andreev.lean:329:23: `if_true` has been deprecated: Use `ite_true` instead
+
+Hint: Replace the deprecated name:
+  i̵f̵_̵t̵r̵u̵e̵i̲t̲e̲_̲t̲r̲u̲e̲
+warning: PvNP/Andreev.lean:334:23: `if_false` has been deprecated: Use `ite_false` instead
+
+Hint: Replace the deprecated name:
+  i̵f̵_̵f̵a̵l̵s̵e̵i̲t̲e̲_̲f̲a̲l̲s̲e̲
+warning: PvNP/Andreev.lean:338:80: `if_true` has been deprecated: Use `ite_true` instead
+
+Hint: Replace the deprecated name:
+  i̵f̵_̵t̵r̵u̵e̵i̲t̲e̲_̲t̲r̲u̲e̲
+warning: PvNP/Andreev.lean:339:15: This simp argument is unused:
+  b2z_z2b
+
+Hint: Omit it from the simp argument list.
+  [apply] simp only [hu, Finset.sum_add_distrib, Finset.sum_ite_eq', Finset.mem_univ, if_true, b2z_xor]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+warning: PvNP/Andreev.lean:378:6: `push_neg` has been deprecated. Prefer using `push Not` instead.
+If you'd rather continue using `push_neg` in your project, you can implement it as follows:
+```
+open Lean.Parser.Tactic in
+macro "push_neg" cfg:optConfig loc:(location)? : tactic =>
+  `(tactic| push $cfg:optConfig Not $[$loc]?)
+```
+⚠ [18224/18233] Replayed PvNP.AndreevFinal
+warning: PvNP/AndreevFinal.lean:72:2: `push_neg` has been deprecated. Prefer using `push Not` instead.
+If you'd rather continue using `push_neg` in your project, you can implement it as follows:
+```
+open Lean.Parser.Tactic in
+macro "push_neg" cfg:optConfig loc:(location)? : tactic =>
+  `(tactic| push $cfg:optConfig Not $[$loc]?)
+```
+⚠ [18226/18233] Replayed PvNP.RpTrue
+warning: PvNP/RpTrue.lean:34:13: This simp argument is unused:
+  Function.update_of_ne h
+
+Hint: Omit it from the simp argument list.
+  [apply] simp [h]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+warning: PvNP/RpTrue.lean:44:35: This simp argument is unused:
+  Function.update_of_ne h
+
+Hint: Omit it from the simp argument list.
+  [apply] simp [e, Equiv.piSplitAt, h]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+warning: PvNP/RpTrue.lean:100:14: `if_neg` has been deprecated: Use `ite_eq_right` instead
+
+Hint: Replace the deprecated name:
+  i̵f̵_̵n̵e̵g̵i̲t̲e̲_̲e̲q̲_̲r̲i̲g̲h̲t̲
+⚠ [18228/18233] Replayed PvNP.Khrapchenko
+warning: PvNP/Khrapchenko.lean:32:18: `push_neg` has been deprecated. Prefer using `push Not` instead.
+If you'd rather continue using `push_neg` in your project, you can implement it as follows:
+```
+open Lean.Parser.Tactic in
+macro "push_neg" cfg:optConfig loc:(location)? : tactic =>
+  `(tactic| push $cfg:optConfig Not $[$loc]?)
+```
+warning: PvNP/Khrapchenko.lean:128:42: Used `tac1 <;> tac2` where `(tac1; tac2)` would suffice
+
+Note: This linter can be disabled with `set_option linter.unnecessarySeqFocus false`
+warning: PvNP/Khrapchenko.lean:132:42: Used `tac1 <;> tac2` where `(tac1; tac2)` would suffice
+
+Note: This linter can be disabled with `set_option linter.unnecessarySeqFocus false`
+warning: PvNP/Khrapchenko.lean:128:42: Unused tactic linter: `<;>` can be replaced with `;`.
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+warning: PvNP/Khrapchenko.lean:132:42: Unused tactic linter: `<;>` can be replaced with `;`.
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+✔ [18232/18233] Built PvNP.Decomp (4.1s)
+Build completed successfully (18233 jobs).
+
+real	0m9.211s
+user	0m9.978s
+sys	0m2.762s
+sorry count:
+0
+'Subb.subbotovskaya_shrinkage' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Subb.parity_formula_lb_full' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Subb.subbotovskaya_random' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Subb.subbotovskaya_Rp' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Subb.Ep_eq_Ptrue' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Subb.subbotovskaya_Rp_true' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Subb.andreev_reduction' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Subb.exists_hard' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Subb.andreev_lower_bound' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Subb.khrapchenko' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Subb.parity_khrapchenko' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Subb.parity_upper' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Subb.parity_tight' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Subb.decomposition' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Subb.piece_bound' depends on axioms: [propext, Classical.choice, Quot.sound]
