@@ -51,9 +51,11 @@ if git rev-parse --git-dir >/dev/null 2>&1 && [ -d stamps ]; then
   if [ -n "$bad" ]; then echo "stamps: FAIL, .ots files not committed:"; echo "$bad"; exit 1; fi
   if git rev-parse '@{u}' >/dev/null 2>&1; then
     unpushed=$(git log '@{u}..HEAD' --name-only --pretty=format: -- stamps | grep '\.ots$' || true)
-    if [ -n "$unpushed" ]; then echo "stamps: FAIL, .ots files committed but not pushed:"; echo "$unpushed"; exit 1; fi
+    # (ORD-1030-OTS: origin is PUBLIC and going public waits on Daniel, CY #2; stamp.py pushes only with STAMP_PUSH=1)
+    if [ -n "$unpushed" ] && [ "${STAMP_PUSH:-0}" = "1" ]; then echo "stamps: FAIL, .ots files committed but not pushed:"; echo "$unpushed"; exit 1; fi
+    if [ -n "$unpushed" ]; then echo "stamps: committed; push off until Daniel decides on public repo"; fi
   fi
-  echo "stamps: every .ots under stamps/ is committed and pushed"
+  if [ -z "${unpushed:-}" ]; then echo "stamps: every .ots under stamps/ is committed and pushed"; fi
 fi
 
 step "1/6 lake exe cache get"
