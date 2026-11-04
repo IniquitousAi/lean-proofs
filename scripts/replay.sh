@@ -9,6 +9,13 @@ set -euo pipefail
 mods=()
 for f in LeanProofs/*.lean; do m="${f%.lean}"; mods+=("${m//\//.}"); done
 mkdir -p .lake/replay-stamps .lake/lanes
+# Each module's outcome goes to .lake/replay-status (lanes too); on exit, pass or fail, one line with the counts is appended to
+# runs/steps.jsonl (append only). Lane subshells do not run this trap: only the main shell logs.
+: > .lake/replay-status
+trap 'rc=$?; mkdir -p runs; n() { grep -c "^$1 " .lake/replay-status || true; }; f1=$(grep -m1 "^failed " .lake/replay-status | cut -d" " -f2 || true)
+  printf "{\"at\":\"%s\",\"script\":\"scripts/replay.sh\",\"ran\":\"replay.sh LANES=%s FULL=%s\",\"found\":\"%s modules: %s replayed, %s skipped, %s failed%s\",\"result\":\"%s\",\"exit\":%d}\n" \
+    "$(date +%Y-%m-%dT%H:%M:%S%z)" "${LANES:-1}" "${FULL:-0}" "${#mods[@]}" "$(n replayed)" "$(n skipped)" "$(n failed)" "${f1:+ (first: $f1)}" \
+    "$([ "$rc" -eq 0 ] && echo PASS || echo FAIL)" "$rc" >> runs/steps.jsonl' EXIT
 base=$(cat lake-manifest.json lean-toolchain | git hash-object --stdin)
 olean() { echo ".lake/build/lib/lean/${1//.//}.olean"; }
 imports() { (grep -oE '^import LeanProofs\.[A-Za-z0-9_.]+' "${1//.//}.lean" || true) | sed 's/^import //'; }   # (no match is fine: set -e)
@@ -24,10 +31,12 @@ replay_one() {
   key=$( { echo "$base"; for d in $m $deps; do git hash-object "$(olean "$d")"; done; } | git hash-object --stdin)
   if [ "${FULL:-0}" != 1 ] && [ "$(cat ".lake/replay-stamps/$m" 2>/dev/null)" = "$key" ]; then
     echo "leanchecker: $m skipped: same .olean, imports and toolchain as its last kernel pass (stamp $key)"
+    echo "skipped $m" >> .lake/replay-status
     return 0
   fi
-  lake env leanchecker -v "$m" || { echo "leanchecker: $m FAILED"; return 1; }
+  lake env leanchecker -v "$m" || { echo "leanchecker: $m FAILED"; echo "failed $m" >> .lake/replay-status; return 1; }
   echo "$key" > ".lake/replay-stamps/$m"
+  echo "replayed $m" >> .lake/replay-status
   echo "leanchecker: $m replayed with no error ($(( $(date +%s) - t0 )) s)"
 }
 mem_used() { awk '/^MemTotal/{t=$2} /^MemAvailable/{a=$2} /^MemFree/{f=$2} END{if(!a)a=f; print int(100*(t-a)/t)}' /proc/meminfo; }

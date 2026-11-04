@@ -4,6 +4,9 @@
 # Exit 0 and "0 matches" when clean; exit 1 and every match (file:line: text) otherwise.
 set -euo pipefail
 cd "$(dirname "$0")/.."
+# Every run, pass or fail, appends what it found to runs/steps.jsonl (append only; the file:line of the first match, never its text).
+found="no LeanProofs/**/*.lean files found"
+trap 'rc=$?; mkdir -p runs; printf "{\"at\":\"%s\",\"script\":\"scripts/audit_source.sh\",\"ran\":\"audit_source.sh\",\"found\":\"%s\",\"result\":\"%s\",\"exit\":%d}\n" "$(date +%Y-%m-%dT%H:%M:%S%z)" "$(printf %s "$found" | tr -d "\"\134")" "$([ "$rc" -eq 0 ] && echo PASS || echo FAIL)" "$rc" >> runs/steps.jsonl' EXIT
 
 # Every .lean file under LeanProofs, subfolders included, so a contributed file in a new folder is scanned too.
 shopt -s nullglob globstar
@@ -37,9 +40,10 @@ matches=0
 for f in "${files[@]}"; do
   hits=$(strip_comments "$f" | grep -nE "$pattern" || true)
   if [ -n "$hits" ]; then
-    while IFS= read -r line; do echo "$f:$line"; matches=$((matches + 1)); done <<< "$hits"
+    while IFS= read -r line; do echo "$f:$line"; matches=$((matches + 1)); first=${first:-$f:${line%%:*}}; done <<< "$hits"
   fi
 done
+found="scanned ${#files[@]} files, $matches matches${first:+, first at $first}"
 
 echo "audit_source: scanned ${#files[@]} files (${files[*]}), comments removed"
 echo "audit_source: looked for sorry, admit, unsafe, extern, implemented_by, native_decide, axiom declarations"
