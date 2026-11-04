@@ -4,5 +4,6 @@
     "unpermitted_axiom_hard_error": false,
     "nat_extension": true,
     "string_extension": true,
-    "print_success_message": true
+    "print_success_message": true,
+    "num_threads": 8
 }
