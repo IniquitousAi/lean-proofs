@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 # One command an outside reader runs to check this whole repository:
-#   1. fetch Mathlib's prebuilt files      (lake exe cache get)
+#   0. stamps                               (every stamps/**/*.ots is committed; pushed too when STAMP_PUSH=1)
+#   1. fetch Mathlib's prebuilt files      (lake exe cache get; skipped when manifest and toolchain match the last fetch)
 #   2. source and text audit                (scripts/audit_source.sh: no sorry, admit, unsafe, extern, implemented_by,
 #                                            native_decide or axiom declarations in LeanProofs/*.lean;
 #                                            scripts/test_name.sh: public name spelled Humanities Helping Hands,
@@ -8,13 +9,30 @@
 #   3. build every proof                    (lake build)
 #   4. restate the headline statements      (lake env lean VerifyAll.lean, then every #print axioms list must be a
 #                                            subset of propext, Quot.sound, Classical.choice)
-#   5. kernel replay                        (leanchecker replays every declaration of the LeanProofs modules
-#                                            through Lean's kernel again, from the compiled .olean files)
-# Full output and the real wall-clock time go to AUDIT.log. Exit 0 only when every step passes.
+#   5. kernel replay                        (scripts/replay.sh: leanchecker replays every declaration of the LeanProofs
+#                                            modules through Lean's kernel again, from the compiled .olean files)
+#   6. second kernel                        (nanoda, in Rust, re-checks every headline theorem)
+# Full output and the real wall-clock time go to AUDIT.log (rewritten each run). Each step reached, what it ran and the last
+# line it printed, plus the whole run's result, are appended to runs/steps.jsonl (append only). Exit 0 only when every step passes.
 # Every Lean command goes through `lake`, so elan picks the version pinned in lean-toolchain; no default toolchain
 # (`elan default`) is needed, and `leanchecker` is the one bundled with that toolchain (nothing else to install).
 set -euo pipefail
 cd "$(dirname "$0")"
+
+# Reads the AUDIT.log just written: one JSON line per step header reached (its last printed line is what it found; every step
+# before the last one reached passed, since the run stops at the first failure), then one for the whole run.
+log_steps() {
+  mkdir -p runs
+  awk -v at="$(date +%Y-%m-%dT%H:%M:%S%z)" -v rc="$1" -v secs="$2" '
+    function esc(s) { gsub(/\\/, "\\\\", s); gsub(/"/, "\\\"", s); gsub(/[\001-\037]/, " ", s); return s }
+    function row(ran, found, ok) { printf "{\"at\":\"%s\",\"script\":\"check.sh\",\"ran\":\"%s\",\"found\":\"%s\",\"result\":\"%s\",\"exit\":%d}\n", at, esc(ran), esc(found), ok ? "PASS" : "FAIL", ok ? 0 : rc }
+    /^== commit: / { commit = substr($0, 12); next }
+    /^== [0-9:]+ UTC  [0-9]+\/[0-9]+ / { if (ran != "") row(ran, last, 1); ran = $0; sub(/^== [0-9:]+ UTC  /, "", ran); last = ""; next }
+    /^== (Wall-clock time|RESULT): / { next }
+    NF { last = $0; any = $0 }
+    END { if (ran != "") row(ran, last, rc == 0)
+          row("check.sh (all steps)", "commit " commit ", " secs " s" (rc == 0 ? "" : "; stopped at: " any), rc == 0) }' AUDIT.log >> runs/steps.jsonl
+}
 
 if [ -z "${CHECK_INNER:-}" ]; then
   start=$(date +%s)
@@ -27,6 +45,7 @@ if [ -z "${CHECK_INNER:-}" ]; then
     echo "== Wall-clock time: $((end - start)) s (real, measured by check.sh from start to finish)"
     if [ "$status" -eq 0 ]; then echo "== RESULT: PASS (exit 0)"; else echo "== RESULT: FAIL (exit $status)"; fi
   } | tee -a AUDIT.log
+  log_steps "$status" "$((end - start))"
   exit "$status"
 fi
 
@@ -38,7 +57,7 @@ if ! command -v lake >/dev/null 2>&1; then
 fi
 
 echo "== check.sh started $(date -u +%Y-%m-%dT%H:%M:%SZ)"
-echo "== commit: $(git rev-parse HEAD 2>/dev/null || echo unknown)$(git diff --quiet -- . ':(exclude)AUDIT.log' 2>/dev/null || echo ' (with uncommitted changes)')"
+echo "== commit: $(git rev-parse HEAD 2>/dev/null || echo unknown)$(git diff --quiet -- . ':(exclude)AUDIT.log' ':(exclude)runs' 2>/dev/null || echo ' (with uncommitted changes)')"
 echo "== toolchain: $(cat lean-toolchain)"
 echo "== mathlib (lake-manifest.json): $(grep -B6 '"name": "mathlib"' lake-manifest.json | grep '"rev"' | tr -d ' ,')"
 echo "== lean: $(lake env lean --version)"
@@ -93,9 +112,7 @@ if [ "$got" -ne "$expected" ] || [ -n "$bad" ]; then echo "VerifyAll: FAIL"; exi
 
 step "5/6 leanchecker: kernel replay of the LeanProofs modules"
 # One module at a time (all at once peaked above 14 GB of memory), named from the source files so a stale .olean
-# left in .lake/build by a deleted file is not mistaken for part of the project. LeanProofs.lean itself only imports.
-mods=()
-for f in LeanProofs/*.lean; do m="${f%.lean}"; mods+=("${m//\//.}"); done
+# left in .lake/build by a deleted file is not mistaken for part of the project (replay.sh names them). LeanProofs.lean itself only imports.
 # (Tried 2026-10-28, ORD-1028-BZ: one leanchecker call for all 16 with LEAN_NUM_THREADS=2 still reached 90% of 32 GB in
 #  under 5 minutes and was stopped; 4.35 starts one task per module at once and has no worker flag. The loop stays.
 #  2026-10-29 04:5x: a group of only 5 small modules in one call also reached 90% and was stopped by safe_run, with the PC at
