@@ -1,20 +1,23 @@
-== check.sh started 2026-10-29T01:53:45Z
-== commit: efc0f519bfd789755708b7c2cf8a0b53c69d5ecb (with uncommitted changes)
+== check.sh started 2026-11-04T09:38:16Z
+== commit: 52fafbe8ccfed346e23d13fbb4cabe0b3f0a46b1 (with uncommitted changes)
 == toolchain: leanprover/lean4:v4.35.0
 == mathlib (lake-manifest.json): "rev":"56a005855ea17e0b0958f73ec801ae140b0a1679"
 == lean: Lean (version 4.35.0, x86_64-w64-windows-gnu, commit eb6cafb7290e8bd5f2937522d8d804f58f02bafc, Release)
 
-== 01:53:49 UTC  1/5 lake exe cache get
+== 09:38:18 UTC  0/6 stamps: every stamps/**/*.ots is committed and pushed (nothing proven is ever lost)
+stamps: committed; push off until Daniel decides on public repo
+
+== 09:38:19 UTC  1/6 lake exe cache get
 cache: same manifest and toolchain as the last successful fetch (6acd82c5ef01d3838a122f917c51c4aa05a0c03a), Mathlib build present: skipped
 
-== 01:53:49 UTC  2/5 source and text audit
-audit_source: scanned 16 files (LeanProofs/Bank.lean LeanProofs/Basel.lean LeanProofs/Basic.lean LeanProofs/Calculus.lean LeanProofs/CalculusLog.lean LeanProofs/Cheap.lean LeanProofs/Logistic.lean LeanProofs/Lognormal.lean LeanProofs/Oscillator.lean LeanProofs/Physics.lean LeanProofs/Root.lean LeanProofs/Roots.lean LeanProofs/Series.lean LeanProofs/Tower.lean LeanProofs/Waiting.lean LeanProofs/Walks.lean), comments removed
+== 09:38:19 UTC  2/6 source and text audit
+audit_source: scanned 20 files (LeanProofs/Bank.lean LeanProofs/Basel.lean LeanProofs/Basic.lean LeanProofs/Calculus.lean LeanProofs/CalculusLog.lean LeanProofs/Cheap.lean LeanProofs/Checked.lean LeanProofs/Founder.lean LeanProofs/Logistic.lean LeanProofs/Lognormal.lean LeanProofs/Oscillator.lean LeanProofs/Physics.lean LeanProofs/PvsNP.lean LeanProofs/Root.lean LeanProofs/Roots.lean LeanProofs/Series.lean LeanProofs/Stamp.lean LeanProofs/Tower.lean LeanProofs/Waiting.lean LeanProofs/Walks.lean), comments removed
 audit_source: looked for sorry, admit, unsafe, extern, implemented_by, native_decide, axiom declarations
 audit_source: 0 matches
-test_name: checked 50 text files; 0 problems
+test_name: checked 115 text files; 0 problems
 
-== 01:53:59 UTC  3/5 lake build
-⚠ [9048/9064] Replayed LeanProofs.Tower
+== 09:38:38 UTC  3/6 lake build
+⚠ [9050/9068] Replayed LeanProofs.Tower
 warning: LeanProofs\Tower.lean: imports `Mathlib` from package `mathlib`, which is designed for use with the module system; consider adding `module` to the start of this file
 warning: LeanProofs/Tower.lean:1:1: * `-/`:
 Copyright too short!
@@ -735,7 +738,7 @@ Note: This linter can be disabled with `set_option linter.style.longLine false`
 warning: LeanProofs/Tower.lean:1453:100: This line exceeds the 100 character limit, please shorten it!
 
 Note: This linter can be disabled with `set_option linter.style.longLine false`
-⚠ [9049/9064] Replayed LeanProofs.Bank
+⚠ [9051/9068] Replayed LeanProofs.Bank
 warning: LeanProofs\Bank.lean: imports `Mathlib` from package `mathlib`, which is designed for use with the module system; consider adding `module` to the start of this file
 warning: LeanProofs/Bank.lean:1:1: * `-/`:
 Copyright too short!
@@ -808,7 +811,7 @@ Note: This linter can be disabled with `set_option linter.style.longLine false`
 warning: LeanProofs/Bank.lean:110:100: This line exceeds the 100 character limit, please shorten it!
 
 Note: This linter can be disabled with `set_option linter.style.longLine false`
-⚠ [9050/9064] Replayed LeanProofs.Walks
+⚠ [9052/9068] Replayed LeanProofs.Walks
 warning: LeanProofs\Walks.lean: imports `Mathlib` from package `mathlib`, which is designed for use with the module system; consider adding `module` to the start of this file
 warning: LeanProofs/Walks.lean:1:1: * `-/`:
 Copyright too short!
@@ -904,7 +907,7 @@ Note: This linter can be disabled with `set_option linter.style.longLine false`
 warning: LeanProofs/Walks.lean:282:100: This line exceeds the 100 character limit, please shorten it!
 
 Note: This linter can be disabled with `set_option linter.style.longLine false`
-⚠ [9051/9064] Replayed LeanProofs.Cheap
+⚠ [9053/9068] Replayed LeanProofs.Cheap
 warning: LeanProofs\Cheap.lean: imports `Mathlib` from package `mathlib`, which is designed for use with the module system; consider adding `module` to the start of this file
 warning: LeanProofs/Cheap.lean:1:1: * `-/`:
 Copyright too short!
@@ -1335,7 +1338,7 @@ Note: This linter can be disabled with `set_option linter.style.longLine false`
 warning: LeanProofs/Cheap.lean:1191:100: This line exceeds the 100 character limit, please shorten it!
 
 Note: This linter can be disabled with `set_option linter.style.longLine false`
-⚠ [9052/9064] Replayed LeanProofs.Root
+⚠ [9054/9068] Replayed LeanProofs.Root
 warning: LeanProofs\Root.lean: imports `Mathlib` from package `mathlib`, which is designed for use with the module system; consider adding `module` to the start of this file
 warning: LeanProofs/Root.lean:1:1: * `-/`:
 Copyright too short!
@@ -1358,7 +1361,48 @@ Note: This linter can be disabled with `set_option linter.style.longLine false`
 warning: LeanProofs/Root.lean:25:100: This line exceeds the 100 character limit, please shorten it!
 
 Note: This linter can be disabled with `set_option linter.style.longLine false`
-⚠ [9053/9064] Replayed LeanProofs.Calculus
+⚠ [9055/9068] Replayed LeanProofs.Founder
+warning: LeanProofs\Founder.lean: imports `Mathlib` from package `mathlib`, which is designed for use with the module system; consider adding `module` to the start of this file
+warning: LeanProofs/Founder.lean:1:1: * `-/`:
+Copyright too short!
+
+
+Note: This linter can be disabled with `set_option linter.style.header false`
+warning: LeanProofs/Founder.lean:6:100: This line exceeds the 100 character limit, please shorten it!
+You can use "string gaps" to format long strings: within a string quotation, using a '\' at the end of a line allows you to continue the string on the following line, removing all intervening whitespace.
+
+Note: This linter can be disabled with `set_option linter.style.longLine false`
+warning: LeanProofs/Founder.lean:8:100: This line exceeds the 100 character limit, please shorten it!
+
+Note: This linter can be disabled with `set_option linter.style.longLine false`
+warning: LeanProofs/Founder.lean:11:100: This line exceeds the 100 character limit, please shorten it!
+
+Note: This linter can be disabled with `set_option linter.style.longLine false`
+warning: LeanProofs/Founder.lean:13:100: This line exceeds the 100 character limit, please shorten it!
+
+Note: This linter can be disabled with `set_option linter.style.longLine false`
+warning: LeanProofs/Founder.lean:16:100: This line exceeds the 100 character limit, please shorten it!
+
+Note: This linter can be disabled with `set_option linter.style.longLine false`
+warning: LeanProofs/Founder.lean:17:100: This line exceeds the 100 character limit, please shorten it!
+
+Note: This linter can be disabled with `set_option linter.style.longLine false`
+warning: LeanProofs/Founder.lean:24:100: This line exceeds the 100 character limit, please shorten it!
+
+Note: This linter can be disabled with `set_option linter.style.longLine false`
+warning: LeanProofs/Founder.lean:29:100: This line exceeds the 100 character limit, please shorten it!
+
+Note: This linter can be disabled with `set_option linter.style.longLine false`
+warning: LeanProofs/Founder.lean:37:100: This line exceeds the 100 character limit, please shorten it!
+
+Note: This linter can be disabled with `set_option linter.style.longLine false`
+warning: LeanProofs/Founder.lean:38:100: This line exceeds the 100 character limit, please shorten it!
+
+Note: This linter can be disabled with `set_option linter.style.longLine false`
+warning: LeanProofs/Founder.lean:39:100: This line exceeds the 100 character limit, please shorten it!
+
+Note: This linter can be disabled with `set_option linter.style.longLine false`
+⚠ [9056/9068] Replayed LeanProofs.Calculus
 warning: LeanProofs\Calculus.lean: imports `Mathlib` from package `mathlib`, which is designed for use with the module system; consider adding `module` to the start of this file
 warning: LeanProofs/Calculus.lean:1:1: * `-/`:
 Copyright too short!
@@ -1368,7 +1412,7 @@ Note: This linter can be disabled with `set_option linter.style.header false`
 warning: LeanProofs/Calculus.lean:6:100: This line exceeds the 100 character limit, please shorten it!
 
 Note: This linter can be disabled with `set_option linter.style.longLine false`
-⚠ [9054/9064] Replayed LeanProofs.Series
+⚠ [9057/9068] Replayed LeanProofs.Series
 warning: LeanProofs\Series.lean: imports `Mathlib` from package `mathlib`, which is designed for use with the module system; consider adding `module` to the start of this file
 warning: LeanProofs/Series.lean:1:1: * `-/`:
 Copyright too short!
@@ -1390,7 +1434,7 @@ Note: This linter can be disabled with `set_option linter.style.longLine false`
 warning: LeanProofs/Series.lean:32:100: This line exceeds the 100 character limit, please shorten it!
 
 Note: This linter can be disabled with `set_option linter.style.longLine false`
-⚠ [9055/9064] Replayed LeanProofs.CalculusLog
+⚠ [9058/9068] Replayed LeanProofs.CalculusLog
 warning: LeanProofs\CalculusLog.lean: imports `Mathlib` from package `mathlib`, which is designed for use with the module system; consider adding `module` to the start of this file
 warning: LeanProofs/CalculusLog.lean:1:1: * `-/`:
 Copyright too short!
@@ -1403,7 +1447,7 @@ Note: This linter can be disabled with `set_option linter.style.longLine false`
 warning: LeanProofs/CalculusLog.lean:7:100: This line exceeds the 100 character limit, please shorten it!
 
 Note: This linter can be disabled with `set_option linter.style.longLine false`
-⚠ [9056/9064] Replayed LeanProofs.Waiting
+⚠ [9059/9068] Replayed LeanProofs.Waiting
 warning: LeanProofs\Waiting.lean: imports `Mathlib` from package `mathlib`, which is designed for use with the module system; consider adding `module` to the start of this file
 warning: LeanProofs/Waiting.lean:1:1: * `-/`:
 Copyright too short!
@@ -1419,7 +1463,7 @@ Note: This linter can be disabled with `set_option linter.style.longLine false`
 warning: LeanProofs/Waiting.lean:12:100: This line exceeds the 100 character limit, please shorten it!
 
 Note: This linter can be disabled with `set_option linter.style.longLine false`
-⚠ [9057/9064] Replayed LeanProofs.Roots
+⚠ [9060/9068] Replayed LeanProofs.Roots
 warning: LeanProofs\Roots.lean: imports `Mathlib` from package `mathlib`, which is designed for use with the module system; consider adding `module` to the start of this file
 warning: LeanProofs/Roots.lean:1:1: * `-/`:
 Copyright too short!
@@ -1432,7 +1476,7 @@ Note: This linter can be disabled with `set_option linter.style.longLine false`
 warning: LeanProofs/Roots.lean:13:100: This line exceeds the 100 character limit, please shorten it!
 
 Note: This linter can be disabled with `set_option linter.style.longLine false`
-⚠ [9058/9064] Replayed LeanProofs.Basel
+⚠ [9061/9068] Replayed LeanProofs.Basel
 warning: LeanProofs\Basel.lean: imports `Mathlib` from package `mathlib`, which is designed for use with the module system; consider adding `module` to the start of this file
 warning: LeanProofs/Basel.lean:1:1: * `-/`:
 Copyright too short!
@@ -1448,7 +1492,7 @@ Note: This linter can be disabled with `set_option linter.style.longLine false`
 warning: LeanProofs/Basel.lean:14:100: This line exceeds the 100 character limit, please shorten it!
 
 Note: This linter can be disabled with `set_option linter.style.longLine false`
-⚠ [9059/9064] Replayed LeanProofs.Lognormal
+⚠ [9062/9068] Replayed LeanProofs.Lognormal
 warning: LeanProofs\Lognormal.lean: imports `Mathlib` from package `mathlib`, which is designed for use with the module system; consider adding `module` to the start of this file
 warning: LeanProofs/Lognormal.lean:1:1: * `-/`:
 Copyright too short!
@@ -1464,7 +1508,7 @@ Note: This linter can be disabled with `set_option linter.style.longLine false`
 warning: LeanProofs/Lognormal.lean:14:100: This line exceeds the 100 character limit, please shorten it!
 
 Note: This linter can be disabled with `set_option linter.style.longLine false`
-⚠ [9060/9064] Replayed LeanProofs.Physics
+⚠ [9063/9068] Replayed LeanProofs.Physics
 warning: LeanProofs\Physics.lean: imports `Mathlib` from package `mathlib`, which is designed for use with the module system; consider adding `module` to the start of this file
 warning: LeanProofs/Physics.lean:1:1: * `-/`:
 Copyright too short!
@@ -1498,7 +1542,7 @@ should be written as
 
 
 Note: This linter can be disabled with `set_option linter.style.whitespace false`
-⚠ [9061/9064] Replayed LeanProofs.Oscillator
+⚠ [9064/9068] Replayed LeanProofs.Oscillator
 warning: LeanProofs\Oscillator.lean: imports `Mathlib` from package `mathlib`, which is designed for use with the module system; consider adding `module` to the start of this file
 warning: LeanProofs/Oscillator.lean:1:1: * `-/`:
 Copyright too short!
@@ -1526,7 +1570,7 @@ Note: This linter can be disabled with `set_option linter.style.longLine false`
 warning: LeanProofs/Oscillator.lean:44:100: This line exceeds the 100 character limit, please shorten it!
 
 Note: This linter can be disabled with `set_option linter.style.longLine false`
-⚠ [9062/9064] Replayed LeanProofs.Logistic
+⚠ [9065/9068] Replayed LeanProofs.Logistic
 warning: LeanProofs\Logistic.lean: imports `Mathlib` from package `mathlib`, which is designed for use with the module system; consider adding `module` to the start of this file
 warning: LeanProofs/Logistic.lean:1:1: * `-/`:
 Copyright too short!
@@ -1554,9 +1598,22 @@ Note: This linter can be disabled with `set_option linter.style.longLine false`
 warning: LeanProofs/Logistic.lean:52:100: This line exceeds the 100 character limit, please shorten it!
 
 Note: This linter can be disabled with `set_option linter.style.longLine false`
-Build completed successfully (9064 jobs).
+⚠ [9066/9068] Replayed LeanProofs.Checked
+warning: LeanProofs\Checked.lean: imports `Mathlib` from package `mathlib`, which is designed for use with the module system; consider adding `module` to the start of this file
+warning: LeanProofs/Checked.lean:1:1: * `-/`:
+Copyright too short!
 
-== 01:55:07 UTC  4/5 lake env lean VerifyAll.lean
+
+Note: This linter can be disabled with `set_option linter.style.header false`
+warning: LeanProofs/Checked.lean:30:0: Please, add a comment explaining the need for modifying the maxHeartbeat limit, as in
+set_option maxHeartbeats 4000000 in
+-- reason for change
+...
+
+Note: This linter can be disabled with `set_option linter.style.maxHeartbeats false`
+Build completed successfully (9068 jobs).
+
+== 09:38:46 UTC  4/6 lake env lean VerifyAll.lean
 'p01_dice_sum_seven' depends on axioms: [propext, Classical.choice, Quot.sound]
 'p02_coin_streaks' depends on axioms: [propext, Classical.choice, Quot.sound]
 'CheapLane.p04_two_aces_in_five' depends on axioms: [propext, Classical.choice, Quot.sound]
@@ -1607,41 +1664,37 @@ Build completed successfully (9064 jobs).
 'PhysicsLane.p83_floating_block_depth' depends on axioms: [propext, Classical.choice, Quot.sound]
 'CalculusLane.p98_oscillator' depends on axioms: [propext, Classical.choice, Quot.sound]
 'CalculusLane.p97_logistic' depends on axioms: [propext, Classical.choice, Quot.sound]
-VerifyAll: 48 Proven problems; 50 headline statements restated; 50 axiom reports; axioms outside propext, Quot.sound, Classical.choice: none
+'DanielFounderClaim' depends on axioms: [propext, Classical.choice, Quot.sound]
+'PvsNP.sat_check_is_fast_and_right' depends on axioms: [propext, Quot.sound]
+VerifyAll: 48 Proven problems; 52 headline statements restated; 52 axiom reports; axioms outside propext, Quot.sound, Classical.choice: none
 
-== 01:55:45 UTC  5/5 leanchecker: kernel replay of the LeanProofs modules
-replaying LeanProofs.Bank
-leanchecker: LeanProofs.Bank replayed with no error (29 s)
-replaying LeanProofs.Basel
-leanchecker: LeanProofs.Basel replayed with no error (30 s)
-replaying LeanProofs.Basic
-leanchecker: LeanProofs.Basic replayed with no error (18 s)
-replaying LeanProofs.Calculus
-leanchecker: LeanProofs.Calculus replayed with no error (28 s)
-replaying LeanProofs.CalculusLog
-leanchecker: LeanProofs.CalculusLog replayed with no error (29 s)
-replaying LeanProofs.Cheap
-leanchecker: LeanProofs.Cheap replayed with no error (362 s)
-replaying LeanProofs.Logistic
-leanchecker: LeanProofs.Logistic replayed with no error (25 s)
-replaying LeanProofs.Lognormal
-leanchecker: LeanProofs.Lognormal replayed with no error (24 s)
-replaying LeanProofs.Oscillator
-leanchecker: LeanProofs.Oscillator replayed with no error (24 s)
-replaying LeanProofs.Physics
-leanchecker: LeanProofs.Physics replayed with no error (29 s)
-replaying LeanProofs.Root
-leanchecker: LeanProofs.Root replayed with no error (30 s)
-replaying LeanProofs.Roots
-leanchecker: LeanProofs.Roots replayed with no error (28 s)
-replaying LeanProofs.Series
-leanchecker: LeanProofs.Series replayed with no error (28 s)
-replaying LeanProofs.Tower
-leanchecker: LeanProofs.Tower replayed with no error (224 s)
-replaying LeanProofs.Waiting
-leanchecker: LeanProofs.Waiting replayed with no error (31 s)
-replaying LeanProofs.Walks
-leanchecker: LeanProofs.Walks replayed with no error (33 s)
-leanchecker: all 16 LeanProofs modules (LeanProofs.Bank LeanProofs.Basel LeanProofs.Basic LeanProofs.Calculus LeanProofs.CalculusLog LeanProofs.Cheap LeanProofs.Logistic LeanProofs.Lognormal LeanProofs.Oscillator LeanProofs.Physics LeanProofs.Root LeanProofs.Roots LeanProofs.Series LeanProofs.Tower LeanProofs.Waiting LeanProofs.Walks) replayed through the kernel with no error
-== Wall-clock time: 1092 s (real, measured by check.sh from start to finish)
+== 09:39:11 UTC  5/6 leanchecker: kernel replay of the LeanProofs modules
+leanchecker: LeanProofs.Bank skipped: same .olean, imports and toolchain as its last kernel pass (stamp c3021224e23c09d035f68fd2dac706b252af8a04)
+leanchecker: LeanProofs.Basel skipped: same .olean, imports and toolchain as its last kernel pass (stamp 5ef8653d5dc9d99d4e89a759c5f1ca8b3f5de0f4)
+leanchecker: LeanProofs.Basic skipped: same .olean, imports and toolchain as its last kernel pass (stamp 434e1b17c8d15b577d17ec1b939bc63bf38c9402)
+leanchecker: LeanProofs.Calculus skipped: same .olean, imports and toolchain as its last kernel pass (stamp afe076838647d6610f9a9d1aa0a44eb41a5dfa32)
+leanchecker: LeanProofs.CalculusLog skipped: same .olean, imports and toolchain as its last kernel pass (stamp a5b7e0feb704e8346e6e1ecb925707c259782e2c)
+leanchecker: LeanProofs.Cheap skipped: same .olean, imports and toolchain as its last kernel pass (stamp 80b2752991b21a516c5a08e6c0b685ef79c4103e)
+leanchecker: LeanProofs.Checked skipped: same .olean, imports and toolchain as its last kernel pass (stamp 82aabe77c0b41ec32df70738d91dc77fc43c69cc)
+leanchecker: LeanProofs.Founder skipped: same .olean, imports and toolchain as its last kernel pass (stamp e03496fec161ec996f2f186b7eecabfb8ab4d248)
+leanchecker: LeanProofs.Logistic skipped: same .olean, imports and toolchain as its last kernel pass (stamp cbc35e055f6a9726ef83833827a53136d0ee3b40)
+leanchecker: LeanProofs.Lognormal skipped: same .olean, imports and toolchain as its last kernel pass (stamp 72d93ca0f20659391ecbb23d5cd08bc8fd723644)
+leanchecker: LeanProofs.Oscillator skipped: same .olean, imports and toolchain as its last kernel pass (stamp f0f98f77f388ffe3f6bf63f11cda6e3202be4f41)
+leanchecker: LeanProofs.Physics skipped: same .olean, imports and toolchain as its last kernel pass (stamp 4cfd51c9fbda19d10f81dde8a4dfa00370a75a40)
+leanchecker: LeanProofs.PvsNP skipped: same .olean, imports and toolchain as its last kernel pass (stamp 9368562d08b657010c9a9cee2f5e028526122dee)
+leanchecker: LeanProofs.Root skipped: same .olean, imports and toolchain as its last kernel pass (stamp c72b1d00594b9b74d0b60b94bceda15a578b9bd3)
+leanchecker: LeanProofs.Roots skipped: same .olean, imports and toolchain as its last kernel pass (stamp 47ae7fe49022b30479b783b16289c180f4ecaa48)
+leanchecker: LeanProofs.Series skipped: same .olean, imports and toolchain as its last kernel pass (stamp 9474f8756bee47e87d83c6564f687a21e074ac8f)
+leanchecker: LeanProofs.Stamp skipped: same .olean, imports and toolchain as its last kernel pass (stamp 87b70365d7d0dbaa3e23e50ce8f916c36d7708dc)
+leanchecker: LeanProofs.Tower skipped: same .olean, imports and toolchain as its last kernel pass (stamp a0fcaec441ec1746f9f67d465416b638414b7da8)
+leanchecker: LeanProofs.Waiting skipped: same .olean, imports and toolchain as its last kernel pass (stamp bc56536760bbc44d841e0ce35a87d5c270861cd3)
+leanchecker: LeanProofs.Walks skipped: same .olean, imports and toolchain as its last kernel pass (stamp 12ca7abf7253e0db504552395e7763fac8d38582)
+leanchecker: all 20 LeanProofs modules (LeanProofs.Bank LeanProofs.Basel LeanProofs.Basic LeanProofs.Calculus LeanProofs.CalculusLog LeanProofs.Cheap LeanProofs.Checked LeanProofs.Founder LeanProofs.Logistic LeanProofs.Lognormal LeanProofs.Oscillator LeanProofs.Physics LeanProofs.PvsNP LeanProofs.Root LeanProofs.Roots LeanProofs.Series LeanProofs.Stamp LeanProofs.Tower LeanProofs.Waiting LeanProofs.Walks) replayed through the kernel with no error, now or at their stamped pass
+
+== 09:39:17 UTC  6/6 nanoda: a second, independent kernel (Rust) checks every headline theorem
+Checked 57161 declarations with no typechecker errors, 1 pretty printer errors: [
+    "Unable to print axioms",
+]
+nanoda: 52 headline theorems and the stamp rule re-checked by a second kernel with no error (368 s)
+== Wall-clock time: 429 s (real, measured by check.sh from start to finish)
 == RESULT: PASS (exit 0)

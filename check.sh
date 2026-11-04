@@ -77,8 +77,9 @@ step "3/6 lake build"
 lake build
 
 step "4/6 lake env lean VerifyAll.lean"
-out=$(lake env lean VerifyAll.lean 2>&1)
+vs=0; out=$(lake env lean VerifyAll.lean 2>&1) || vs=$?   # (under set -e a failing lean used to stop the script here silently, 2026-11-04)
 echo "$out"
+if [ "$vs" -ne 0 ]; then echo "VerifyAll: lean exited $vs (output above; empty output means the process was stopped)"; exit 1; fi
 flat=$(echo "$out" | tr '\n' ' ' | tr -s ' ')
 if echo "$flat" | grep -qE '(^| )error:'; then echo "VerifyAll: Lean reported an error"; exit 1; fi
 expected=$(grep -c '^#print axioms' VerifyAll.lean)
