@@ -38,7 +38,7 @@ if ! command -v lake >/dev/null 2>&1; then
 fi
 
 echo "== check.sh started $(date -u +%Y-%m-%dT%H:%M:%SZ)"
-echo "== commit: $(git rev-parse HEAD 2>/dev/null || echo unknown)$(git diff --quiet 2>/dev/null || echo ' (with uncommitted changes)')"
+echo "== commit: $(git rev-parse HEAD 2>/dev/null || echo unknown)$(git diff --quiet -- . ':(exclude)AUDIT.log' 2>/dev/null || echo ' (with uncommitted changes)')"
 echo "== toolchain: $(cat lean-toolchain)"
 echo "== mathlib (lake-manifest.json): $(grep -B6 '"name": "mathlib"' lake-manifest.json | grep '"rev"' | tr -d ' ,')"
 echo "== lean: $(lake env lean --version)"
