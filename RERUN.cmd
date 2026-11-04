@@ -8,6 +8,10 @@ set "BASH=%ProgramFiles%\Git\bin\bash.exe"
 if not exist "%BASH%" set "BASH=%LocalAppData%\Programs\Git\bin\bash.exe"
 if not exist "%BASH%" (
   echo RERUN: Git for Windows is missing. Install it from https://git-scm.com/download/win , then run RERUN.cmd again.
+  rem Logged to runs\steps.jsonl, append only. With no bash the time is cmd's own DATE and TIME, in this PC's date format.
+  rem No parentheses in these lines: inside this block one would end it.
+  if not exist runs mkdir runs
+  >>runs\steps.jsonl echo {"at":"%DATE% %TIME%","script":"RERUN.cmd","ran":"RERUN.cmd","found":"no Git bash: bash.exe is not in Program Files or LocalAppData Programs","result":"FAIL","exit":1}
   pause
   exit /b 1
 )
