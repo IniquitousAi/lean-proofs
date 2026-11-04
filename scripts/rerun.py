@@ -16,6 +16,7 @@ ROOT = pathlib.Path(__file__).resolve().parents[1]
 RECEIPT = ROOT / 'RERUN-RECEIPT.md'
 STAMPS = ROOT / 'stamps'
 WORK = ROOT / '.rerun'
+LOG = ROOT / 'runs' / 'steps.jsonl'
 ANSWER_BANK_URL = 'https://github.com/IniquitousAi/answer-bank.git'
 CREDIT = 'Humanities Helping Hands engine, built by Daniel Steadham'
 PINNED = 'leanprover/lean4:v4.35.0'
@@ -59,7 +60,7 @@ def toolchain(ctx):
 
 
 def check_sh(ctx):
-    """check.sh runs source audit, build, VerifyAll and leanchecker in one go; the four claims read its output."""
+    """check.sh runs stamps, cache, source audit, build, VerifyAll, leanchecker and nanoda in one go; five claims read its output."""
     if 'check' not in ctx:
         if ctx['no_lean']: ctx['check'] = None
         else:
@@ -75,19 +76,25 @@ def _lean_step(ctx, reached, detail):
     return reached(out, code), detail(out, code, secs)
 
 
+def reached(out, title):
+    """True when check.sh printed the header of the step named title: a step is only reached when every earlier one passed.
+    (By name, not number: the count went from 5 to 6 with nanoda and "3/5 lake build" stopped matching, 2026-11-04.)"""
+    return re.search(rf'^== \S+ UTC  \d+/\d+ {re.escape(title)}', out, re.M) is not None
+
+
 def source_audit(ctx):
-    return _lean_step(ctx, lambda o, c: '3/5 lake build' in o, lambda o, c, s: (re.findall(r'.*\b0 matches.*', o) or ['the audit stopped check.sh: see AUDIT.log'])[0].strip()[:160])
+    return _lean_step(ctx, lambda o, c: reached(o, 'lake build'), lambda o, c, s: (re.findall(r'.*\b0 matches.*', o) or ['the audit stopped check.sh: see AUDIT.log'])[0].strip()[:160])
 
 
 def build(ctx):
-    return _lean_step(ctx, lambda o, c: '4/5 lake env lean VerifyAll.lean' in o,
+    return _lean_step(ctx, lambda o, c: reached(o, 'lake env lean VerifyAll.lean'),
                       lambda o, c, s: (re.findall(r'Build completed[^\n]*', o) or ['lake build did not finish: see AUDIT.log'])[-1].strip()[:160])
 
 
 def headline(ctx):
     def ok(o, c):
         m = re.search(r'VerifyAll: .*axioms outside propext, Quot.sound, Classical.choice: (\S+)', o)
-        return bool(m) and m.group(1) == 'none' and '5/5 leanchecker' in o
+        return bool(m) and m.group(1) == 'none' and reached(o, 'leanchecker')
     return _lean_step(ctx, ok, lambda o, c, s: (re.findall(r'VerifyAll: [^\n]*', o) or ['VerifyAll did not report: see AUDIT.log'])[-1][:200])
 
 
@@ -183,6 +190,17 @@ def reminder():
     return random.choice(lines)
 
 
+def log_claims(results, log=None):
+    """Appends one line per claim to runs/steps.jsonl (append only; the shared step log of check.sh and its scripts)."""
+    import datetime, json
+    p = pathlib.Path(log or LOG); p.parent.mkdir(parents=True, exist_ok=True)
+    at = datetime.datetime.now().astimezone().isoformat(timespec='seconds')
+    with p.open('a', encoding='utf-8') as fh:
+        for rid, word, why in results:
+            fh.write(json.dumps({'at': at, 'script': 'scripts/rerun.py', 'ran': f'rerun {rid}', 'found': why, 'result': word,
+                                 'exit': None if word == 'SKIPPED' else int(word != 'PASS')}) + '\n')
+
+
 STEPS = {'toolchain': toolchain, 'source-audit': source_audit, 'build': build, 'headline': headline, 'root': root, 'kernel': kernel,
          'answer-bank': answer_bank, 'stamps': stamps, 'anchor-20261022-manifest': anchor_20261022_manifest}
 KNOWN_FAIL = {'anchor-20261022-manifest'}
@@ -205,6 +223,7 @@ def main(argv=sys.argv[1:]):
         word = 'SKIPPED' if ok is None else 'PASS' if ok else 'FAIL'
         results.append((rid, word, why))
         print(f'  ... {rid}: {word} ({round(time.time() - t0)} s)', flush=True)
+    log_claims(results)
     w = max(len(r[0]) for r in results)
     print(f'\n{CREDIT}\n')
     print(f"{'claim'.ljust(w)}  result   why")

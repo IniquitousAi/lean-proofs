@@ -5,10 +5,17 @@ the receipt's order. The known FAIL stays in and stays a FAIL.
 """
 import hashlib, pathlib, sys
 
+import pytest
+
 sys.path.insert(0, str(pathlib.Path(__file__).resolve().parent))
 import rerun
 
 MAGIC = rerun.OTS_MAGIC + b'\x01\x08'
+
+
+@pytest.fixture(autouse=True)
+def _log_to_tmp(tmp_path, monkeypatch):   # (a test's stubbed claims never reach the real runs/steps.jsonl)
+    monkeypatch.setattr(rerun, 'LOG', tmp_path / 'steps.jsonl')
 
 
 def test_rerun_sh_never_picks_a_store_alias_python():   # (2026-10-28: a Python started through WindowsApps left the guard's job)
