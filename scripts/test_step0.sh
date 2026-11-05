@@ -1,5 +1,5 @@
 #!/bin/bash
-# ORD-1030-OTS: check.sh step 0 passes on committed-but-unpushed stamps unless STAMP_PUSH=1; uncommitted always fails.
+# check.sh step 0 passes on committed-but-unpushed stamps unless STAMP_PUSH=1; uncommitted always fails.
 set -u
 here=$(cd "$(dirname "$0")/.." && pwd); t=$(mktemp -d); fail=0
 sed -n '/^step "0\/6/,/^fi$/p' "$here/check.sh" > "$t/step0.sh"

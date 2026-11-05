@@ -1,6 +1,6 @@
 """RERUN on answers we know. Run: python -m pytest -q scripts/test_rerun.py
 
-The rule (ORD-1027-BH): every claim in RERUN-RECEIPT.md has a re-run step, every step has a claim, and the table prints them in
+The rule: every claim in RERUN-RECEIPT.md has a re-run step, every step has a claim, and the table prints them in
 the receipt's order. The known FAIL stays in and stays a FAIL.
 """
 import hashlib, pathlib, sys

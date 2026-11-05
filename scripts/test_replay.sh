@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# ORD-1030-LANE1: scripts/replay.sh with a fake `lake` (no Lean, a few seconds). Checks: LANES=3 replays every module, runs lanes at
+# scripts/replay.sh with a fake `lake` (no Lean, a few seconds). Checks: LANES=3 replays every module, runs lanes at
 # the same time, writes a stamp per passing module; a planted failing module fails the step and gets no stamp; LANES=1 still works.
 set -uo pipefail
 here=$(cd "$(dirname "$0")/.." && pwd); t=$(mktemp -d); trap 'rm -rf "$t"' EXIT

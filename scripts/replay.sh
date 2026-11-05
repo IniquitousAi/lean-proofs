@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # Step 5 of check.sh (kernel replay), kept in its own file so it can be tested with a fake `lake` (scripts/test_replay.sh).
 # Run from the repository root, or sourced by check.sh. LANES=1 (the default) is the old one-module-at-a-time loop, unchanged.
-# LANES=N (ORD-1030-LANE1) runs up to N separate leanchecker processes at once, one module each, biggest .olean first. Each process
+# LANES=N runs up to N separate leanchecker processes at once, one module each, biggest .olean first. Each process
 # replays only its own module on top of its imports, the same trust as the loop. A new lane starts only while memory in use is
 # under LANE_MEM % (default 70), and 20 s after the last start so that start shows in the reading. A module's stamp is written only
 # after its own exit 0; the step fails if any lane fails.
@@ -19,7 +19,7 @@ trap 'rc=$?; mkdir -p runs; n() { grep -c "^$1 " .lake/replay-status || true; };
 base=$(cat lake-manifest.json lean-toolchain | git hash-object --stdin)
 olean() { echo ".lake/build/lib/lean/${1//.//}.olean"; }
 imports() { (grep -oE '^import LeanProofs\.[A-Za-z0-9_.]+' "${1//.//}.lean" || true) | sed 's/^import //'; }   # (no match is fine: set -e)
-# (ORD-1029-HUNT2V item 3: the key covers the whole LeanProofs import chain, not only direct imports, so a change two imports
+# (the key covers the whole LeanProofs import chain, not only direct imports, so a change two imports
 #  down still forces a replay)
 chain() { local seen=" " todo; todo=$(imports "$1"); while [ -n "$todo" ]; do local next=""; for d in $todo; do
   case "$seen" in *" $d "*) ;; *) seen="$seen$d "; next="$next $(imports "$d")";; esac; done; todo=$next; done

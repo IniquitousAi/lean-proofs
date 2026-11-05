@@ -113,15 +113,15 @@ if [ "$got" -ne "$expected" ] || [ -n "$bad" ]; then echo "VerifyAll: FAIL"; exi
 step "5/6 leanchecker: kernel replay of the LeanProofs modules"
 # One module at a time (all at once peaked above 14 GB of memory), named from the source files so a stale .olean
 # left in .lake/build by a deleted file is not mistaken for part of the project (replay.sh names them). LeanProofs.lean itself only imports.
-# (Tried 2026-10-28, ORD-1028-BZ: one leanchecker call for all 16 with LEAN_NUM_THREADS=2 still reached 90% of 32 GB in
+# (Tried 2026-10-28: one leanchecker call for all 16 with LEAN_NUM_THREADS=2 still reached 90% of 32 GB in
 #  under 5 minutes and was stopped; 4.35 starts one task per module at once and has no worker flag. The loop stays.
 #  2026-10-29 04:5x: a group of only 5 small modules in one call also reached 90% and was stopped by safe_run, with the PC at
 #  about 56% before Lean started: each module still loads its own Mathlib. Grouping does not fit on this PC.)
-# (2026-10-29, ORD-1029-HUNT2: replay took 77% of the 31 minutes. A module whose compiled file is byte for byte the one that
+# (2026-10-29: replay took 77% of the 31 minutes. A module whose compiled file is byte for byte the one that
 #  already passed this replay, on the same toolchain and Mathlib, and whose LeanProofs imports are also unchanged, is skipped
 #  with its stamp printed: the same trust as step 1's cache skip, since the kernel replays exactly those bytes. FULL=1 replays
 #  every module; a fresh checkout (the GitHub Action, any outside reader) has no stamps, so it always replays all of them.)
-# (ORD-1030-LANE1: the loop lives in scripts/replay.sh; LANES=1, the default, is the same one-at-a-time loop as before)
+# (the loop lives in scripts/replay.sh; LANES=1, the default, is the same one-at-a-time loop as before)
 bash scripts/replay.sh
 
 step "6/6 nanoda: a second, independent kernel (Rust) checks every headline theorem"

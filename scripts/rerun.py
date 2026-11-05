@@ -182,7 +182,7 @@ def anchor_20261022_manifest(ctx):
 
 
 def reminder():
-    """One goal reminder in the receipt footer (ORD-1027-BJ). The lines live in vibe-lab/hhh/reminders.json on his PC; a stranger
+    """One goal reminder in the receipt footer. The lines live in vibe-lab/hhh/reminders.json on his PC; a stranger
     without it gets the first line."""
     import json, random
     try: lines = json.loads((ROOT.parent / 'vibe-lab' / 'hhh' / 'reminders.json').read_text(encoding='utf-8'))['lines']
