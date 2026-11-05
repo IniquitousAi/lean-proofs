@@ -1,22 +1,22 @@
-== check.sh started 2026-11-04T09:38:16Z
-== commit: 52fafbe8ccfed346e23d13fbb4cabe0b3f0a46b1 (with uncommitted changes)
+== check.sh started 2026-11-05T03:38:13Z
+== commit: 217a370857b4082ba9033a2b45f647407101dec5
 == toolchain: leanprover/lean4:v4.35.0
 == mathlib (lake-manifest.json): "rev":"56a005855ea17e0b0958f73ec801ae140b0a1679"
 == lean: Lean (version 4.35.0, x86_64-w64-windows-gnu, commit eb6cafb7290e8bd5f2937522d8d804f58f02bafc, Release)
 
-== 09:38:18 UTC  0/6 stamps: every stamps/**/*.ots is committed and pushed (nothing proven is ever lost)
-stamps: committed; push off until Daniel decides on public repo
+== 03:38:51 UTC  0/6 stamps: every stamps/**/*.ots is committed and pushed (nothing proven is ever lost)
+stamps: every .ots under stamps/ is committed and pushed
 
-== 09:38:19 UTC  1/6 lake exe cache get
+== 03:38:51 UTC  1/6 lake exe cache get
 cache: same manifest and toolchain as the last successful fetch (6acd82c5ef01d3838a122f917c51c4aa05a0c03a), Mathlib build present: skipped
 
-== 09:38:19 UTC  2/6 source and text audit
+== 03:38:51 UTC  2/6 source and text audit
 audit_source: scanned 20 files (LeanProofs/Bank.lean LeanProofs/Basel.lean LeanProofs/Basic.lean LeanProofs/Calculus.lean LeanProofs/CalculusLog.lean LeanProofs/Cheap.lean LeanProofs/Checked.lean LeanProofs/Founder.lean LeanProofs/Logistic.lean LeanProofs/Lognormal.lean LeanProofs/Oscillator.lean LeanProofs/Physics.lean LeanProofs/PvsNP.lean LeanProofs/Root.lean LeanProofs/Roots.lean LeanProofs/Series.lean LeanProofs/Stamp.lean LeanProofs/Tower.lean LeanProofs/Waiting.lean LeanProofs/Walks.lean), comments removed
 audit_source: looked for sorry, admit, unsafe, extern, implemented_by, native_decide, axiom declarations
 audit_source: 0 matches
-test_name: checked 115 text files; 0 problems
+test_name: checked 116 text files; 0 problems
 
-== 09:38:38 UTC  3/6 lake build
+== 03:39:16 UTC  3/6 lake build
 ⚠ [9050/9068] Replayed LeanProofs.Tower
 warning: LeanProofs\Tower.lean: imports `Mathlib` from package `mathlib`, which is designed for use with the module system; consider adding `module` to the start of this file
 warning: LeanProofs/Tower.lean:1:1: * `-/`:
@@ -1613,7 +1613,7 @@ set_option maxHeartbeats 4000000 in
 Note: This linter can be disabled with `set_option linter.style.maxHeartbeats false`
 Build completed successfully (9068 jobs).
 
-== 09:38:46 UTC  4/6 lake env lean VerifyAll.lean
+== 03:40:14 UTC  4/6 lake env lean VerifyAll.lean
 'p01_dice_sum_seven' depends on axioms: [propext, Classical.choice, Quot.sound]
 'p02_coin_streaks' depends on axioms: [propext, Classical.choice, Quot.sound]
 'CheapLane.p04_two_aces_in_five' depends on axioms: [propext, Classical.choice, Quot.sound]
@@ -1668,7 +1668,7 @@ Build completed successfully (9068 jobs).
 'PvsNP.sat_check_is_fast_and_right' depends on axioms: [propext, Quot.sound]
 VerifyAll: 48 Proven problems; 52 headline statements restated; 52 axiom reports; axioms outside propext, Quot.sound, Classical.choice: none
 
-== 09:39:11 UTC  5/6 leanchecker: kernel replay of the LeanProofs modules
+== 03:47:14 UTC  5/6 leanchecker: kernel replay of the LeanProofs modules
 leanchecker: LeanProofs.Bank skipped: same .olean, imports and toolchain as its last kernel pass (stamp c3021224e23c09d035f68fd2dac706b252af8a04)
 leanchecker: LeanProofs.Basel skipped: same .olean, imports and toolchain as its last kernel pass (stamp 5ef8653d5dc9d99d4e89a759c5f1ca8b3f5de0f4)
 leanchecker: LeanProofs.Basic skipped: same .olean, imports and toolchain as its last kernel pass (stamp 434e1b17c8d15b577d17ec1b939bc63bf38c9402)
@@ -1691,10 +1691,10 @@ leanchecker: LeanProofs.Waiting skipped: same .olean, imports and toolchain as i
 leanchecker: LeanProofs.Walks skipped: same .olean, imports and toolchain as its last kernel pass (stamp 12ca7abf7253e0db504552395e7763fac8d38582)
 leanchecker: all 20 LeanProofs modules (LeanProofs.Bank LeanProofs.Basel LeanProofs.Basic LeanProofs.Calculus LeanProofs.CalculusLog LeanProofs.Cheap LeanProofs.Checked LeanProofs.Founder LeanProofs.Logistic LeanProofs.Lognormal LeanProofs.Oscillator LeanProofs.Physics LeanProofs.PvsNP LeanProofs.Root LeanProofs.Roots LeanProofs.Series LeanProofs.Stamp LeanProofs.Tower LeanProofs.Waiting LeanProofs.Walks) replayed through the kernel with no error, now or at their stamped pass
 
-== 09:39:17 UTC  6/6 nanoda: a second, independent kernel (Rust) checks every headline theorem
+== 03:47:21 UTC  6/6 nanoda: a second, independent kernel (Rust) checks every headline theorem
 Checked 57161 declarations with no typechecker errors, 1 pretty printer errors: [
     "Unable to print axioms",
 ]
-nanoda: 52 headline theorems and the stamp rule re-checked by a second kernel with no error (368 s)
-== Wall-clock time: 429 s (real, measured by check.sh from start to finish)
+nanoda: 52 headline theorems and the stamp rule re-checked by a second kernel with no error (159 s)
+== Wall-clock time: 707 s (real, measured by check.sh from start to finish)
 == RESULT: PASS (exit 0)
