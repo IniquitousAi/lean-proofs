@@ -303,8 +303,21 @@ Submitting to remote calendar https://b.pool.opentimesta | failed |
 | 2026-11-04 | site build (inbox/hhh/landing + its Lean files) | 00b2714cda5db37efdb53ae2841ca56f325f5205f140d778c1b16e8910e66bfb | site/manifest.txt.ots | in Bitcoin |
 | 2026-11-04 | site build (inbox/hhh/landing + its Lean files) | eca758c7d69d33c23c6f250b94d3d3f1ae123bd9b7ecade36a62f5e14b81e3fa | site/manifest.txt.ots | in Bitcoin |
 | 2026-11-04 | site build (inbox/hhh/landing + its Lean files) | dbbeb4911313fc1005814aba0ed60c6b962ab249df07c490c8864e9077a6160b | site/manifest.txt.ots | in Bitcoin |
-| 2026-11-05 | NORTH_STAR.md | 5b3a608a893957e5506f8fa70c291737f4469aa879855dd216155aefcabe3b42 | 2026-11-05/private/NORTH_STAR.md.ots | pending |
-| 2026-11-05 | PHILOSOPHY-IN-DEPTH.md | c9ae531aad754306ca2060740b0d7fdd0cee34592aae5e61404d78550be6bb9e | 2026-11-05/private/PHILOSOPHY-IN-DEPTH.md.ots | pending |
-| 2026-11-05 | inbox/hhh/playbook.md | a3c93819d47a3deeffe567bc9e1d5e69473c4a6f2e606895c7b206ac978a01ee | 2026-11-05/private/inbox__hhh__playbook.md.ots | pending |
-| 2026-11-05 | inbox/hhh/site-plan.md | 1046845b79fe93331364cc64431f81f5ff319267a1246b959952b55ef92fd8f6 | 2026-11-05/private/inbox__hhh__site-plan.md.ots | pending |
-| 2026-11-05 | inbox/hhh/ui-spec.md | bb6e625bb76627658e42f79f916f3814dbc9ce06a83b3de4a330ff026c81bd16 | 2026-11-05/private/inbox__hhh__ui-spec.md.ots | pending |
+| 2026-11-05 | NORTH_STAR.md | 5b3a608a893957e5506f8fa70c291737f4469aa879855dd216155aefcabe3b42 | 2026-11-05/private/NORTH_STAR.md.ots | in Bitcoin |
+| 2026-11-05 | PHILOSOPHY-IN-DEPTH.md | c9ae531aad754306ca2060740b0d7fdd0cee34592aae5e61404d78550be6bb9e | 2026-11-05/private/PHILOSOPHY-IN-DEPTH.md.ots | in Bitcoin |
+| 2026-11-05 | inbox/hhh/playbook.md | a3c93819d47a3deeffe567bc9e1d5e69473c4a6f2e606895c7b206ac978a01ee | 2026-11-05/private/inbox__hhh__playbook.md.ots | in Bitcoin |
+| 2026-11-05 | inbox/hhh/site-plan.md | 1046845b79fe93331364cc64431f81f5ff319267a1246b959952b55ef92fd8f6 | 2026-11-05/private/inbox__hhh__site-plan.md.ots | in Bitcoin |
+| 2026-11-05 | inbox/hhh/ui-spec.md | bb6e625bb76627658e42f79f916f3814dbc9ce06a83b3de4a330ff026c81bd16 | 2026-11-05/private/inbox__hhh__ui-spec.md.ots | in Bitcoin |
+| 2026-11-05 | site build (inbox/hhh/landing + its Lean files) | d7433442ce76630810cae7bcc59afbb700a1397d7ef942ff5c9a80ba578d0d4b | site/manifest.txt.ots | in Bitcoin |
+| 2026-11-05 | site build (inbox/hhh/landing + its Lean files) | 6cea5d5e3e835f3e2595186f5f92a3f6174e75ad8354a9b229d8ed5d13ac3529 | site/manifest.txt.ots | in Bitcoin |
+| 2026-11-05 | site build (inbox/hhh/landing + its Lean files) | a67ec8463eeebd79691a223ac1bb5ed59c14dc9b269df0f642b9d1665ec6f6e3 | site/manifest.txt.ots | in Bitcoin |
+| 2026-11-05 | site build (inbox/hhh/landing + its Lean files) | 3c5ea7aaa26303d71d974d99090c4ca35e836f2077f9f518700864f57ef9b58e | site/manifest.txt.ots | in Bitcoin |
+| 2026-11-05 | site build (inbox/hhh/landing + its Lean files) | 452ffd4856efa0ebf6288fc0b5a5363fcae05d261c97179da76b3c6f87f80b11 | site/manifest.txt.ots | in Bitcoin |
+| 2026-11-05 | site build (inbox/hhh/landing + its Lean files) | 571f5054cb04c424c05d66910a314e3cbe5f3952e64b7e1a0e9f852eb61786dd | site/manifest.txt.ots | in Bitcoin |
+| 2026-11-05 | site build (inbox/hhh/landing + its Lean files) | 013e300ea4f1deab3d48026a0c733de7ec0b812b6cb5bc9c1afbf7a69d4c4d0f | site/manifest.txt.ots | in Bitcoin |
+| 2026-11-05 | site build (inbox/hhh/landing + its Lean files) | a50a2f49016a86d241f662902c908ce98c388dae5ba2c3e557759e148c560aec | site/manifest.txt.ots | in Bitcoin |
+| 2026-11-06 | NORTH_STAR.md | 5b3a608a893957e5506f8fa70c291737f4469aa879855dd216155aefcabe3b42 | 2026-11-06/private/NORTH_STAR.md.ots | pending |
+| 2026-11-06 | PHILOSOPHY-IN-DEPTH.md | c9ae531aad754306ca2060740b0d7fdd0cee34592aae5e61404d78550be6bb9e | 2026-11-06/private/PHILOSOPHY-IN-DEPTH.md.ots | pending |
+| 2026-11-06 | inbox/hhh/playbook.md | a3c93819d47a3deeffe567bc9e1d5e69473c4a6f2e606895c7b206ac978a01ee | 2026-11-06/private/inbox__hhh__playbook.md.ots | pending |
+| 2026-11-06 | inbox/hhh/site-plan.md | 1046845b79fe93331364cc64431f81f5ff319267a1246b959952b55ef92fd8f6 | 2026-11-06/private/inbox__hhh__site-plan.md.ots | pending |
+| 2026-11-06 | inbox/hhh/ui-spec.md | bb6e625bb76627658e42f79f916f3814dbc9ce06a83b3de4a330ff026c81bd16 | 2026-11-06/private/inbox__hhh__ui-spec.md.ots | pending |
