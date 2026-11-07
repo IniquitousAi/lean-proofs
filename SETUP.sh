@@ -4,7 +4,7 @@
 export PATH="$USERPROFILE/.elan/bin:$PATH"
 RUN="lean-setup-$(date +%s)"
 tell() { curl -s -m 3 -X POST http://127.0.0.1:8050/event -H "Content-Type: application/json" -d "{\"kind\":\"task\",\"id\":\"$RUN\",\"name\":\"Installing Lean 4 and Mathlib\",\"step\":$1,\"of\":3,\"about\":1200,\"note\":\"$2\",\"done\":$3}" >/dev/null; }
-cd <home>/Desktop/projects || exit 1
+cd "$(dirname "$0")/.." || exit 1   # the folder that holds lean-proofs (no one's home folder written into a public file)
 tell 1 "Lean and a new Mathlib project" false
 [ -d lean-proofs ] || lake +leanprover-community/mathlib4:lean-toolchain new lean-proofs math || { tell 3 "making the project failed" true; exit 1; }
 cd lean-proofs
