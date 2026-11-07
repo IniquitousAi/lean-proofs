@@ -274,7 +274,7 @@ example {z : ℝ} {t c : ℕ} (hz : 0 < z) (htc : t ≤ c) : 0 ≤ wilson z t c 
 
 end DanielTrust
 
-/-! ## LeanProofs/PvsNP.lean: P vs NP piece 1, checking a proposed answer is right and fast (ORD-1029-CR, a known fact) -/
+/-! ## LeanProofs/PvsNP.lean: P vs NP piece 1, checking a proposed answer is right and fast (a known fact) -/
 section PvsNP
 
 -- PvsNP.sat_check_is_fast_and_right (PvsNP.lean)
@@ -284,7 +284,7 @@ example (a : ℕ → Bool) (f : PvsNP.CNF) :
 
 end PvsNP
 
-/-! ## LeanProofs/Calculus.lean: the calculus lane (ORD-1028-BQ) -/
+/-! ## LeanProofs/Calculus.lean: the calculus lane -/
 namespace CalculusLane
 open Real intervalIntegral
 
@@ -302,7 +302,7 @@ example : ∫ x in (0:ℝ)..1, exp x = exp 1 - 1 :=
 
 end CalculusLane
 
-/-! ## LeanProofs/Series.lean: the series lane (ORD-1028-BQ) -/
+/-! ## LeanProofs/Series.lean: the series lane -/
 namespace SeriesLane
 open Filter Topology
 
@@ -320,7 +320,7 @@ example : HasSum (fun k : ℕ => 1 / ((k:ℝ) + 1) ^ 2) (Real.pi ^ 2 / 6) :=
 
 end SeriesLane
 
-/-! ## LeanProofs/CalculusLog.lean, Waiting.lean, Roots.lean (ORD-1028-BQ) -/
+/-! ## LeanProofs/CalculusLog.lean, Waiting.lean, Roots.lean -/
 namespace CalculusLane
 open Real
 
