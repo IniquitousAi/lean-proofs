@@ -257,6 +257,23 @@ example (facts cost : ℕ → ℝ) :
 
 end Founder
 
+/-! ## LeanProofs/Trust.lean: the Daniel trust theorem (the checker's trust score is fair; not an answer-bank problem) -/
+namespace DanielTrust
+
+-- true_check_never_lowers (Trust.lean)
+example {z : ℝ} {t c : ℕ} (hz : 0 < z) (htc : t ≤ c) : wilson z t c ≤ wilson z (t + 1) (c + 1) :=
+  true_check_never_lowers hz htc
+
+-- false_check_never_raises (Trust.lean)
+example {z : ℝ} {t c : ℕ} (hz : 0 < z) (htc : t ≤ c) : wilson z t (c + 1) ≤ wilson z t c :=
+  false_check_never_raises hz htc
+
+-- score_bounds (Trust.lean)
+example {z : ℝ} {t c : ℕ} (hz : 0 < z) (htc : t ≤ c) : 0 ≤ wilson z t c ∧ wilson z t c ≤ 1 :=
+  score_bounds hz htc
+
+end DanielTrust
+
 /-! ## LeanProofs/PvsNP.lean: P vs NP piece 1, checking a proposed answer is right and fast (ORD-1029-CR, a known fact) -/
 section PvsNP
 
@@ -415,4 +432,7 @@ end PhysicsLane
 #print axioms CalculusLane.p98_oscillator
 #print axioms CalculusLane.p97_logistic
 #print axioms DanielFounderClaim
+#print axioms DanielTrust.true_check_never_lowers
+#print axioms DanielTrust.false_check_never_raises
+#print axioms DanielTrust.score_bounds
 #print axioms PvsNP.sat_check_is_fast_and_right
