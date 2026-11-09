@@ -418,6 +418,55 @@ Submitting to remote calendar https://b.pool.opentimesta | failed |
 | 2026-11-08 | site build (inbox/hhh/landing + its Lean files) | b6d0c150e2d8da87d7050f9d8bc9c7db04fba33fb99acea551fda3beb7ba5200 | site/manifest.txt.ots | in Bitcoin |
 | 2026-11-08 | site build (inbox/hhh/landing + its Lean files) | 9bf2ac1abf647dd07c5abf19b9a12b91bab1962b66d3d5fe7cea7fea6f13b0ce | site/manifest.txt.ots | in Bitcoin |
 | 2026-11-08 | site build (inbox/hhh/landing + its Lean files) | 15d24c7e75bfd7c09bcc6c597c616427e43ba776ee2f44dc8039119b95fdb4d6 | site/manifest.txt.ots | in Bitcoin |
-| 2026-11-08 | 2026-11-08/tips.txt | f4aaf8b4895debd52503c654c19894c89b492bc7343620dfab8bab8c8c7d1869 | 2026-11-08/tips.txt.ots | pending |
-| 2026-11-08 | 2026-11-08/records.zip | ef3ffc8a61f592216d4296a06f041a0089bf7957e5d6c3e94ebf42744dbca305 | 2026-11-08/records.zip.ots | pending |
-| 2026-11-08 | 2026-11-08/FOUNDING.md | 7cc4e61f3bc3b1de6c166b9ea34fa4220de4316a6b636c48f4e00623c714e789 | 2026-11-08/FOUNDING.md.ots | pending |
+| 2026-11-08 | 2026-11-08/tips.txt | f4aaf8b4895debd52503c654c19894c89b492bc7343620dfab8bab8c8c7d1869 | 2026-11-08/tips.txt.ots | in Bitcoin |
+| 2026-11-08 | 2026-11-08/records.zip | ef3ffc8a61f592216d4296a06f041a0089bf7957e5d6c3e94ebf42744dbca305 | 2026-11-08/records.zip.ots | in Bitcoin |
+| 2026-11-08 | 2026-11-08/FOUNDING.md | 7cc4e61f3bc3b1de6c166b9ea34fa4220de4316a6b636c48f4e00623c714e789 | 2026-11-08/FOUNDING.md.ots | in Bitcoin |
+| 2026-11-08 | site build (inbox/hhh/landing + its Lean files) | 244c7b31610f040d92081e4a40cf85a5c5c5926354110d8805191f11e972e5f0 | site/manifest.txt.ots | in Bitcoin |
+| 2026-11-08 | site build (inbox/hhh/landing + its Lean files) | 5872c211aca007e809e4e71f113baf023c479269288f99fddb7bd0c19f4c3118 | site/manifest.txt.ots | in Bitcoin |
+| 2026-11-08 | site build (inbox/hhh/landing + its Lean files) | 6eba1323c3341fcd0fcb257dee6c0c6c245775ec5d58b62518e585e0ad9559d5 | site/manifest.txt.ots | in Bitcoin |
+| 2026-11-08 | site build (inbox/hhh/landing + its Lean files) | 90f8557f29758560e520e6920de3dc67758c794f2367025b4fb225aad6395606 | site/manifest.txt.ots | in Bitcoin |
+| 2026-11-08 | site build (inbox/hhh/landing + its Lean files) | a2526a0e136dd176a33a09102b28f0c41dd40c8b2494b907728decdbffcb1397 | site/manifest.txt.ots | in Bitcoin |
+| 2026-11-08 | site build (inbox/hhh/landing + its Lean files) | 6ea74ad16f5c3c0ec2ad860e33e1836c3786d7d77fc81b86ca5e3a9fce0293ad | site/manifest.txt.ots | in Bitcoin |
+| 2026-11-08 | site build (inbox/hhh/landing + its Lean files) | 8c312682a0915d95bdb1cc2120e865f212df0277eb009b913083ef047999401c | site/manifest.txt.ots | in Bitcoin |
+| 2026-11-08 | site build (inbox/hhh/landing + its Lean files) | f72be98602313aae35674c0ac722bc82ba3e0bb1aeafc1bc12158c515b60c9cf | site/manifest.txt.ots | in Bitcoin |
+| 2026-11-08 | site build (inbox/hhh/landing + its Lean files) | 95387a686ea352380e94b76a72e9b6c4677198ad496e96df1e5729f57c446c0e | site/manifest.txt.ots | in Bitcoin |
+| 2026-11-08 | site build (inbox/hhh/landing + its Lean files) | 0dfe12c0636a17f883abe7bd449d5ef95be3be0cda754167ce5778020309699e | site/manifest.txt.ots | in Bitcoin |
+| 2026-11-08 | site build (inbox/hhh/landing + its Lean files) | e8d960a38c0333138937005b5eabbe7b161a02f1c88fc86f61c36e7a42e5b60f | site/manifest.txt.ots | in Bitcoin |
+| 2026-11-08 | site build (inbox/hhh/landing + its Lean files) | a2040258be0ea27ae3e37e50dbf9e3f48f7aab33b52de95bf461404dab2b360f | site/manifest.txt.ots | in Bitcoin |
+| 2026-11-08 | site build (inbox/hhh/landing + its Lean files) | 269cd24d505743a43a0277d82f9d19ad31c8d1166d646a20eb52bcc85c48d615 | site/manifest.txt.ots | in Bitcoin |
+| 2026-11-08 | site build (inbox/hhh/landing + its Lean files) | 51aec992cbaffc59529586f8a7f9754f4460c3f49fb3899b5cf9777f09af0c59 | site/manifest.txt.ots | in Bitcoin |
+| 2026-11-08 | site build (inbox/hhh/landing + its Lean files) | ceabb77251459adc1d5bbd7416974ea779d39f8ecec47d277d048c5bf68898f5 | site/manifest.txt.ots | in Bitcoin |
+| 2026-11-08 | site build (inbox/hhh/landing + its Lean files) | cea17a10ee56449bb05b9974fb28c5bca7e6394399be87c7b446dc4f2499ebc1 | site/manifest.txt.ots | in Bitcoin |
+| 2026-11-08 | site build (inbox/hhh/landing + its Lean files) | 3975ee523959faedcfdcec8cd6d486d5e6653f22260608961b3fead3b7d0dc9c | site/manifest.txt.ots | in Bitcoin |
+| 2026-11-08 | site build (inbox/hhh/landing + its Lean files) | c63e46edda97f6f27b23e16ca9e7d278040bd5682762a702c0ce9e970a216943 | site/manifest.txt.ots | in Bitcoin |
+| 2026-11-08 | site build (inbox/hhh/landing + its Lean files) | 3d394c41f76f894dfb41c92dc5686546542a62782e517230db0968a616fea470 | site/manifest.txt.ots | in Bitcoin |
+| 2026-11-08 | site build (inbox/hhh/landing + its Lean files) | 212685b4753a1f80f937f619eda5315033bc53b9ef5e63ab40252f93a7e58cec | site/manifest.txt.ots | in Bitcoin |
+| 2026-11-08 | site build (inbox/hhh/landing + its Lean files) | 9bd556f708386e5e6cc98e6fea8efb4edbdb4810a06b5684eedc96531ac6d446 | site/manifest.txt.ots | in Bitcoin |
+| 2026-11-08 | site build (inbox/hhh/landing + its Lean files) | affb78d8af0e26e969eb4d9dcc5666369040ff42f91a5f820eb036d2e4431c90 | site/manifest.txt.ots | in Bitcoin |
+| 2026-11-08 | site build (inbox/hhh/landing + its Lean files) | 6e84e553f88a5710e871a72ff4d641a8e39c4ccab6d14fd59533ca39091482a6 | site/manifest.txt.ots | in Bitcoin |
+| 2026-11-08 | site build (inbox/hhh/landing + its Lean files) | 8f4929b580e5e9cda1bcea740416158ffbbb5444c756fd0c9890eab35f1296df | site/manifest.txt.ots | in Bitcoin |
+| 2026-11-08 | site build (inbox/hhh/landing + its Lean files) | ef87a038a39b056c5e16c2a83eab98461a3275875f6857850c82a84836f9f2db | site/manifest.txt.ots | in Bitcoin |
+| 2026-11-08 | site build (inbox/hhh/landing + its Lean files) | a746082be8fe15be47887bd558ad68629056e3d4097f1182884f4d5aaf8ce253 | site/manifest.txt.ots | in Bitcoin |
+| 2026-11-08 | site build (inbox/hhh/landing + its Lean files) | b2f6c5c8f55b560708a34bf0b6c4674865057770b9bad934f702b550e2adb5da | site/manifest.txt.ots | in Bitcoin |
+| 2026-11-08 | site build (inbox/hhh/landing + its Lean files) | dcd672301c5ef602694d8f8fddfe28d56141d450ce82934ea5e7a6f940f0c67d | site/manifest.txt.ots | in Bitcoin |
+| 2026-11-08 | site build (inbox/hhh/landing + its Lean files) | e85d018336335bd95e758bb837e0788d4f5c0bdfbb2dcde11c4e60507b0baafc | site/manifest.txt.ots | in Bitcoin |
+| 2026-11-08 | site build (inbox/hhh/landing + its Lean files) | 8b9e8006c9ff6ac5363f6d3401d953a889457df83acaf0f301d3b6d3bb8cad36 | site/manifest.txt.ots | in Bitcoin |
+| 2026-11-08 | site build (inbox/hhh/landing + its Lean files) | ac15ecb54996a6b072b840969f8ee92ec740a4817a7583630c8488ba18714347 | site/manifest.txt.ots | in Bitcoin |
+| 2026-11-08 | site build (inbox/hhh/landing + its Lean files) | 9f0fee7285396c4d21c463391c55762e0268c910977ca6d9ad0a1fafdf9d472d | site/manifest.txt.ots | in Bitcoin |
+| 2026-11-08 | site build (inbox/hhh/landing + its Lean files) | 27029d65f27606b3521207572fe1b5dfd94ad9e0f667d7407c0df1fb2aec126e | site/manifest.txt.ots | in Bitcoin |
+| 2026-11-08 | site build (inbox/hhh/landing + its Lean files) | 1dfe13ea0647f8deafa6e72e73fe82d0dbc2a47c193c3034a0bac4cf7529a9af | site/manifest.txt.ots | in Bitcoin |
+| 2026-11-08 | site build (inbox/hhh/landing + its Lean files) | 094e508ce20dbdd2de81ab07af622987ddca4d3ac2e47bf9e3f1c260cf6e1597 | site/manifest.txt.ots | in Bitcoin |
+| 2026-11-08 | site build (inbox/hhh/landing + its Lean files) | 8e0defb501664d90064d475fdcce68fdaf364c42ae4061116ff4b9157a3ea40e | site/manifest.txt.ots | in Bitcoin |
+| 2026-11-08 | site build (inbox/hhh/landing + its Lean files) | df1f781e62bc4cbbd15f2f8158bf542407a047e00043682dc796ff14aaa9c9f8 | site/manifest.txt.ots | in Bitcoin |
+| 2026-11-08 | site build (inbox/hhh/landing + its Lean files) | dc40f5a735bbc9abeda32c8ed49d7cc44ae4768c5fa33c87ddeb7231f41b564e | site/manifest.txt.ots | in Bitcoin |
+| 2026-11-08 | site build (inbox/hhh/landing + its Lean files) | e7941ec0574817fa83ed29bed6998d3e4c60975df38834efe8444f128132ffde | site/manifest.txt.ots | in Bitcoin |
+| 2026-11-08 | site build (inbox/hhh/landing + its Lean files) | 1aabcb342c8c004d2983e4312a607172b2b5fccd5d43608ed3f63dab927d6022 | site/manifest.txt.ots | in Bitcoin |
+| 2026-11-08 | site build (inbox/hhh/landing + its Lean files) | e35b02bc3ac8085fe546e4d9cf3a3e7d2c589fd92865993019a3668594fabf36 | site/manifest.txt.ots | in Bitcoin |
+| 2026-11-08 | site build (inbox/hhh/landing + its Lean files) | 51918da432d7d71057bb1c6066c741017150e9f61f880bfb2b4adb81c644c7e0 | site/manifest.txt.ots | in Bitcoin |
+| 2026-11-08 | site build (inbox/hhh/landing + its Lean files) | 3edf2a705f869ea360784d57e17ce82dfa9297bdb5c6aea9d804612b4e97200e | site/manifest.txt.ots | in Bitcoin |
+| 2026-11-08 | site build (inbox/hhh/landing + its Lean files) | 30338575e8d1ae26cddbaf0532b80bc5e4d2b13712e463b483873ef7494a5ebd | site/manifest.txt.ots | in Bitcoin |
+| 2026-11-09 | NORTH_STAR.md | 5b3a608a893957e5506f8fa70c291737f4469aa879855dd216155aefcabe3b42 | 2026-11-09/private/NORTH_STAR.md.ots | pending |
+| 2026-11-09 | PHILOSOPHY-IN-DEPTH.md | c9ae531aad754306ca2060740b0d7fdd0cee34592aae5e61404d78550be6bb9e | 2026-11-09/private/PHILOSOPHY-IN-DEPTH.md.ots | pending |
+| 2026-11-09 | inbox/hhh/playbook.md | a3c93819d47a3deeffe567bc9e1d5e69473c4a6f2e606895c7b206ac978a01ee | 2026-11-09/private/inbox__hhh__playbook.md.ots | pending |
+| 2026-11-09 | inbox/hhh/site-plan.md | 1046845b79fe93331364cc64431f81f5ff319267a1246b959952b55ef92fd8f6 | 2026-11-09/private/inbox__hhh__site-plan.md.ots | pending |
+| 2026-11-09 | inbox/hhh/ui-spec.md | bb6e625bb76627658e42f79f916f3814dbc9ce06a83b3de4a330ff026c81bd16 | 2026-11-09/private/inbox__hhh__ui-spec.md.ots | pending |
