@@ -4,6 +4,7 @@ import LeanProofs.Tower
 import LeanProofs.Walks
 import LeanProofs.Cheap
 import LeanProofs.Root
+import LeanProofs.RootPick
 import LeanProofs.Founder
 import LeanProofs.Calculus
 import LeanProofs.Series
