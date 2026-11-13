@@ -561,8 +561,14 @@ Submitting to remote calendar https://b.pool.opentimesta | failed |
 | 2026-11-10 | site build (inbox/hhh/landing + its Lean files) | 448be0dd6c2e23dfcb66b0d32ae4ef5f85b124a67feb285cc9752878be1adcaf | site/manifest.txt.ots | in Bitcoin |
 | 2026-11-10 | site build (inbox/hhh/landing + its Lean files) | 591d844016f103f50b46da1ac7840e7a4a140b90cc25fb5ca3a8ae1b8f197881 | site/manifest.txt.ots | in Bitcoin |
 | 2026-11-10 | site build (inbox/hhh/landing + its Lean files) | 656094e8bbc506b64881659a1cf6f2dcc02cc1b670c40ad98b54c92938843b4a | site/manifest.txt.ots | in Bitcoin |
-| 2026-11-11 | NORTH_STAR.md | 5b3a608a893957e5506f8fa70c291737f4469aa879855dd216155aefcabe3b42 | 2026-11-11/private/NORTH_STAR.md.ots | pending |
-| 2026-11-11 | PHILOSOPHY-IN-DEPTH.md | c9ae531aad754306ca2060740b0d7fdd0cee34592aae5e61404d78550be6bb9e | 2026-11-11/private/PHILOSOPHY-IN-DEPTH.md.ots | pending |
+| 2026-11-11 | NORTH_STAR.md | 5b3a608a893957e5506f8fa70c291737f4469aa879855dd216155aefcabe3b42 | 2026-11-11/private/NORTH_STAR.md.ots | in Bitcoin |
+| 2026-11-11 | PHILOSOPHY-IN-DEPTH.md | c9ae531aad754306ca2060740b0d7fdd0cee34592aae5e61404d78550be6bb9e | 2026-11-11/private/PHILOSOPHY-IN-DEPTH.md.ots | in Bitcoin |
+| 2026-11-11 | inbox/hhh/playbook.md | a3c93819d47a3deeffe567bc9e1d5e69473c4a6f2e606895c7b206ac978a01ee | 2026-11-11/private/inbox__hhh__playbook.md.ots | in Bitcoin |
+| 2026-11-11 | inbox/hhh/site-plan.md | 1046845b79fe93331364cc64431f81f5ff319267a1246b959952b55ef92fd8f6 | 2026-11-11/private/inbox__hhh__site-plan.md.ots | in Bitcoin |
+| 2026-11-11 | inbox/hhh/ui-spec.md | bb6e625bb76627658e42f79f916f3814dbc9ce06a83b3de4a330ff026c81bd16 | 2026-11-11/private/inbox__hhh__ui-spec.md.ots | in Bitcoin |
+| 2026-11-11 | site build (inbox/hhh/landing + its Lean files) | 8d4e3efedcb3dee793c9a977ccec395c9f6ceea47a76a443729338ce21dac400 | site/manifest.txt.ots | in Bitcoin |
+| 2026-11-11 | site build (inbox/hhh/landing + its Lean files) | 465d033b655ab473ca6358ea1a8599b1455283ec2443e4be212100b129795e7e | site/manifest.txt.ots | in Bitcoin |
+| 2026-11-11 | NORTH_STAR.md | e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855 | FAILED: Submitting to remote calendar https://a.pool.opentimestamps.org Submitting to remote calendar https://b.pool.opentimesta | failed |
 | 2026-11-11 | inbox/hhh/playbook.md | a3c93819d47a3deeffe567bc9e1d5e69473c4a6f2e606895c7b206ac978a01ee | 2026-11-11/private/inbox__hhh__playbook.md.ots | pending |
-| 2026-11-11 | inbox/hhh/site-plan.md | 1046845b79fe93331364cc64431f81f5ff319267a1246b959952b55ef92fd8f6 | 2026-11-11/private/inbox__hhh__site-plan.md.ots | pending |
-| 2026-11-11 | inbox/hhh/ui-spec.md | bb6e625bb76627658e42f79f916f3814dbc9ce06a83b3de4a330ff026c81bd16 | 2026-11-11/private/inbox__hhh__ui-spec.md.ots | pending |
+| 2026-11-11 | NORTH_STAR.md | 5b3a608a893957e5506f8fa70c291737f4469aa879855dd216155aefcabe3b42 | 2026-11-11/private/NORTH_STAR.md.ots | pending |
+| 2026-11-11 | inbox/hhh/playbook.md | e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855 | FAILED: Submitting to remote calendar https://a.pool.opentimestamps.org Submitting to remote calendar https://b.pool.opentimesta | failed |
